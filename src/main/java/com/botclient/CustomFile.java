@@ -13,7 +13,7 @@ import com.botclient.FileManager;
 /*
  * Exception performing whole class analysis ignored.
  */
-public static abstract class CustomFile {
+public abstract class CustomFile {
     public final String name;
     public final File file;
     public final boolean load;

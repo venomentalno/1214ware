@@ -29,7 +29,7 @@ import net.minecraft.util.Identifier;
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
-public class BaseTextRenderer {
+class BaseTextRenderer {
     public DynamicTexture tex;
     public boolean fractionalMetrics;
     protected final Tessellator tessellator = BufferRenderer.getAvailableRenderer();
