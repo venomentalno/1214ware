@@ -16,8 +16,6 @@ repositories {
     maven { url 'https://maven.terraformersmc.com/' }
     maven { url 'https://maven.shedaniel.me/' }
     maven { url 'https://maven.florianmichael.de/' }
-    maven { url 'https://repo.viaversion.com/' }
-    maven { url 'https://mvn.jonao.dev/snapshots' }
 }
 
 dependencies {
@@ -29,7 +27,7 @@ dependencies {
     
     // ViaVersion for protocol support (updated for 1.21.4)
     // Using ViaFabricPlus which bundles all Via libraries
-    modImplementation "de.florianmichael:ViaFabricPlus:3.0.0-SNAPSHOT"
+    modImplementation "de.florianmichael:ViaFabricPlus:2.3.0"
     
     // External libraries
     implementation 'org.json:json:20231013'
