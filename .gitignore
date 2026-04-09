@@ -30,35 +30,6 @@ coverage/
 htmlcov/
 *.coverage
 
-# Python specific
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-*.so
-
-# MyPy cache
-.mypy_cache/
-.pytest_cache/
-
-# Distribution / packaging
-.dist/
-.egg/
-.eggs/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.gitattributes
-
-# System files
-.DS_Store
-Thumbs.db
+# Package manager
+node_modules/
 ```

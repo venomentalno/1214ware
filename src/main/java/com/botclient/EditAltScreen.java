@@ -117,8 +117,7 @@ extends Screen {
     }
 
     public void drawScreen(int par1, int par2, float par3) {
-        ScaledResolution sr = // ScaledResolution replaced with Window calculation
-        Window window = (this.mc));
+        ScaledResolution sr = new ScaledResolution(this.mc);
         DrawUtils.drawRect((float)0.0f, (float)0.0f, (float)(this.width), (float)(this.height), (Color)new Color(17, 17, 17, 255));
         (EditAltScreen.getMc6(this).fontRenderer).drawStringWithShadow("Edit Alt", (float)(this.width) / 2.0f, 10.0f, -1);
         (EditAltScreen.getMc7(this).fontRenderer).drawStringWithShadow((this.status), (float)(this.width) / 2.0f, 20.0f, -1);
