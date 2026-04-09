@@ -40,23 +40,27 @@ implements MinecraftContext {
     private static void drawProgress() {
         float percent = (float)(p) / 12.0f * 100.0f;
         RenderSystem.resetColor();
-        ScaledResolution scaledresolution = // ScaledResolution replaced with Window calculation
-        Window window = (mc));
-        DrawUtils.drawRect((float)0.0f, (float)0.0f, (float)scaledresolution.getScaledWidth(), (float)scaledresolution.getScaledHeight(), (Color)new Color(30, 30, 30));
-        (FontRegistry.mnstb_16).drawCenteredStringWithOutline("NeoWare запускается... ", (float)((sr).getScaledWidth() / (2)), (float)(sr).getScaledHeight() / 2.5f, -1);
+        Window window = MinecraftClient.getInstance().getWindow();
+        int scaledWidth = window.getScaledWidth();
+        int scaledHeight = window.getScaledHeight();
+        DrawUtils.drawRect((float)0.0f, (float)0.0f, (float)scaledWidth, (float)scaledHeight, (Color)new Color(30, 30, 30));
+        (FontRegistry.mnstb_16).drawCenteredStringWithOutline("NeoWare запускается... ", (float)(scaledWidth / (2)), (float)scaledHeight / 2.5f, -1);
         Object[] objectArray = new Object[1];
         objectArray[0] = Float.valueOf(percent);
-        (FontRegistry.mnstb_16).drawCenteredStringWithOutline(String.format("%.0f", objectArray) + "%", (float)((sr).getScaledWidth() / (2)), (float)(sr).getScaledHeight() / 2.5f + 15.0f, -1);
-        RoundedUtils.drawRound((float)((sr).getScaledWidth() / (2) - (50)), (float)((float)(sr).getScaledHeight() / 2.5f + 30.0f), (float)((p) * (8)), (float)8.0f, (float)4.0f, false, (Color)new Color(255, 127, 39));
+        (FontRegistry.mnstb_16).drawCenteredStringWithOutline(String.format("%.0f", objectArray) + "%", (float)(scaledWidth / (2)), (float)scaledHeight / 2.5f + 15.0f, -1);
+        RoundedUtils.drawRound((float)(scaledWidth / (2) - (50)), (float)((float)scaledHeight / 2.5f + 30.0f), (float)((p) * (8)), (float)8.0f, (float)4.0f, false, (Color)new Color(255, 127, 39));
     }
 
     public static void drawSplash() {
-        int scaleFactor = (sr).getScaleFactor();
-        Framebuffer framebuffer = new Framebuffer((sr).getScaledWidth() * scaleFactor, (sr).getScaledHeight() * scaleFactor, true);
+        Window window = MinecraftClient.getInstance().getWindow();
+        int scaledWidth = window.getScaledWidth();
+        int scaledHeight = window.getScaledHeight();
+        int scaleFactor = window.getScaleFactor();
+        Framebuffer framebuffer = new Framebuffer(scaledWidth * scaleFactor, scaledHeight * scaleFactor, true);
         framebuffer.bindFramebuffer(false);
         RenderSystem.matrixMode((int)(5889));
         RenderSystem.loadIdentity();
-        RenderSystem.ortho((double)0.0, (double)(sr).getScaledWidth(), (double)(sr).getScaledHeight(), (double)0.0, (double)1000.0, (double)3000.0);
+        RenderSystem.ortho((double)0.0, (double)scaledWidth, (double)scaledHeight, (double)0.0, (double)1000.0, (double)3000.0);
         RenderSystem.matrixMode((int)(5888));
         RenderSystem.loadIdentity();
         RenderSystem.translate((float)0.0f, (float)0.0f, (float)-2000.00024f);

@@ -100,18 +100,20 @@ public class RoundedUtils {
     }
 
     private static void callGetMinecraft(float x, float y, float width, float height, float radius, ShaderUtils roundedTexturedShader) {
-        ScaledResolution sr = // ScaledResolution replaced with Window calculation
-        Window window = MinecraftClient.getInstance());
+        Window window = MinecraftClient.getInstance().getWindow();
+        int scaledWidth = window.getScaledWidth();
+        int scaledHeight = window.getScaledHeight();
+        int scaleFactor = window.getScaleFactor();
         float[] fArray = new float[2];
-        fArray[0] = x * (float)sr.getScaleFactor();
-        fArray[1] = (float)(MinecraftClient.getInstance().displayHeight) - height * (float)sr.getScaleFactor() - y * (float)sr.getScaleFactor();
+        fArray[0] = x * (float)scaleFactor;
+        fArray[1] = (float)(MinecraftClient.getInstance().getWindow().getScaledHeight()) - height * (float)scaleFactor - y * (float)scaleFactor;
         roundedTexturedShader.setUniformf("location", fArray);
         float[] fArray2 = new float[2];
-        fArray2[0] = width * (float)sr.getScaleFactor();
-        fArray2[1] = height * (float)sr.getScaleFactor();
+        fArray2[0] = width * (float)scaleFactor;
+        fArray2[1] = height * (float)scaleFactor;
         roundedTexturedShader.setUniformf("rectSize", fArray2);
         float[] fArray3 = new float[1];
-        fArray3[0] = radius * (float)sr.getScaleFactor();
+        fArray3[0] = radius * (float)scaleFactor;
         roundedTexturedShader.setUniformf("radius", fArray3);
     }
 
@@ -131,25 +133,27 @@ public class RoundedUtils {
     }
 
     public static void drawRoundOutline(float x, float y, float width, float height, float radius, float thickness, Color insideColor, Color outlineColor) {
-        ScaledResolution sr = // ScaledResolution replaced with Window calculation
-        Window window = (MinecraftContext.mc));
+        Window window = MinecraftClient.getInstance().getWindow();
+        int scaledWidth = window.getScaledWidth();
+        int scaledHeight = window.getScaledHeight();
+        int scaleFactor = window.getScaleFactor();
         RenderSystem.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc((int)(770), (int)(771));
         (roundedOutlineShader).init();
         float[] fArray = new float[2];
-        fArray[0] = x * (float)sr.getScaleFactor();
-        fArray[1] = (float)(RoundedUtils.getMc().displayHeight) - height * (float)sr.getScaleFactor() - y * (float)sr.getScaleFactor();
+        fArray[0] = x * (float)scaleFactor;
+        fArray[1] = (float)(scaledHeight) - height * (float)scaleFactor - y * (float)scaleFactor;
         (roundedOutlineShader).setUniformf("location", fArray);
         float[] fArray2 = new float[2];
-        fArray2[0] = width * (float)sr.getScaleFactor();
-        fArray2[1] = height * (float)sr.getScaleFactor();
+        fArray2[0] = width * (float)scaleFactor;
+        fArray2[1] = height * (float)scaleFactor;
         (roundedOutlineShader).setUniformf("size", fArray2);
         float[] fArray3 = new float[1];
-        fArray3[0] = radius * (float)sr.getScaleFactor();
+        fArray3[0] = radius * (float)scaleFactor;
         (roundedOutlineShader).setUniformf("radius", fArray3);
         float[] fArray4 = new float[1];
-        fArray4[0] = thickness * (float)sr.getScaleFactor();
+        fArray4[0] = thickness * (float)scaleFactor;
         (roundedOutlineShader).setUniformf("thickness", fArray4);
         float[] fArray5 = new float[4];
         fArray5[0] = (float)insideColor.getRed() / 255.0f;
