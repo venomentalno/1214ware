@@ -19,25 +19,25 @@
  *  net.minecraft.client.settings.GameSettings
  *  net.minecraft.client.settings.KeyBinding
  */
-package neo.deobf;
+package com.botclient;
 
 import java.util.ArrayList;
-import neo.deobf.PreMotionEvent;
-import neo.deobf.EventTarget;
-import neo.deobf.TextSetting;
-import neo.deobf.Setting;
-import neo.deobf.ModuleCategory;
-import neo.deobf.ReplayAction;
-import neo.deobf.ReplayActionType;
-import neo.deobf.ModeSetting;
-import neo.deobf.NumberSetting;
-import neo.deobf.Module;
-import neo.deobf.ChatUtils;
-import neo.deobf.MillisTimer;
-import neo.deobf.ChatMessageEvent;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
+import com.botclient.PreMotionEvent;
+import com.botclient.EventTarget;
+import com.botclient.TextSetting;
+import com.botclient.Setting;
+import com.botclient.ModuleCategory;
+import com.botclient.ReplayAction;
+import com.botclient.ReplayActionType;
+import com.botclient.ModeSetting;
+import com.botclient.NumberSetting;
+import com.botclient.Module;
+import com.botclient.ChatUtils;
+import com.botclient.MillisTimer;
+import com.botclient.ChatMessageEvent;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.option.KeyBinding;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

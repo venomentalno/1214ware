@@ -11,15 +11,15 @@
  *  net.minecraft.client.settings.KeyBinding
  *  org.lwjgl.input.Mouse
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.UpdateEvent;
-import neo.deobf.EventTarget;
-import neo.deobf.ModuleCategory;
-import neo.deobf.Module;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
+import com.botclient.UpdateEvent;
+import com.botclient.EventTarget;
+import com.botclient.ModuleCategory;
+import com.botclient.Module;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.option.KeyBinding;
 import org.lwjgl.input.Mouse;
 
 /*

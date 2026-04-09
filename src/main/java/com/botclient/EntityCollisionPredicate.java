@@ -7,11 +7,11 @@
  *  neo.deobf.PBotMinecraft
  *  net.minecraft.entity.Entity
  */
-package neo.deobf;
+package com.botclient;
 
 import com.google.common.base.Predicate;
 import javax.annotation.Nullable;
-import neo.deobf.PBotMinecraft;
+import com.botclient.PBotMinecraft;
 import net.minecraft.entity.Entity;
 
 /*

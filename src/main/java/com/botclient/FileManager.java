@@ -6,21 +6,21 @@
  *  neo.deobf.CustomFile
  *  net.minecraft.client.Minecraft
  */
-package neo.deobf;
+package com.botclient;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import neo.deobf.AccountsFile;
-import neo.deobf.CustomFile;
-import net.minecraft.client.Minecraft;
+import com.botclient.AccountsFile;
+import com.botclient.CustomFile;
+import net.minecraft.client.MinecraftClient;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
 public class FileManager {
-    public static final File directory = new File(Minecraft.getMinecraft().gameDir, "/NeoWare/");
+    public static final File directory = new File(MinecraftClient.getInstance().gameDir, "/NeoWare/");
     public static ArrayList<CustomFile> files = new ArrayList();
 
     public void init() throws IOException {

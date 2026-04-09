@@ -11,17 +11,17 @@
  *  net.minecraft.network.play.server.SPacketUpdateBossInfo
  *  net.minecraft.util.math.MathHelper
  */
-package neo.deobf;
+package com.botclient;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
-import neo.deobf.EventTarget;
-import neo.deobf.EventBus;
-import neo.deobf.PacketReceiveEvent;
-import net.minecraft.network.play.server.SPacketChat;
-import net.minecraft.network.play.server.SPacketSetExperience;
-import net.minecraft.network.play.server.SPacketTimeUpdate;
-import net.minecraft.network.play.server.SPacketUpdateBossInfo;
+import com.botclient.EventTarget;
+import com.botclient.EventBus;
+import com.botclient.PacketReceiveEvent;
+import net.minecraft.network.packet.s2c.play.SPacketChat;
+import net.minecraft.network.packet.s2c.play.SPacketSetExperience;
+import net.minecraft.network.packet.s2c.play.SPacketTimeUpdate;
+import net.minecraft.network.packet.s2c.play.SPacketUpdateBossInfo;
 import net.minecraft.util.math.MathHelper;
 
 /*

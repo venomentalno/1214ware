@@ -1,4 +1,4 @@
-package neo.deobf;
+package com.botclient;
 
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.connection.UserConnectionImpl;

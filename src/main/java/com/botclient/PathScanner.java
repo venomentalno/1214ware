@@ -9,17 +9,17 @@
  *  net.minecraft.entity.player.EntityPlayer
  *  net.minecraft.world.World
  */
-package neo.deobf;
+package com.botclient;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.vecmath.Vector3i;
-import neo.deobf.AbstractPathScanner;
-import neo.deobf.PathBlockUtils;
-import neo.deobf.PathNode;
-import net.minecraft.entity.player.EntityPlayer;
+import com.botclient.AbstractPathScanner;
+import com.botclient.PathBlockUtils;
+import com.botclient.PathNode;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
 /*

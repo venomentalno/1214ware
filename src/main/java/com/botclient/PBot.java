@@ -82,7 +82,7 @@
  *  net.minecraft.util.math.BlockPos
  *  net.minecraft.world.World
  */
-package neo.deobf;
+package com.botclient;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -98,79 +98,79 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.vecmath.Vector2f;
-import neo.deobf.TextSetting;
-import neo.deobf.Client;
-import neo.deobf.PBotManager;
-import neo.deobf.ModuleManager;
-import neo.deobf.AutoRegisterModule;
-import neo.deobf.BooleanSetting;
-import neo.deobf.ModeSetting;
-import neo.deobf.NumberSetting;
-import neo.deobf.PBotPlayer;
-import neo.deobf.BotKeyState;
-import neo.deobf.PBotMinecraft;
-import neo.deobf.PBotStatFileWriter;
-import neo.deobf.PBotNetHandlerPlayClient;
-import neo.deobf.PBotNetworkManager;
-import neo.deobf.PBotPlayerController;
-import neo.deobf.ServerStatusPinger;
-import neo.deobf.PBotWorldClient;
-import neo.deobf.BotController;
-import neo.deobf.AutoRejoinModule;
-import neo.deobf.BotDebugModule;
-import neo.deobf.BotSettingsModule;
-import neo.deobf.CaptchaManagerModule;
-import neo.deobf.BotsCommand;
-import neo.deobf.ScriptManager;
-import neo.deobf.ChatUtils;
-import neo.deobf.BotSpammer;
-import neo.deobf.BlockUtils;
-import neo.deobf.CaptchaPacket;
-import neo.deobf.CaptchaDetector;
-import neo.deobf.PlaceholderFormatter;
-import neo.deobf.RandomUtils;
-import neo.deobf.MillisTimer;
-import neo.deobf.ProxyInfo;
-import neo.deobf.ThreadUtils;
+import com.botclient.TextSetting;
+import com.botclient.Client;
+import com.botclient.PBotManager;
+import com.botclient.ModuleManager;
+import com.botclient.AutoRegisterModule;
+import com.botclient.BooleanSetting;
+import com.botclient.ModeSetting;
+import com.botclient.NumberSetting;
+import com.botclient.PBotPlayer;
+import com.botclient.BotKeyState;
+import com.botclient.PBotMinecraft;
+import com.botclient.PBotStatFileWriter;
+import com.botclient.PBotNetHandlerPlayClient;
+import com.botclient.PBotNetworkManager;
+import com.botclient.PBotPlayerController;
+import com.botclient.ServerStatusPinger;
+import com.botclient.PBotWorldClient;
+import com.botclient.BotController;
+import com.botclient.AutoRejoinModule;
+import com.botclient.BotDebugModule;
+import com.botclient.BotSettingsModule;
+import com.botclient.CaptchaManagerModule;
+import com.botclient.BotsCommand;
+import com.botclient.ScriptManager;
+import com.botclient.ChatUtils;
+import com.botclient.BotSpammer;
+import com.botclient.BlockUtils;
+import com.botclient.CaptchaPacket;
+import com.botclient.CaptchaDetector;
+import com.botclient.PlaceholderFormatter;
+import com.botclient.RandomUtils;
+import com.botclient.MillisTimer;
+import com.botclient.ProxyInfo;
+import com.botclient.ThreadUtils;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Container;
+import net.minecraft.registry.Registries;Items;
+import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.inventory.ContainerRepair;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.EnumConnectionState;
-import net.minecraft.network.INetHandler;
+import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.CPacketLoginStart;
-import net.minecraft.network.play.client.CPacketChatMessage;
-import net.minecraft.network.play.client.CPacketCloseWindow;
-import net.minecraft.network.play.client.CPacketCustomPayload;
-import net.minecraft.network.play.client.CPacketHeldItemChange;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
-import net.minecraft.network.play.client.CPacketUseEntity;
-import net.minecraft.potion.PotionUtils;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.network.packet.c2s.play.CPacketChatMessage;
+import net.minecraft.network.packet.c2s.play.CPacketCloseWindow;
+import net.minecraft.network.packet.c2s.play.CPacketCustomPayload;
+import net.minecraft.network.packet.c2s.play.CPacketHeldItemChange;
+import net.minecraft.network.packet.c2s.play.CPacketPlayerDigging;
+import net.minecraft.network.packet.c2s.play.CPacketPlayerTryUseItemOnBlock;
+import net.minecraft.network.packet.c2s.play.CPacketUseEntity;
+import net.minecraft.component.type.PotionContentsComponent;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.Session;
+import net.minecraft.client.session.Session;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -178,7 +178,7 @@ import net.minecraft.world.World;
  * Illegal identifiers - consider using --renameillegalidents true
  */
 public class PBot {
-    public Session session;
+    public net.minecraft.client.session.Session session;
     public final ServerStatusPinger serverPinger;
     public boolean deleted;
     public String nickname;
@@ -336,7 +336,7 @@ public class PBot {
 
     public void swapHands() {
         if (this.isOnline()) {
-            this.sendPacket((Packet)new CPacketPlayerDigging((CPacketPlayerDigging.Action.SWAP_HELD_ITEMS), (BlockPos.ORIGIN), (EnumFacing.DOWN)));
+            this.sendPacket((Packet)new CPacketPlayerDigging((CPacketPlayerDigging.Action.SWAP_HELD_ITEMS), (BlockPos.ORIGIN), (Direction.DOWN)));
         }
     }
 
@@ -377,7 +377,7 @@ public class PBot {
 
     public void useItem() {
         if (this.isOnline()) {
-            (PBot.getMc3(this).playerController).processRightClick((EntityPlayer)(this.player), (World)this.getWorld(), (EnumHand.MAIN_HAND));
+            (PBot.getMc3(this).playerController).processRightClick((EntityPlayer)(this.player), (World)this.world, (Hand.MAIN_HAND));
         }
     }
 
@@ -581,16 +581,16 @@ public class PBot {
 
     public void clickEntity(int id, boolean visual) {
         if (visual) {
-            Entity entity = this.getWorld().getEntityByID(id);
+            Entity entity = this.world.getEntityByID(id);
             if (entity != null && BlockUtils.getDistance((PBot)this, (double)(entity.posX), (double)(entity.posY), (double)(entity.posZ)) < 6.0f) {
                 Vector2f vector2f = BlockUtils.getBlockAngles((double)(entity.posX), (double)(entity.posY), (double)(entity.posZ), (double)(PBot.getPlayer2(this).posX), (double)(PBot.getPlayer7(this).posY), (double)(PBot.getPlayer31(this).posZ));
                 PBot.getPlayer9(this).rotationYaw = BlockUtils.normalizeYaw((float)PBot.getY(vector2f));
                 PBot.getPlayer64(this).rotationPitch = BlockUtils.normalizePitch((float)PBot.getX3(vector2f));
-                (PBot.getPlayer4(this).connection).sendPacket((Packet)new CPacketUseEntity(entity, (EnumHand.MAIN_HAND)));
+                (PBot.getPlayer4(this).connection).sendPacket((Packet)new CPacketUseEntity(entity, (Hand.MAIN_HAND)));
             }
         } else {
             ChatUtils.formatMsg((String)("Бот &d&l" + this.getNickname() + "&6 Не указан энтити с таким ID, отправляю обычный клик без ротации."));
-            (PBot.getPlayer14(this).connection).sendPacket((Packet)new CPacketUseEntity(id, (EnumHand.MAIN_HAND)));
+            (PBot.getPlayer14(this).connection).sendPacket((Packet)new CPacketUseEntity(id, (Hand.MAIN_HAND)));
         }
     }
 
@@ -715,7 +715,7 @@ public class PBot {
     public void tick() {
         try {
             if ((this.player).isRiding()) {
-                this.getWorld().updateEntities();
+                this.world.updateEntities();
             } else {
                 (this.player).onUpdate();
             }
@@ -810,7 +810,7 @@ public class PBot {
                             if ((double)(this.player).getCooledAttackStrength(1.0f) >= 0.93000000000000005 && (this.c).hasReached((double)((2300) + RandomUtils.intRandom((int)(0), (int)(100))))) {
                                 (this.c).reset();
                                 (PBot.getMc10(this).playerController).attackEntity((EntityPlayer)(this.player), e);
-                                (this.player).swingArm((EnumHand.MAIN_HAND));
+                                (this.player).swingArm((Hand.MAIN_HAND));
                                 (this.player).resetCooldown();
                             }
                             this.jump();
@@ -969,7 +969,7 @@ public class PBot {
 
     public void clickBlock(int x, int y, int z, String enumFace) {
         BlockPos blockPos = new BlockPos(x, y, z);
-        this.sendPacket((Packet)new CPacketPlayerTryUseItemOnBlock(new BlockPos(blockPos.getX(), blockPos.getY(), blockPos.getZ()), EnumFacing.byName((String)enumFace), (EnumHand.MAIN_HAND), (float)blockPos.getX(), (float)blockPos.getY(), (float)blockPos.getZ()));
+        this.sendPacket((Packet)new CPacketPlayerTryUseItemOnBlock(new BlockPos(blockPos.getX(), blockPos.getY(), blockPos.getZ()), EnumFacing.byName((String)enumFace), (Hand.MAIN_HAND), (float)blockPos.getX(), (float)blockPos.getY(), (float)blockPos.getZ()));
     }
 
     private static PBotPlayer getPlayer42(PBot instance) {
@@ -1000,7 +1000,7 @@ public class PBot {
                         if ((PBot.getPlayer10(this).world).getBlockState(blockPos).getProperties().size() == 0 || !(PBot.getPlayer65(this).world).getBlockState(blockPos).getBlock().getTranslationKey().equalsIgnoreCase("tile.cloth") || !((EnumDyeColor)(PBot.getPlayer29(this).world).getBlockState(blockPos).getValue((IProperty)PBot.getCOLOR())).toString().equalsIgnoreCase((BotSettingsModule.gameguardBlock).get())) continue;
                         if (BlockUtils.getDistance((PBot)this, (double)9.0, (double)52.0, (double)0.0) < 4.0f) {
                             PBot.getGameSettings10(PBot.getMc21(this)).keyBindForward = false;
-                            this.sendPacket((Packet)new CPacketPlayerTryUseItemOnBlock(new BlockPos(blockPos.getX() - (1), blockPos.getY(), blockPos.getZ()), (EnumFacing.SOUTH), (EnumHand.MAIN_HAND), (float)blockPos.getX(), (float)blockPos.getY(), (float)blockPos.getZ()));
+                            this.sendPacket((Packet)new CPacketPlayerTryUseItemOnBlock(new BlockPos(blockPos.getX() - (1), blockPos.getY(), blockPos.getZ()), (Direction.SOUTH), (Hand.MAIN_HAND), (float)blockPos.getX(), (float)blockPos.getY(), (float)blockPos.getZ()));
                         } else {
                             PBot.getGameSettings15(PBot.getMc9(this)).keyBindForward = true;
                         }
@@ -1210,8 +1210,8 @@ public class PBot {
 
     public void disconnect() {
         this.resetParameters();
-        if (this.getWorld() != null && this.getNetworkManager() != null && (this.getNetworkManager().channel) != null) {
-            this.getWorld().sendQuittingDisconnectingPacket();
+        if (this.world != null && this.getNetworkManager() != null && (this.getNetworkManager().channel) != null) {
+            this.world.sendQuittingDisconnectingPacket();
         }
     }
 

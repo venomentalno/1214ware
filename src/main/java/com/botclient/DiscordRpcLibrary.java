@@ -7,12 +7,12 @@
  *  neo.deobf.DiscordEventHandlers
  *  neo.deobf.DiscordRichPresence
  */
-package neo.deobf;
+package com.botclient;
 
 import com.sun.jna.Library;
 import com.sun.jna.Native;
-import neo.deobf.DiscordEventHandlers;
-import neo.deobf.DiscordRichPresence;
+import com.botclient.DiscordEventHandlers;
+import com.botclient.DiscordRichPresence;
 
 public interface DiscordRpcLibrary
 extends Library {

@@ -7,7 +7,7 @@
  *  neo.deobf.AltManager
  *  neo.deobf.CustomFile
  */
-package neo.deobf;
+package com.botclient;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,10 +15,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import neo.deobf.AltStatus;
-import neo.deobf.AltAccount;
-import neo.deobf.AltManager;
-import neo.deobf.CustomFile;
+import com.botclient.AltStatus;
+import com.botclient.AltAccount;
+import com.botclient.AltManager;
+import com.botclient.CustomFile;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

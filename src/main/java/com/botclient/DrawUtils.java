@@ -27,33 +27,33 @@
  *  net.minecraft.util.math.AxisAlignedBB
  *  org.lwjgl.opengl.GL11
  */
-package neo.deobf;
+package com.botclient;
 
 import com.jhlabs.image.GaussianFilter;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
-import neo.deobf.MinecraftContext;
-import neo.deobf.ShaderUtils;
-import neo.deobf.StencilUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexFormat;
+import com.botclient.MinecraftContext;
+import com.botclient.ShaderUtils;
+import com.botclient.StencilUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.util.Window;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.OpenGlHelper;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.entity.RenderManager;
+import net.minecraft.client.render.texture.DynamicTexture;
+import net.minecraft.client.render.texture.TextureUtil;
+import net.minecraft.client.render.vertex.DefaultVertexFormats;
+import net.minecraft.client.render.vertex.VertexFormat;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Timer;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 import org.lwjgl.opengl.GL11;
 
 /*
@@ -78,12 +78,12 @@ implements MinecraftContext {
         float f5 = (float)(endColor >> (16) & (255)) / 255.0f;
         float f6 = (float)(endColor >> (8) & (255)) / 255.0f;
         float f7 = (float)(endColor & (255)) / 255.0f;
-        GlStateManager.disableTexture2D();
-        GlStateManager.enableBlend();
-        GlStateManager.disableAlpha();
-        GlStateManager.tryBlendFuncSeparate((GlStateManager.SourceFactor)(GlStateManager.SourceFactor.SRC_ALPHA), (GlStateManager.DestFactor)(GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA), (GlStateManager.SourceFactor)(GlStateManager.SourceFactor.ONE), (GlStateManager.DestFactor)(GlStateManager.DestFactor.ZERO));
-        GlStateManager.shadeModel((int)(7425));
-        Tessellator tessellator = Tessellator.getInstance();
+        RenderSystem.disableTexture2D();
+        RenderSystem.enableBlend();
+        RenderSystem.disableAlpha();
+        RenderSystem.tryBlendFuncSeparate((RenderSystem.SourceFactor)(RenderSystem.SourceFactor.SRC_ALPHA), (RenderSystem.DestFactor)(RenderSystem.DestFactor.ONE_MINUS_SRC_ALPHA), (RenderSystem.SourceFactor)(RenderSystem.SourceFactor.ONE), (RenderSystem.DestFactor)(RenderSystem.DestFactor.ZERO));
+        RenderSystem.shadeModel((int)(7425));
+        Tessellator tessellator = BufferRenderer.getAvailableRenderer();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         bufferbuilder.begin(7, (DefaultVertexFormats.POSITION_COLOR));
         bufferbuilder.pos(x1, y1, 0.0).color(f1, f2, f3, f).endVertex();
@@ -91,17 +91,17 @@ implements MinecraftContext {
         bufferbuilder.pos(x2, y2, 0.0).color(f5, f6, f7, f4).endVertex();
         bufferbuilder.pos(x2, y1, 0.0).color(f5, f6, f7, f4).endVertex();
         tessellator.draw();
-        GlStateManager.shadeModel((int)(7424));
-        GlStateManager.disableBlend();
-        GlStateManager.enableAlpha();
-        GlStateManager.enableTexture2D();
+        RenderSystem.shadeModel((int)(7424));
+        RenderSystem.disableBlend();
+        RenderSystem.enableAlpha();
+        RenderSystem.enableTexture2D();
     }
 
     public static void glHexColor(int hex, int alpha) {
         float red = (float)(hex >> (16) & (255)) / 255.0f;
         float green = (float)(hex >> (8) & (255)) / 255.0f;
         float blue = (float)(hex & (255)) / 255.0f;
-        GlStateManager.color((float)red, (float)green, (float)blue, (float)((float)alpha / 255.0f));
+        RenderSystem.color((float)red, (float)green, (float)blue, (float)((float)alpha / 255.0f));
     }
 
     public static void drawRect(float x, float y, float width, float height, Color color) {
@@ -112,11 +112,11 @@ implements MinecraftContext {
         float f1 = (float)(colorRGB >> (16) & (255)) / 255.0f;
         float f2 = (float)(colorRGB >> (8) & (255)) / 255.0f;
         float f3 = (float)(colorRGB & (255)) / 255.0f;
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate((int)(770), (int)(771), (int)(1), (int)(0));
+        RenderSystem.enableBlend();
+        RenderSystem.disableTexture2D();
+        RenderSystem.tryBlendFuncSeparate((int)(770), (int)(771), (int)(1), (int)(0));
         DrawUtils.color(f1, f2, f3, f);
-        Tessellator tessellator = Tessellator.getInstance();
+        Tessellator tessellator = BufferRenderer.getAvailableRenderer();
         BufferBuilder worldrenderer = tessellator.getBuffer();
         worldrenderer.begin(7, (DefaultVertexFormats.POSITION));
         worldrenderer.pos((double)x, (double)height, 0.0).endVertex();
@@ -124,14 +124,14 @@ implements MinecraftContext {
         worldrenderer.pos((double)width, (double)y, 0.0).endVertex();
         worldrenderer.pos((double)x, (double)y, 0.0).endVertex();
         tessellator.draw();
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
+        RenderSystem.enableTexture2D();
+        RenderSystem.disableBlend();
     }
 
     public static void scissorRect(float x, float y, float width, double height) {
         ScaledResolution sr = new ScaledResolution((mc));
         int factor = sr.getScaleFactor();
-        GL11.glScissor((int)((int)(x * (float)factor)), (int)((int)(((double)sr.getScaledHeight() - height) * (double)factor)), (int)((int)((width - x) * (float)factor)), (int)((int)((height - (double)y) * (double)factor)));
+        RenderSystem.glScissor((int)((int)(x * (float)factor)), (int)((int)(((double)sr.getScaledHeight() - height) * (double)factor)), (int)((int)((width - x) * (float)factor)), (int)((int)((height - (double)y) * (double)factor)));
     }
 
     public static Framebuffer createFrameBuffer(Framebuffer framebuffer) {
@@ -145,7 +145,7 @@ implements MinecraftContext {
     }
 
     public static void setColor(int color) {
-        GL11.glColor4ub((byte)((byte)(color >> (16) & (255))), (byte)((byte)(color >> (8) & (255))), (byte)((byte)(color & (255))), (byte)((byte)(color >> (24) & (255))));
+        RenderSystem.glColor4ub((byte)((byte)(color >> (16) & (255))), (byte)((byte)(color >> (8) & (255))), (byte)((byte)(color & (255))), (byte)((byte)(color >> (24) & (255))));
     }
 
     public static void verticalGradient(double x1, double y1, double x2, double y2, int startColor, int endColor) {
@@ -159,12 +159,12 @@ implements MinecraftContext {
         float f5 = (float)(endColor >> (16) & (255)) / 255.0f;
         float f6 = (float)(endColor >> (8) & (255)) / 255.0f;
         float f7 = (float)(endColor & (255)) / 255.0f;
-        GlStateManager.disableTexture2D();
-        GlStateManager.enableBlend();
-        GlStateManager.disableAlpha();
-        GlStateManager.tryBlendFuncSeparate((GlStateManager.SourceFactor)(GlStateManager.SourceFactor.SRC_ALPHA), (GlStateManager.DestFactor)(GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA), (GlStateManager.SourceFactor)(GlStateManager.SourceFactor.ONE), (GlStateManager.DestFactor)(GlStateManager.DestFactor.ZERO));
-        GlStateManager.shadeModel((int)(7425));
-        Tessellator tessellator = Tessellator.getInstance();
+        RenderSystem.disableTexture2D();
+        RenderSystem.enableBlend();
+        RenderSystem.disableAlpha();
+        RenderSystem.tryBlendFuncSeparate((RenderSystem.SourceFactor)(RenderSystem.SourceFactor.SRC_ALPHA), (RenderSystem.DestFactor)(RenderSystem.DestFactor.ONE_MINUS_SRC_ALPHA), (RenderSystem.SourceFactor)(RenderSystem.SourceFactor.ONE), (RenderSystem.DestFactor)(RenderSystem.DestFactor.ZERO));
+        RenderSystem.shadeModel((int)(7425));
+        Tessellator tessellator = BufferRenderer.getAvailableRenderer();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         bufferbuilder.begin(7, (DefaultVertexFormats.POSITION_COLOR));
         bufferbuilder.pos(x1, y1, 0.0).color(f1, f2, f3, f).endVertex();
@@ -172,22 +172,22 @@ implements MinecraftContext {
         bufferbuilder.pos(x2, y2, 0.0).color(f5, f6, f7, f4).endVertex();
         bufferbuilder.pos(x2, y1, 0.0).color(f1, f2, f3, f).endVertex();
         tessellator.draw();
-        GlStateManager.shadeModel((int)(7424));
-        GlStateManager.disableBlend();
-        GlStateManager.enableAlpha();
-        GlStateManager.enableTexture2D();
+        RenderSystem.shadeModel((int)(7424));
+        RenderSystem.disableBlend();
+        RenderSystem.enableAlpha();
+        RenderSystem.enableTexture2D();
     }
 
     public static void disableSmoothLine() {
-        GL11.glEnable((int)(3553));
-        GL11.glEnable((int)(2929));
-        GL11.glDisable((int)(3042));
-        GL11.glEnable((int)(3008));
-        GL11.glDepthMask(true);
-        GL11.glCullFace((int)(1029));
-        GL11.glDisable((int)(2848));
-        GL11.glHint((int)(3154), (int)(4352));
-        GL11.glHint((int)(3155), (int)(4352));
+        RenderSystem.glEnable((int)(3553));
+        RenderSystem.glEnable((int)(2929));
+        RenderSystem.glDisable((int)(3042));
+        RenderSystem.glEnable((int)(3008));
+        RenderSystem.glDepthMask(true);
+        RenderSystem.glCullFace((int)(1029));
+        RenderSystem.glDisable((int)(2848));
+        RenderSystem.glHint((int)(3154), (int)(4352));
+        RenderSystem.glHint((int)(3155), (int)(4352));
     }
 
     public static void drawGrayFilterNoBlur(Runnable data) {
@@ -202,7 +202,7 @@ implements MinecraftContext {
         float r = (float)(color >> (16) & (255)) / 255.0f;
         float g = (float)(color >> (8) & (255)) / 255.0f;
         float b = (float)(color & (255)) / 255.0f;
-        GlStateManager.color((float)r, (float)g, (float)b, (float)alpha);
+        RenderSystem.color((float)r, (float)g, (float)b, (float)alpha);
     }
 
     private static Timer getTimer(Minecraft minecraft) {
@@ -210,36 +210,36 @@ implements MinecraftContext {
     }
 
     public static void renderImage(BufferedImage image, int x, int y, int width, int height) {
-        Minecraft minecraft = Minecraft.getMinecraft();
+        Minecraft minecraft = MinecraftClient.getInstance();
         ResourceLocation resourceLocation = minecraft.getTextureManager().getDynamicTextureLocation("rendered_image", new DynamicTexture(image));
         minecraft.getTextureManager().bindTexture(resourceLocation);
-        GlStateManager.pushMatrix();
-        GlStateManager.enableAlpha();
-        GlStateManager.enableBlend();
-        GlStateManager.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        RenderSystem.pushMatrix();
+        RenderSystem.enableAlpha();
+        RenderSystem.enableBlend();
+        RenderSystem.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         Gui.drawModalRectWithCustomSizedTexture((int)x, (int)y, (float)0.0f, (float)0.0f, (int)width, (int)height, (float)width, (float)height);
-        GlStateManager.popMatrix();
-        Minecraft.getMinecraft().getTextureManager().deleteTexture(resourceLocation);
+        RenderSystem.popMatrix();
+        MinecraftClient.getInstance().getTextureManager().deleteTexture(resourceLocation);
     }
 
     public static void color(double red, double green, double blue, double alpha) {
-        GL11.glColor4d((double)red, (double)green, (double)blue, (double)alpha);
+        RenderSystem.glColor4d((double)red, (double)green, (double)blue, (double)alpha);
     }
 
     public static void drawBlurredShadowOval(float x, float y, float width, float height, int blurRadius, Color color) {
-        GL11.glPushMatrix();
-        GlStateManager.alphaFunc((int)(516), (float)0.00999999978f);
+        RenderSystem.glPushMatrix();
+        RenderSystem.alphaFunc((int)(516), (float)0.00999999978f);
         float _X = (x -= (float)blurRadius) - 0.25f;
         float _Y = (y -= (float)blurRadius) + 0.25f;
         double identifier = (int)((double)((width += (float)(blurRadius * (2))) * (height += (float)(blurRadius * (2))) * 13212.0f) / Math.sin(blurRadius));
-        GL11.glEnable((int)(3553));
-        GL11.glDisable((int)(2884));
-        GL11.glEnable((int)(3008));
-        GlStateManager.enableBlend();
+        RenderSystem.glEnable((int)(3553));
+        RenderSystem.glDisable((int)(2884));
+        RenderSystem.glEnable((int)(3008));
+        RenderSystem.enableBlend();
         int texId = -1;
         if ((shadowCache).containsKey(identifier)) {
             texId = (Integer)(shadowCache).get(identifier);
-            GlStateManager.bindTexture((int)texId);
+            RenderSystem.bindTexture((int)texId);
         } else {
             BufferedImage original = new BufferedImage((int)width, (int)height, 2);
             Graphics g = original.getGraphics();
@@ -251,22 +251,22 @@ implements MinecraftContext {
             texId = TextureUtil.uploadTextureImageAllocate((int)TextureUtil.glGenTextures(), (BufferedImage)blurred, true, false);
             (shadowCache).put(identifier, texId);
         }
-        GL11.glColor4f((float)((float)color.getRed() / 255.0f), (float)((float)color.getGreen() / 255.0f), (float)((float)color.getBlue() / 255.0f), (float)((float)color.getAlpha() / 255.0f));
-        GL11.glBegin((int)(7));
-        GL11.glTexCoord2f((float)0.0f, (float)0.0f);
-        GL11.glVertex2f((float)_X, (float)_Y);
-        GL11.glTexCoord2f((float)0.0f, (float)1.0f);
-        GL11.glVertex2f((float)_X, (float)(_Y + height));
-        GL11.glTexCoord2f((float)1.0f, (float)1.0f);
-        GL11.glVertex2f((float)(_X + width), (float)(_Y + height));
-        GL11.glTexCoord2f((float)1.0f, (float)0.0f);
-        GL11.glVertex2f((float)(_X + width), (float)_Y);
-        GL11.glEnd();
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
-        GL11.glEnable((int)(2884));
-        GlStateManager.resetColor();
-        GL11.glPopMatrix();
+        RenderSystem.glColor4f((float)((float)color.getRed() / 255.0f), (float)((float)color.getGreen() / 255.0f), (float)((float)color.getBlue() / 255.0f), (float)((float)color.getAlpha() / 255.0f));
+        RenderSystem.glBegin((int)(7));
+        RenderSystem.glTexCoord2f((float)0.0f, (float)0.0f);
+        RenderSystem.glVertex2f((float)_X, (float)_Y);
+        RenderSystem.glTexCoord2f((float)0.0f, (float)1.0f);
+        RenderSystem.glVertex2f((float)_X, (float)(_Y + height));
+        RenderSystem.glTexCoord2f((float)1.0f, (float)1.0f);
+        RenderSystem.glVertex2f((float)(_X + width), (float)(_Y + height));
+        RenderSystem.glTexCoord2f((float)1.0f, (float)0.0f);
+        RenderSystem.glVertex2f((float)(_X + width), (float)_Y);
+        RenderSystem.glEnd();
+        RenderSystem.enableTexture2D();
+        RenderSystem.disableBlend();
+        RenderSystem.glEnable((int)(2884));
+        RenderSystem.resetColor();
+        RenderSystem.glPopMatrix();
     }
 
     public static void drawGradientRect(float f, float sY, double width, double height, int colour1, int colour2) {
@@ -274,7 +274,7 @@ implements MinecraftContext {
     }
 
     public static void bindTexture(int texture) {
-        GL11.glBindTexture((int)(3553), (int)texture);
+        RenderSystem.glBindTexture((int)(3553), (int)texture);
     }
 
     private static Timer getTimer2(Minecraft minecraft) {
@@ -282,7 +282,7 @@ implements MinecraftContext {
     }
 
     public static void drawColorBox(AxisAlignedBB axisalignedbb, float red, float green, float blue, float alpha) {
-        Tessellator ts = Tessellator.getInstance();
+        Tessellator ts = BufferRenderer.getAvailableRenderer();
         BufferBuilder buffer = ts.getBuffer();
         buffer.begin(7, (DefaultVertexFormats.POSITION_TEX));
         buffer.pos((axisalignedbb.minX), (axisalignedbb.minY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
@@ -358,68 +358,68 @@ implements MinecraftContext {
         float green = (float)color.getGreen() / 255.0f;
         float blue = (float)color.getBlue() / 255.0f;
         float alpha = (float)color.getAlpha() / 255.0f;
-        GlStateManager.color((float)red, (float)green, (float)blue, (float)alpha);
+        RenderSystem.color((float)red, (float)green, (float)blue, (float)alpha);
     }
 
     public static void drawCircle(float x, float y, float start, float end, float radius, int color, int linewidth) {
-        GlStateManager.color((float)0.0f, (float)0.0f, (float)0.0f, (float)0.0f);
+        RenderSystem.color((float)0.0f, (float)0.0f, (float)0.0f, (float)0.0f);
         if (start > end) {
             float endOffset = end;
             end = start;
             start = endOffset;
         }
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
+        RenderSystem.enableBlend();
+        RenderSystem.disableTexture2D();
         DrawUtils.enableSmoothLine(linewidth);
-        GlStateManager.tryBlendFuncSeparate((int)(770), (int)(771), (int)(1), (int)(0));
-        GL11.glBegin((int)(3));
+        RenderSystem.tryBlendFuncSeparate((int)(770), (int)(771), (int)(1), (int)(0));
+        RenderSystem.glBegin((int)(3));
         for (float i = end; i >= start; i -= 4.0f) {
             DrawUtils.glHexColor(color, 255);
             float cos = (float)(Math.cos((double)i * 3.1415926535897931 / 180.0) * (double)radius * 1.0);
             float sin = (float)(Math.sin((double)i * 3.1415926535897931 / 180.0) * (double)radius * 1.0);
-            GL11.glVertex2f((float)(x + cos), (float)(y + sin));
+            RenderSystem.glVertex2f((float)(x + cos), (float)(y + sin));
         }
-        GL11.glEnd();
+        RenderSystem.glEnd();
         DrawUtils.disableSmoothLine();
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
+        RenderSystem.enableTexture2D();
+        RenderSystem.disableBlend();
     }
 
     public static void drawOutlinedBoundingBox(AxisAlignedBB aa) {
-        GL11.glEnable((int)(3042));
-        GL11.glDisable((int)(3553));
-        GL11.glBlendFunc((int)(770), (int)(771));
-        GL11.glDisable((int)(2896));
-        GL11.glPolygonMode((int)(1032), (int)(6913));
-        GL11.glDisable((int)(2884));
-        GL11.glBegin((int)(7));
+        RenderSystem.glEnable((int)(3042));
+        RenderSystem.glDisable((int)(3553));
+        RenderSystem.glBlendFunc((int)(770), (int)(771));
+        RenderSystem.glDisable((int)(2896));
+        RenderSystem.glPolygonMode((int)(1032), (int)(6913));
+        RenderSystem.glDisable((int)(2884));
+        RenderSystem.glBegin((int)(7));
         float f = (float)(aa.minX);
         float f1 = (float)(aa.maxX);
         float f2 = (float)(aa.minY);
         float f3 = (float)(aa.maxY);
         float f4 = (float)(aa.minZ);
         float f5 = (float)(aa.maxZ);
-        GL11.glVertex3d((double)f, (double)f3, (double)f4);
-        GL11.glVertex3d((double)f, (double)f3, (double)f5);
-        GL11.glVertex3d((double)f, (double)f2, (double)f5);
-        GL11.glVertex3d((double)f, (double)f2, (double)f4);
-        GL11.glVertex3d((double)f1, (double)f3, (double)f4);
-        GL11.glVertex3d((double)f1, (double)f3, (double)f5);
-        GL11.glVertex3d((double)f1, (double)f2, (double)f5);
-        GL11.glVertex3d((double)f1, (double)f2, (double)f4);
-        GL11.glVertex3d((double)f1, (double)f3, (double)f4);
-        GL11.glVertex3d((double)f1, (double)f3, (double)f5);
-        GL11.glVertex3d((double)f, (double)f3, (double)f5);
-        GL11.glVertex3d((double)f, (double)f3, (double)f4);
-        GL11.glVertex3d((double)f1, (double)f2, (double)f4);
-        GL11.glVertex3d((double)f1, (double)f2, (double)f5);
-        GL11.glVertex3d((double)f, (double)f2, (double)f5);
-        GL11.glVertex3d((double)f, (double)f2, (double)f4);
-        GL11.glEnd();
-        GL11.glPolygonMode((int)(1032), (int)(6914));
-        GL11.glEnable((int)(2884));
-        GL11.glEnable((int)(3553));
-        GL11.glDisable((int)(3042));
+        RenderSystem.glVertex3d((double)f, (double)f3, (double)f4);
+        RenderSystem.glVertex3d((double)f, (double)f3, (double)f5);
+        RenderSystem.glVertex3d((double)f, (double)f2, (double)f5);
+        RenderSystem.glVertex3d((double)f, (double)f2, (double)f4);
+        RenderSystem.glVertex3d((double)f1, (double)f3, (double)f4);
+        RenderSystem.glVertex3d((double)f1, (double)f3, (double)f5);
+        RenderSystem.glVertex3d((double)f1, (double)f2, (double)f5);
+        RenderSystem.glVertex3d((double)f1, (double)f2, (double)f4);
+        RenderSystem.glVertex3d((double)f1, (double)f3, (double)f4);
+        RenderSystem.glVertex3d((double)f1, (double)f3, (double)f5);
+        RenderSystem.glVertex3d((double)f, (double)f3, (double)f5);
+        RenderSystem.glVertex3d((double)f, (double)f3, (double)f4);
+        RenderSystem.glVertex3d((double)f1, (double)f2, (double)f4);
+        RenderSystem.glVertex3d((double)f1, (double)f2, (double)f5);
+        RenderSystem.glVertex3d((double)f, (double)f2, (double)f5);
+        RenderSystem.glVertex3d((double)f, (double)f2, (double)f4);
+        RenderSystem.glEnd();
+        RenderSystem.glPolygonMode((int)(1032), (int)(6914));
+        RenderSystem.glEnable((int)(2884));
+        RenderSystem.glEnable((int)(3553));
+        RenderSystem.glDisable((int)(3042));
     }
 
     private static Timer getTimer3(Minecraft minecraft) {
@@ -427,17 +427,17 @@ implements MinecraftContext {
     }
 
     public static void drawImage(ResourceLocation resourceLocation, float x, float y, float width, float height, Color color) {
-        GL11.glDisable((int)(2929));
-        GL11.glEnable((int)(3042));
-        GL11.glDepthMask(false);
+        RenderSystem.glDisable((int)(2929));
+        RenderSystem.glEnable((int)(3042));
+        RenderSystem.glDepthMask(false);
         OpenGlHelper.glBlendFunc((int)(770), (int)(771), (int)(1), (int)(0));
         DrawUtils.setColor(color.getRGB());
-        Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
+        MinecraftClient.getInstance().getTextureManager().bindTexture(resourceLocation);
         Gui.drawModalRectWithCustomSizedTexture((int)((int)x), (int)((int)y), (float)0.0f, (float)0.0f, (int)((int)width), (int)((int)height), (float)width, (float)height);
-        GL11.glDepthMask(true);
-        GL11.glDisable((int)(3042));
-        GL11.glEnable((int)(2929));
-        GlStateManager.disableBlend();
+        RenderSystem.glDepthMask(true);
+        RenderSystem.glDisable((int)(3042));
+        RenderSystem.glEnable((int)(2929));
+        RenderSystem.disableBlend();
     }
 
     public static void resetColor() {
@@ -454,35 +454,35 @@ implements MinecraftContext {
             end = start;
             start = endOffset;
         }
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate((int)(770), (int)(771), (int)(1), (int)(0));
+        RenderSystem.enableBlend();
+        RenderSystem.disableTexture2D();
+        RenderSystem.tryBlendFuncSeparate((int)(770), (int)(771), (int)(1), (int)(0));
         DrawUtils.setColor(color.getRGB());
-        GL11.glEnable((int)(2848));
-        GL11.glLineWidth((float)2.0f);
-        GL11.glBegin((int)(3));
+        RenderSystem.glEnable((int)(2848));
+        RenderSystem.glLineWidth((float)2.0f);
+        RenderSystem.glBegin((int)(3));
         for (i = end; i >= start; i -= 4.0f) {
             cos = (float)(Math.cos((double)i * 3.1415926535897931 / 180.0) * (double)radius * 1.0);
             sin = (float)(Math.sin((double)i * 3.1415926535897931 / 180.0) * (double)radius * 1.0);
-            GL11.glVertex2f((float)(x + cos), (float)(y + sin));
+            RenderSystem.glVertex2f((float)(x + cos), (float)(y + sin));
         }
-        GL11.glEnd();
-        GL11.glDisable((int)(2848));
-        GL11.glEnable((int)(2848));
-        GL11.glBegin((int)(filled ? 6 : 3));
+        RenderSystem.glEnd();
+        RenderSystem.glDisable((int)(2848));
+        RenderSystem.glEnable((int)(2848));
+        RenderSystem.glBegin((int)(filled ? 6 : 3));
         for (i = end; i >= start; i -= 4.0f) {
             cos = (float)Math.cos((double)i * 3.1415926535897931 / 180.0) * radius;
             sin = (float)Math.sin((double)i * 3.1415926535897931 / 180.0) * radius;
-            GL11.glVertex2f((float)(x + cos), (float)(y + sin));
+            RenderSystem.glVertex2f((float)(x + cos), (float)(y + sin));
         }
-        GL11.glEnd();
-        GL11.glDisable((int)(2848));
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
+        RenderSystem.glEnd();
+        RenderSystem.glDisable((int)(2848));
+        RenderSystem.enableTexture2D();
+        RenderSystem.disableBlend();
     }
 
     public static void drawSelectionBoundingBox(AxisAlignedBB boundingBox) {
-        Tessellator tessellator = Tessellator.getInstance();
+        Tessellator tessellator = BufferRenderer.getAvailableRenderer();
         BufferBuilder builder = tessellator.getBuffer();
         builder.begin(3, (DefaultVertexFormats.POSITION));
         builder.pos((boundingBox.minX), (boundingBox.minY), (boundingBox.minZ)).endVertex();
@@ -519,12 +519,12 @@ implements MinecraftContext {
         float f5 = (float)(endColor >> (16) & (255)) / 255.0f;
         float f6 = (float)(endColor >> (8) & (255)) / 255.0f;
         float f7 = (float)(endColor & (255)) / 255.0f;
-        GlStateManager.disableTexture2D();
-        GlStateManager.enableBlend();
-        GlStateManager.disableAlpha();
-        GlStateManager.tryBlendFuncSeparate((GlStateManager.SourceFactor)(GlStateManager.SourceFactor.SRC_ALPHA), (GlStateManager.DestFactor)(GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA), (GlStateManager.SourceFactor)(GlStateManager.SourceFactor.ONE), (GlStateManager.DestFactor)(GlStateManager.DestFactor.ZERO));
-        GlStateManager.shadeModel((int)(7425));
-        Tessellator tessellator = Tessellator.getInstance();
+        RenderSystem.disableTexture2D();
+        RenderSystem.enableBlend();
+        RenderSystem.disableAlpha();
+        RenderSystem.tryBlendFuncSeparate((RenderSystem.SourceFactor)(RenderSystem.SourceFactor.SRC_ALPHA), (RenderSystem.DestFactor)(RenderSystem.DestFactor.ONE_MINUS_SRC_ALPHA), (RenderSystem.SourceFactor)(RenderSystem.SourceFactor.ONE), (RenderSystem.DestFactor)(RenderSystem.DestFactor.ZERO));
+        RenderSystem.shadeModel((int)(7425));
+        Tessellator tessellator = BufferRenderer.getAvailableRenderer();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         bufferbuilder.begin(7, (DefaultVertexFormats.POSITION_COLOR));
         bufferbuilder.pos(e2, e, 0.0).color(f1, f2, f3, f).endVertex();
@@ -532,10 +532,10 @@ implements MinecraftContext {
         bufferbuilder.pos(d, g, 0.0).color(f5, f6, f7, f4).endVertex();
         bufferbuilder.pos(e2, g, 0.0).color(f5, f6, f7, f4).endVertex();
         tessellator.draw();
-        GlStateManager.shadeModel((int)(7424));
-        GlStateManager.disableBlend();
-        GlStateManager.enableAlpha();
-        GlStateManager.enableTexture2D();
+        RenderSystem.shadeModel((int)(7424));
+        RenderSystem.disableBlend();
+        RenderSystem.enableAlpha();
+        RenderSystem.enableTexture2D();
     }
 
     public static void drawHLine(double x, double y, double x1, double y1, float width, int color) {
@@ -543,31 +543,31 @@ implements MinecraftContext {
         float red = (float)(color >> (16) & (255)) / 255.0f;
         float green = (float)(color >> (8) & (255)) / 255.0f;
         float blue = (float)(color & (255)) / 255.0f;
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate((int)(770), (int)(771), (int)(1), (int)(0));
-        GlStateManager.color((float)red, (float)green, (float)blue, (float)alpha);
-        GL11.glPushMatrix();
-        GL11.glLineWidth((float)width);
-        GL11.glBegin((int)(3));
-        GL11.glVertex2d((double)x, (double)y);
-        GL11.glVertex2d((double)x1, (double)y1);
-        GL11.glEnd();
-        GL11.glLineWidth((float)1.0f);
-        GL11.glPopMatrix();
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
-        GlStateManager.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        RenderSystem.enableBlend();
+        RenderSystem.disableTexture2D();
+        RenderSystem.tryBlendFuncSeparate((int)(770), (int)(771), (int)(1), (int)(0));
+        RenderSystem.color((float)red, (float)green, (float)blue, (float)alpha);
+        RenderSystem.glPushMatrix();
+        RenderSystem.glLineWidth((float)width);
+        RenderSystem.glBegin((int)(3));
+        RenderSystem.glVertex2d((double)x, (double)y);
+        RenderSystem.glVertex2d((double)x1, (double)y1);
+        RenderSystem.glEnd();
+        RenderSystem.glLineWidth((float)1.0f);
+        RenderSystem.glPopMatrix();
+        RenderSystem.enableTexture2D();
+        RenderSystem.disableBlend();
+        RenderSystem.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
     }
 
     public static void drawEntityBox(Entity entity, Color color, boolean fullBox, float alpha) {
-        GlStateManager.pushMatrix();
-        GlStateManager.blendFunc((int)(770), (int)(771));
-        GL11.glEnable((int)(3042));
-        GlStateManager.glLineWidth((float)1.0f);
-        GlStateManager.disableTexture2D();
-        GL11.glDisable((int)(2929));
-        GlStateManager.depthMask(false);
+        RenderSystem.pushMatrix();
+        RenderSystem.blendFunc((int)(770), (int)(771));
+        RenderSystem.glEnable((int)(3042));
+        RenderSystem.glLineWidth((float)1.0f);
+        RenderSystem.disableTexture2D();
+        RenderSystem.glDisable((int)(2929));
+        RenderSystem.depthMask(false);
         double d = (entity.lastTickPosX) + ((entity.posX) - (entity.lastTickPosX)) * (double)(DrawUtils.getTimer2((mc)).renderPartialTicks);
         (mc).getRenderManager();
         double x = d - (RenderManager.renderPosX);
@@ -579,64 +579,64 @@ implements MinecraftContext {
         double z = d3 - (RenderManager.renderPosZ);
         AxisAlignedBB axisAlignedBB = entity.getEntityBoundingBox();
         AxisAlignedBB axisAlignedBB2 = new AxisAlignedBB((axisAlignedBB.minX) - (entity.posX) + x - 0.050000000000000003, (axisAlignedBB.minY) - (entity.posY) + y, (axisAlignedBB.minZ) - (entity.posZ) + z - 0.050000000000000003, (axisAlignedBB.maxX) - (entity.posX) + x + 0.050000000000000003, (axisAlignedBB.maxY) - (entity.posY) + y + 0.14999999999999999, (axisAlignedBB.maxZ) - (entity.posZ) + z + 0.050000000000000003);
-        GlStateManager.glLineWidth((float)1.0f);
-        GL11.glEnable((int)(2848));
-        GlStateManager.color((float)((float)color.getRed() / 255.0f), (float)((float)color.getGreen() / 255.0f), (float)((float)color.getBlue() / 255.0f), (float)alpha);
+        RenderSystem.glLineWidth((float)1.0f);
+        RenderSystem.glEnable((int)(2848));
+        RenderSystem.color((float)((float)color.getRed() / 255.0f), (float)((float)color.getGreen() / 255.0f), (float)((float)color.getBlue() / 255.0f), (float)alpha);
         DrawUtils.drawSelectionBoundingBox(axisAlignedBB2);
-        GlStateManager.glLineWidth((float)1.0f);
-        GlStateManager.enableTexture2D();
-        GL11.glEnable((int)(2929));
-        GlStateManager.depthMask(true);
-        GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
+        RenderSystem.glLineWidth((float)1.0f);
+        RenderSystem.enableTexture2D();
+        RenderSystem.glEnable((int)(2929));
+        RenderSystem.depthMask(true);
+        RenderSystem.disableBlend();
+        RenderSystem.popMatrix();
     }
 
     public static void drawRegionESP(double x, double y, double z, double xx, double yy, double zz, float red, float green, float blue, float alpha, float lineRed, float lineGreen, float lineBlue, float lineAlpha, float lineWidth) {
-        GL11.glPushMatrix();
-        GL11.glEnable((int)(3042));
-        GL11.glBlendFunc((int)(770), (int)(771));
-        GL11.glDisable((int)(3553));
-        GL11.glEnable((int)(2848));
-        GL11.glEnable((int)(2929));
-        GL11.glColor4f((float)red, (float)green, (float)blue, (float)alpha);
-        GL11.glLineWidth((float)lineWidth);
-        GL11.glColor4f((float)lineRed, (float)lineGreen, (float)lineBlue, (float)lineAlpha);
+        RenderSystem.glPushMatrix();
+        RenderSystem.glEnable((int)(3042));
+        RenderSystem.glBlendFunc((int)(770), (int)(771));
+        RenderSystem.glDisable((int)(3553));
+        RenderSystem.glEnable((int)(2848));
+        RenderSystem.glEnable((int)(2929));
+        RenderSystem.glColor4f((float)red, (float)green, (float)blue, (float)alpha);
+        RenderSystem.glLineWidth((float)lineWidth);
+        RenderSystem.glColor4f((float)lineRed, (float)lineGreen, (float)lineBlue, (float)lineAlpha);
         DrawUtils.drawOutlinedBoundingBox(new AxisAlignedBB(x, y, z, xx, yy, zz));
-        GL11.glDisable((int)(2848));
-        GL11.glEnable((int)(3553));
-        GL11.glEnable((int)(2929));
-        GL11.glDisable((int)(3042));
-        GL11.glPopMatrix();
+        RenderSystem.glDisable((int)(2848));
+        RenderSystem.glEnable((int)(3553));
+        RenderSystem.glEnable((int)(2929));
+        RenderSystem.glDisable((int)(3042));
+        RenderSystem.glPopMatrix();
     }
 
     public static void enableSmoothLine(float width) {
-        GL11.glDisable((int)(3008));
-        GL11.glEnable((int)(3042));
-        GL11.glBlendFunc((int)(770), (int)(771));
-        GL11.glDisable((int)(3553));
-        GL11.glDisable((int)(2929));
-        GL11.glDepthMask(false);
-        GL11.glEnable((int)(2884));
-        GL11.glEnable((int)(2848));
-        GL11.glHint((int)(3154), (int)(4354));
-        GL11.glHint((int)(3155), (int)(4354));
-        GL11.glLineWidth((float)width);
+        RenderSystem.glDisable((int)(3008));
+        RenderSystem.glEnable((int)(3042));
+        RenderSystem.glBlendFunc((int)(770), (int)(771));
+        RenderSystem.glDisable((int)(3553));
+        RenderSystem.glDisable((int)(2929));
+        RenderSystem.glDepthMask(false);
+        RenderSystem.glEnable((int)(2884));
+        RenderSystem.glEnable((int)(2848));
+        RenderSystem.glHint((int)(3154), (int)(4354));
+        RenderSystem.glHint((int)(3155), (int)(4354));
+        RenderSystem.glLineWidth((float)width);
     }
 
     public static void drawBlurredShadow(float x, float y, float width, float height, int blurRadius, Color color) {
-        GL11.glPushMatrix();
-        GlStateManager.alphaFunc((int)(516), (float)0.00999999978f);
+        RenderSystem.glPushMatrix();
+        RenderSystem.alphaFunc((int)(516), (float)0.00999999978f);
         float _X = (x -= (float)blurRadius) - 0.25f;
         float _Y = (y -= (float)blurRadius) + 0.25f;
         double identifier = (int)((double)((width += (float)(blurRadius * (2))) * (height += (float)(blurRadius * (2))) * 13212.0f) / Math.sin(blurRadius));
-        GL11.glEnable((int)(3553));
-        GL11.glDisable((int)(2884));
-        GL11.glEnable((int)(3008));
-        GlStateManager.enableBlend();
+        RenderSystem.glEnable((int)(3553));
+        RenderSystem.glDisable((int)(2884));
+        RenderSystem.glEnable((int)(3008));
+        RenderSystem.enableBlend();
         int texId = -1;
         if ((shadowCache).containsKey(identifier)) {
             texId = (Integer)(shadowCache).get(identifier);
-            GlStateManager.bindTexture((int)texId);
+            RenderSystem.bindTexture((int)texId);
         } else {
             BufferedImage original = new BufferedImage((int)width, (int)height, 2);
             Graphics g = original.getGraphics();
@@ -648,22 +648,22 @@ implements MinecraftContext {
             texId = TextureUtil.uploadTextureImageAllocate((int)TextureUtil.glGenTextures(), (BufferedImage)blurred, true, false);
             (shadowCache).put(identifier, texId);
         }
-        GL11.glColor4f((float)((float)color.getRed() / 255.0f), (float)((float)color.getGreen() / 255.0f), (float)((float)color.getBlue() / 255.0f), (float)((float)color.getAlpha() / 255.0f));
-        GL11.glBegin((int)(7));
-        GL11.glTexCoord2f((float)0.0f, (float)0.0f);
-        GL11.glVertex2f((float)_X, (float)_Y);
-        GL11.glTexCoord2f((float)0.0f, (float)1.0f);
-        GL11.glVertex2f((float)_X, (float)(_Y + height));
-        GL11.glTexCoord2f((float)1.0f, (float)1.0f);
-        GL11.glVertex2f((float)(_X + width), (float)(_Y + height));
-        GL11.glTexCoord2f((float)1.0f, (float)0.0f);
-        GL11.glVertex2f((float)(_X + width), (float)_Y);
-        GL11.glEnd();
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
-        GL11.glEnable((int)(2884));
-        GlStateManager.resetColor();
-        GL11.glPopMatrix();
+        RenderSystem.glColor4f((float)((float)color.getRed() / 255.0f), (float)((float)color.getGreen() / 255.0f), (float)((float)color.getBlue() / 255.0f), (float)((float)color.getAlpha() / 255.0f));
+        RenderSystem.glBegin((int)(7));
+        RenderSystem.glTexCoord2f((float)0.0f, (float)0.0f);
+        RenderSystem.glVertex2f((float)_X, (float)_Y);
+        RenderSystem.glTexCoord2f((float)0.0f, (float)1.0f);
+        RenderSystem.glVertex2f((float)_X, (float)(_Y + height));
+        RenderSystem.glTexCoord2f((float)1.0f, (float)1.0f);
+        RenderSystem.glVertex2f((float)(_X + width), (float)(_Y + height));
+        RenderSystem.glTexCoord2f((float)1.0f, (float)0.0f);
+        RenderSystem.glVertex2f((float)(_X + width), (float)_Y);
+        RenderSystem.glEnd();
+        RenderSystem.enableTexture2D();
+        RenderSystem.disableBlend();
+        RenderSystem.glEnable((int)(2884));
+        RenderSystem.resetColor();
+        RenderSystem.glPopMatrix();
     }
 
 }

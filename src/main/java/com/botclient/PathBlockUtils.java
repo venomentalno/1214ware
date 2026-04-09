@@ -11,15 +11,15 @@
  *  net.minecraft.world.IBlockAccess
  *  net.minecraft.world.World
  */
-package neo.deobf;
+package com.botclient;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.vecmath.Vector3i;
-import neo.deobf.PathBlockType;
-import neo.deobf.BlockUtils;
+import com.botclient.PathBlockType;
+import com.botclient.BlockUtils;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;

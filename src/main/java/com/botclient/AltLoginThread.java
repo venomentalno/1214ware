@@ -14,7 +14,7 @@
  *  net.minecraft.util.Session
  *  net.minecraft.util.text.TextFormatting
  */
-package neo.deobf;
+package com.botclient;
 
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.exceptions.AuthenticationException;
@@ -22,19 +22,19 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import java.net.Proxy;
-import neo.deobf.AltStatus;
-import neo.deobf.AltAccount;
-import neo.deobf.AltManager;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.Session;
-import net.minecraft.util.text.TextFormatting;
+import com.botclient.AltStatus;
+import com.botclient.AltAccount;
+import com.botclient.AltManager;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.session.Session;
+import net.minecraft.text.TextFormat;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
 public class AltLoginThread
 extends Thread {
-    public final Minecraft mc = Minecraft.getMinecraft();
+    public final Minecraft mc = MinecraftClient.getInstance();
     public final AltAccount alt;
     public String status;
 
@@ -47,7 +47,7 @@ extends Thread {
     }
 
     private static TextFormatting getGREEN() {
-        return TextFormatting.GREEN;
+        return TextFormat.GREEN;
     }
 
     private static Minecraft getMc(AltLoginThread instance) {
@@ -68,7 +68,7 @@ extends Thread {
     }
 
     private static TextFormatting getGREEN2() {
-        return TextFormatting.GREEN;
+        return TextFormat.GREEN;
     }
 
     private static AltAccount getAlt3(AltLoginThread instance) {

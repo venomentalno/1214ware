@@ -27,31 +27,31 @@
  *  net.minecraft.util.math.AxisAlignedBB
  *  net.minecraft.world.World
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.UpdateEvent;
-import neo.deobf.Render2DEvent;
-import neo.deobf.EventTarget;
-import neo.deobf.Setting;
-import neo.deobf.ModuleCategory;
-import neo.deobf.NumberSetting;
-import neo.deobf.Module;
-import neo.deobf.MovementUtils;
-import neo.deobf.PacketReceiveEvent;
-import net.minecraft.client.Minecraft;
+import com.botclient.UpdateEvent;
+import com.botclient.Render2DEvent;
+import com.botclient.EventTarget;
+import com.botclient.Setting;
+import com.botclient.ModuleCategory;
+import com.botclient.NumberSetting;
+import com.botclient.Module;
+import com.botclient.MovementUtils;
+import com.botclient.PacketReceiveEvent;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
-import net.minecraft.inventory.Container;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.network.packet.c2s.play.CPacketPlayer;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
 /*
@@ -130,7 +130,7 @@ extends Module {
         double d2 = (FreeCamModule.getPlayer6().getEntityBoundingBox().minY);
         double d3 = (this.z);
         float f = (FreeCamModule.getPlayer13().rotationYaw);
-        ent.setPositionAndRotation(d, d2, d3, f, (FreeCamModule.getPlayer().rotationPitch));
+        ent.setPositionAndRotation(d, d2, d3, f, (FreeCamModule.player.rotationPitch));
         ent.rotationYawHead = FreeCamModule.getRotationYawHead(FreeCamModule.getPlayer3());
         ((mc).world).addEntityToWorld(-1, (Entity)ent);
     }

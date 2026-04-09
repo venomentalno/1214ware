@@ -12,16 +12,16 @@
  *  net.minecraft.network.handshake.client.C00Handshake
  *  net.minecraft.network.status.client.CPacketServerQuery
  */
-package neo.deobf;
+package com.botclient;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import neo.deobf.PBot;
-import neo.deobf.PBotNetworkManager;
-import neo.deobf.StatusPingHandler;
-import neo.deobf.ProxyInfo;
+import com.botclient.PBot;
+import com.botclient.PBotNetworkManager;
+import com.botclient.StatusPingHandler;
+import com.botclient.ProxyInfo;
 import net.minecraft.network.EnumConnectionState;
-import net.minecraft.network.INetHandler;
+import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.Packet;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.status.client.CPacketServerQuery;

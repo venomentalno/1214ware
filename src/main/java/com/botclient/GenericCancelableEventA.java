@@ -4,9 +4,9 @@
  * Could not load the following classes:
  *  neo.deobf.CancellableEvent
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.CancellableEvent;
+import com.botclient.CancellableEvent;
 
 public class GenericCancelableEventA
 extends CancellableEvent {

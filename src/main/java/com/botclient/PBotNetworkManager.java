@@ -45,7 +45,7 @@
  *  org.apache.logging.log4j.LogManager
  *  org.apache.logging.log4j.Logger
  */
-package neo.deobf;
+package com.botclient;
 
 import com.google.common.collect.Queues;
 import de.florianmichael.vialoadingbase.netty.event.CompressionReorderEvent;
@@ -72,23 +72,23 @@ import java.net.InetAddress;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.annotation.Nullable;
-import neo.deobf.BooleanSetting;
-import neo.deobf.PBot;
-import neo.deobf.QueuedPacketTask;
-import neo.deobf.ProxyChannelInitializer;
-import neo.deobf.OutboundPacketEntry;
-import neo.deobf.BotDebugModule;
-import neo.deobf.ChatUtils;
-import neo.deobf.ProxyInfo;
+import com.botclient.BooleanSetting;
+import com.botclient.PBot;
+import com.botclient.QueuedPacketTask;
+import com.botclient.ProxyChannelInitializer;
+import com.botclient.OutboundPacketEntry;
+import com.botclient.BotDebugModule;
+import com.botclient.ChatUtils;
+import com.botclient.ProxyInfo;
 import net.minecraft.network.EnumConnectionState;
-import net.minecraft.network.INetHandler;
+import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.NettyCompressionDecoder;
 import net.minecraft.network.NettyCompressionEncoder;
 import net.minecraft.network.Packet;
 import net.minecraft.network.ThreadQuickExitException;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

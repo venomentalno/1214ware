@@ -12,17 +12,17 @@
  *  net.minecraft.client.renderer.GlStateManager
  *  net.minecraft.client.shader.Framebuffer
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
-import neo.deobf.MinecraftContext;
-import neo.deobf.FontRendererEx;
-import neo.deobf.FontRegistry;
-import neo.deobf.DrawUtils;
-import neo.deobf.RoundedUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
+import com.botclient.MinecraftContext;
+import com.botclient.FontRendererEx;
+import com.botclient.FontRegistry;
+import com.botclient.DrawUtils;
+import com.botclient.RoundedUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.Window;
+import net.minecraft.client.render.GlStateManager;
 import net.minecraft.client.shader.Framebuffer;
 
 /*
@@ -39,7 +39,7 @@ implements MinecraftContext {
 
     private static void drawProgress() {
         float percent = (float)(p) / 12.0f * 100.0f;
-        GlStateManager.resetColor();
+        RenderSystem.resetColor();
         ScaledResolution scaledresolution = new ScaledResolution((mc));
         DrawUtils.drawRect((float)0.0f, (float)0.0f, (float)scaledresolution.getScaledWidth(), (float)scaledresolution.getScaledHeight(), (Color)new Color(30, 30, 30));
         (FontRegistry.mnstb_16).drawCenteredStringWithOutline("NeoWare запускается... ", (float)((sr).getScaledWidth() / (2)), (float)(sr).getScaledHeight() / 2.5f, -1);
@@ -53,22 +53,22 @@ implements MinecraftContext {
         int scaleFactor = (sr).getScaleFactor();
         Framebuffer framebuffer = new Framebuffer((sr).getScaledWidth() * scaleFactor, (sr).getScaledHeight() * scaleFactor, true);
         framebuffer.bindFramebuffer(false);
-        GlStateManager.matrixMode((int)(5889));
-        GlStateManager.loadIdentity();
-        GlStateManager.ortho((double)0.0, (double)(sr).getScaledWidth(), (double)(sr).getScaledHeight(), (double)0.0, (double)1000.0, (double)3000.0);
-        GlStateManager.matrixMode((int)(5888));
-        GlStateManager.loadIdentity();
-        GlStateManager.translate((float)0.0f, (float)0.0f, (float)-2000.00024f);
-        GlStateManager.disableLighting();
-        GlStateManager.disableFog();
-        GlStateManager.disableDepth();
-        GlStateManager.enableTexture2D();
-        GlStateManager.resetColor();
+        RenderSystem.matrixMode((int)(5889));
+        RenderSystem.loadIdentity();
+        RenderSystem.ortho((double)0.0, (double)(sr).getScaledWidth(), (double)(sr).getScaledHeight(), (double)0.0, (double)1000.0, (double)3000.0);
+        RenderSystem.matrixMode((int)(5888));
+        RenderSystem.loadIdentity();
+        RenderSystem.translate((float)0.0f, (float)0.0f, (float)-2000.00024f);
+        RenderSystem.disableLighting();
+        RenderSystem.disableFog();
+        RenderSystem.disableDepth();
+        RenderSystem.enableTexture2D();
+        RenderSystem.resetColor();
         SplashProgressRenderer.drawProgress();
         framebuffer.unbindFramebuffer();
         framebuffer.framebufferRender((sr).getScaledWidth() * scaleFactor, (sr).getScaledHeight() * scaleFactor);
-        GlStateManager.enableAlpha();
-        GlStateManager.alphaFunc((int)(516), (float)0.100000001f);
+        RenderSystem.enableAlpha();
+        RenderSystem.alphaFunc((int)(516), (float)0.100000001f);
         (mc).updateDisplay();
     }
 }

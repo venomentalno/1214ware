@@ -1,4 +1,4 @@
-package neo.deobf;
+package com.botclient;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;

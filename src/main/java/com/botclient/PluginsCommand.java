@@ -15,20 +15,20 @@
  *  net.minecraft.network.play.client.CPacketTabComplete
  *  org.apache.commons.lang3.StringUtils
  */
-package neo.deobf;
+package com.botclient;
 
 import java.util.Objects;
-import neo.deobf.CommandInfo;
-import neo.deobf.Command;
-import neo.deobf.CommandChatListener;
-import neo.deobf.ChatUtils;
-import neo.deobf.ThreadUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
+import com.botclient.CommandInfo;
+import com.botclient.Command;
+import com.botclient.CommandChatListener;
+import com.botclient.ChatUtils;
+import com.botclient.ThreadUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketTabComplete;
+import net.minecraft.network.packet.c2s.play.CPacketTabComplete;
 import org.apache.commons.lang3.StringUtils;
 
 /*
@@ -77,7 +77,7 @@ extends Command {
                 for (int i = 0; i < n; ++i) {
                     char s = cArray[i];
                     (PluginsCommand.getPlayer4().connection).sendPacket((Packet)new CPacketTabComplete("/" + s, (Minecraft.player).getPosition(), false));
-                    if (s == (114) && (Objects.requireNonNull(Minecraft.getMinecraft().getCurrentServerData()).serverIP).toLowerCase().contains("reallyworld")) {
+                    if (s == (114) && (Objects.requireNonNull(MinecraftClient.getInstance().getCurrentServerData()).serverIP).toLowerCase().contains("reallyworld")) {
                         ThreadUtils.sleep((long)200L);
                         (PluginsCommand.getPlayer2().connection).sendPacket((Packet)new CPacketTabComplete("/rw", (Minecraft.player).getPosition(), false));
                         ThreadUtils.sleep((long)200L);

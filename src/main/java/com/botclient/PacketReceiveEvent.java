@@ -6,10 +6,10 @@
  *  neo.deobf.Event
  *  net.minecraft.network.Packet
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.CancellableEvent;
-import neo.deobf.Event;
+import com.botclient.CancellableEvent;
+import com.botclient.Event;
 import net.minecraft.network.Packet;
 
 public class PacketReceiveEvent

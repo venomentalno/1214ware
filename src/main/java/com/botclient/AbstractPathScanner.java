@@ -6,13 +6,13 @@
  *  neo.deobf.PathNode
  *  net.minecraft.entity.player.EntityPlayer
  */
-package neo.deobf;
+package com.botclient;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.vecmath.Vector3i;
-import neo.deobf.PathNode;
-import net.minecraft.entity.player.EntityPlayer;
+import com.botclient.PathNode;
+import net.minecraft.entity.player.PlayerEntity;
 
 public abstract class AbstractPathScanner {
     public boolean done;

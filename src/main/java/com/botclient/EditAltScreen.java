@@ -15,30 +15,30 @@
  *  net.minecraft.client.gui.ScaledResolution
  *  net.minecraft.util.text.TextFormatting
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
-import neo.deobf.AltAccount;
-import neo.deobf.NeoButton;
-import neo.deobf.AltManagerScreen;
-import neo.deobf.GuiPasswordField;
-import neo.deobf.DrawUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.text.TextFormatting;
+import com.botclient.AltAccount;
+import com.botclient.NeoButton;
+import com.botclient.AltManagerScreen;
+import com.botclient.GuiPasswordField;
+import com.botclient.DrawUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.Window;
+import net.minecraft.text.TextFormat;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
 public class EditAltScreen
 extends GuiScreen {
-    public String status = TextFormatting.GRAY + "Waiting...";
+    public String status = TextFormat.GRAY + "Waiting...";
     public final AltManagerScreen manager;
     public GuiTextField nameField;
     public GuiPasswordField pwField;

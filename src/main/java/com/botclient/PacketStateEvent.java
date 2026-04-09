@@ -5,10 +5,10 @@
  *  neo.deobf.PacketEventState
  *  neo.deobf.Event
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.PacketEventState;
-import neo.deobf.Event;
+import com.botclient.PacketEventState;
+import com.botclient.Event;
 
 public class PacketStateEvent
 implements Event {

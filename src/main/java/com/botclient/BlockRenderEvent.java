@@ -8,11 +8,11 @@
  *  net.minecraft.util.math.BlockPos
  *  net.minecraft.world.IBlockAccess
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.Event;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.BufferBuilder;
+import com.botclient.Event;
+import net.minecraft.block.BlockState;
+import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 

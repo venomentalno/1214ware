@@ -7,12 +7,12 @@
  *  neo.deobf.BooleanSetting
  *  neo.deobf.Module
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.Setting;
-import neo.deobf.ModuleCategory;
-import neo.deobf.BooleanSetting;
-import neo.deobf.Module;
+import com.botclient.Setting;
+import com.botclient.ModuleCategory;
+import com.botclient.BooleanSetting;
+import com.botclient.Module;
 
 public class DiscordRPCModule
 extends Module {

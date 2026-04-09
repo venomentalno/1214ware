@@ -5,10 +5,10 @@
  *  neo.deobf.Cancellable
  *  neo.deobf.Event
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.Cancellable;
-import neo.deobf.Event;
+import com.botclient.Cancellable;
+import com.botclient.Event;
 
 public abstract class CancellableEvent
 implements Event,

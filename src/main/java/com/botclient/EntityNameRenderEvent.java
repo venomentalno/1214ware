@@ -5,10 +5,10 @@
  *  neo.deobf.CancellableEvent
  *  net.minecraft.entity.EntityLivingBase
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.CancellableEvent;
-import net.minecraft.entity.EntityLivingBase;
+import com.botclient.CancellableEvent;
+import net.minecraft.entity.LivingEntity;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

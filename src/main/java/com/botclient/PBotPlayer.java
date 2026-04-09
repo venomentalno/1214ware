@@ -92,35 +92,35 @@
  *  net.minecraft.world.IInteractionObject
  *  net.minecraft.world.World
  */
-package neo.deobf;
+package com.botclient;
 
 import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.Nullable;
-import neo.deobf.Client;
-import neo.deobf.PBot;
-import neo.deobf.BotKeyState;
-import neo.deobf.PBotMinecraft;
-import neo.deobf.PBotNetHandlerPlayClient;
-import neo.deobf.PBotPlayerController;
-import neo.deobf.ScriptManager;
-import net.minecraft.block.state.IBlockState;
+import com.botclient.Client;
+import com.botclient.PBot;
+import com.botclient.BotKeyState;
+import com.botclient.PBotMinecraft;
+import com.botclient.PBotNetHandlerPlayClient;
+import com.botclient.PBotPlayerController;
+import com.botclient.ScriptManager;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IJumpingMount;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
-import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
-import net.minecraft.inventory.Container;
+import net.minecraft.registry.Registries;Items;
+import net.minecraft.registry.Registries;MobEffects;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.inventory.ContainerBeacon;
 import net.minecraft.inventory.ContainerBrewingStand;
 import net.minecraft.inventory.ContainerChest;
@@ -133,7 +133,7 @@ import net.minecraft.inventory.ContainerMerchant;
 import net.minecraft.inventory.ContainerRepair;
 import net.minecraft.inventory.ContainerShulkerBox;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemElytra;
 import net.minecraft.item.ItemStack;
@@ -141,39 +141,39 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.network.Packet;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.network.play.client.CPacketAnimation;
-import net.minecraft.network.play.client.CPacketChatMessage;
-import net.minecraft.network.play.client.CPacketClientSettings;
-import net.minecraft.network.play.client.CPacketClientStatus;
-import net.minecraft.network.play.client.CPacketCloseWindow;
-import net.minecraft.network.play.client.CPacketEntityAction;
-import net.minecraft.network.play.client.CPacketInput;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.network.play.client.CPacketPlayerAbilities;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.network.play.client.CPacketRecipeInfo;
-import net.minecraft.network.play.client.CPacketVehicleMove;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.network.packet.c2s.play.CPacketAnimation;
+import net.minecraft.network.packet.c2s.play.CPacketChatMessage;
+import net.minecraft.network.packet.c2s.play.CPacketClientSettings;
+import net.minecraft.network.packet.c2s.play.CPacketClientStatus;
+import net.minecraft.network.packet.c2s.play.CPacketCloseWindow;
+import net.minecraft.network.packet.c2s.play.CPacketEntityAction;
+import net.minecraft.network.packet.c2s.play.CPacketInput;
+import net.minecraft.network.packet.c2s.play.CPacketPlayer;
+import net.minecraft.network.packet.c2s.play.CPacketPlayerAbilities;
+import net.minecraft.network.packet.c2s.play.CPacketPlayerDigging;
+import net.minecraft.network.packet.c2s.play.CPacketRecipeInfo;
+import net.minecraft.network.packet.c2s.play.CPacketVehicleMove;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.stats.RecipeBook;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatisticsManager;
-import net.minecraft.tileentity.CommandBlockBaseLogic;
-import net.minecraft.tileentity.TileEntityCommandBlock;
-import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.tileentity.TileEntityStructure;
+// Removed: CommandBlockBaseLogic changed in 1.21.4
+// Removed: TileEntity not used directly in 1.21.4
+// Removed: TileEntity not used directly in 1.21.4
+// Removed: TileEntity not used directly in 1.21.4
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.text.Text;
 import net.minecraft.world.GameType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.IInteractionObject;
@@ -590,7 +590,7 @@ extends EntityPlayer {
     @Nullable
     public EntityItem dropItem(boolean dropAll) {
         CPacketPlayerDigging.Action cpacketplayerdigging$action = dropAll ? (CPacketPlayerDigging.Action.DROP_ALL_ITEMS) : (CPacketPlayerDigging.Action.DROP_ITEM);
-        (this.connection).sendPacket((Packet)new CPacketPlayerDigging(cpacketplayerdigging$action, (BlockPos.ORIGIN), (EnumFacing.DOWN)));
+        (this.connection).sendPacket((Packet)new CPacketPlayerDigging(cpacketplayerdigging$action, (BlockPos.ORIGIN), (Direction.DOWN)));
         return null;
     }
 
@@ -980,7 +980,7 @@ extends EntityPlayer {
     }
 
     public PBotPlayer(PBot pbot) {
-        super((World)pbot.getWorld(), pbot.getPlayHandler().getGameProfile());
+        super((World)pbot.world, pbot.getPlayHandler().getGameProfile());
         this.permissionLevel = 0;
         this.autoJumpEnabled = 1;
         this.pbot = pbot;
@@ -1422,7 +1422,7 @@ extends EntityPlayer {
         if ((HAND_STATES).equals(key)) {
             EnumHand enumhand;
             int flag = ((Byte)(this.dataManager).get((HAND_STATES)) & (1)) > 0 ? 1 : 0;
-            EnumHand enumHand = enumhand = ((Byte)(this.dataManager).get((HAND_STATES)) & (2)) > 0 ? (EnumHand.OFF_HAND) : (EnumHand.MAIN_HAND);
+            EnumHand enumHand = enumhand = ((Byte)(this.dataManager).get((HAND_STATES)) & (2)) > 0 ? (Hand.OFF_HAND) : (Hand.MAIN_HAND);
             if (flag != 0 && !(this.handActive)) {
                 this.setActiveHand(enumhand);
             } else if (flag == 0 && (this.handActive)) {

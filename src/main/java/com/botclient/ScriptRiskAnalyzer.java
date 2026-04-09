@@ -4,9 +4,9 @@
  * Could not load the following classes:
  *  neo.deobf.ScriptRiskLevel
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.ScriptRiskLevel;
+import com.botclient.ScriptRiskLevel;
 
 public class ScriptRiskAnalyzer {
     public static final String[] warns;

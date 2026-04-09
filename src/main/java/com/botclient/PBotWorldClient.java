@@ -39,7 +39,7 @@
  *  net.minecraft.world.storage.WorldInfo
  *  org.jetbrains.annotations.NotNull
  */
-package neo.deobf;
+package com.botclient;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
@@ -48,27 +48,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.Nullable;
-import neo.deobf.BooleanSetting;
-import neo.deobf.NumberSetting;
-import neo.deobf.PBot;
-import neo.deobf.PBotPlayer;
-import neo.deobf.PBotNetHandlerPlayClient;
-import neo.deobf.BotDebugModule;
-import neo.deobf.BotSettingsModule;
-import neo.deobf.ChatUtils;
-import neo.deobf.CachedChunkProvider;
-import net.minecraft.block.state.IBlockState;
+import com.botclient.BooleanSetting;
+import com.botclient.NumberSetting;
+import com.botclient.PBot;
+import com.botclient.PBotPlayer;
+import com.botclient.PBotNetHandlerPlayClient;
+import com.botclient.BotDebugModule;
+import com.botclient.BotSettingsModule;
+import com.botclient.ChatUtils;
+import com.botclient.CachedChunkProvider;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.multiplayer.ChunkProviderClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
-import net.minecraft.profiler.Profiler;
+// Removed: import net.minecraft.profiler.Profiler;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.IntHashMap;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.text.Text;
+import net.minecraft.text.Text;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -175,7 +175,7 @@ extends World {
     @NotNull
     public Chunk getChunk(int chunkX, int chunkZ) {
         Chunk chunk = (clientChunkProvider).provideChunk(chunkX, chunkZ);
-        chunk.setWorld((World)(this.pbot).getWorld());
+        chunk.setWorld((World)(this.pbot).world);
         chunk.resetRelightChecks();
         return chunk;
     }

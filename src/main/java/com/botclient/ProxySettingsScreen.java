@@ -17,7 +17,7 @@
  *  org.json.JSONObject
  *  org.lwjgl.input.Keyboard
  */
-package neo.deobf;
+package com.botclient;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,17 +26,17 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Objects;
-import neo.deobf.MainMenuScreen;
-import neo.deobf.PBotManager;
-import neo.deobf.ProxyType;
-import neo.deobf.ProxyInfo;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
+import com.botclient.MainMenuScreen;
+import com.botclient.PBotManager;
+import com.botclient.ProxyType;
+import com.botclient.ProxyInfo;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.GuiMultiplayer;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.render.GlStateManager;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.lwjgl.input.Keyboard;
@@ -52,7 +52,7 @@ extends GuiScreen {
     public GuiTextField proxyField;
     public static String username;
     public static String proxy;
-    public final Minecraft mc = Minecraft.getMinecraft();
+    public final Minecraft mc = MinecraftClient.getInstance();
     public static String password;
     public GuiTextField usernameField;
 
@@ -145,7 +145,7 @@ extends GuiScreen {
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-        GlStateManager.scale((float)1.0f, (float)1.0f, (float)1.0f);
+        RenderSystem.scale((float)1.0f, (float)1.0f, (float)1.0f);
         this.drawString((this.fontRenderer), "§6Current Type: §6§l" + ProxySettingsScreen.getCurrentType() + " §8- §7IP:Port", (this.width) / (2) - (110), (this.height) / (2) - (20) - (10), -1);
         (this.proxyField).drawTextBox();
         if ((type) == (1)) {
@@ -201,7 +201,7 @@ extends GuiScreen {
 
     public static void loadConfig() {
         try {
-            JSONObject config = new JSONObject(Objects.requireNonNull(ProxySettingsScreen.readUsingFiles(new File((Minecraft.getMinecraft().gameDir), "/NeoWare/mcproxy.json"))));
+            JSONObject config = new JSONObject(Objects.requireNonNull(ProxySettingsScreen.readUsingFiles(new File((MinecraftClient.getInstance().gameDir), "/NeoWare/mcproxy.json"))));
             type = ProxySettingsScreen.getIdByType(ProxyType.getType((String)config.getString("type")));
             proxy = config.getString("host");
             username = config.getString("username");
@@ -255,7 +255,7 @@ extends GuiScreen {
             proxySetting.put("host", (Object)(proxy));
             proxySetting.put("username", (Object)(username));
             proxySetting.put("password", (Object)(password));
-            FileUtils.writeByteArrayToFile((File)new File((Minecraft.getMinecraft().gameDir), "/NeoWare/mcproxy.json"), (byte[])proxySetting.toString().getBytes((StandardCharsets.UTF_8)));
+            FileUtils.writeByteArrayToFile((File)new File((MinecraftClient.getInstance().gameDir), "/NeoWare/mcproxy.json"), (byte[])proxySetting.toString().getBytes((StandardCharsets.UTF_8)));
         }
         catch (Exception e) {
             e.printStackTrace();

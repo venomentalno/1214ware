@@ -7,12 +7,12 @@
  *  neo.deobf.NumberSetting
  *  neo.deobf.Module
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.Setting;
-import neo.deobf.ModuleCategory;
-import neo.deobf.NumberSetting;
-import neo.deobf.Module;
+import com.botclient.Setting;
+import com.botclient.ModuleCategory;
+import com.botclient.NumberSetting;
+import com.botclient.Module;
 
 public class ItemPhysicsModule
 extends Module {

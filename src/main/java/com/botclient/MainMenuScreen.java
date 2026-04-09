@@ -21,27 +21,27 @@
  *  org.lwjgl.opengl.GL11
  *  org.lwjgl.opengl.GL20
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
 import java.net.URI;
 import java.util.ArrayList;
-import neo.deobf.MenuButton;
-import neo.deobf.Client;
-import neo.deobf.AltManagerScreen;
-import neo.deobf.ClickGuiScreen;
-import neo.deobf.FontRendererEx;
-import neo.deobf.FontRegistry;
-import neo.deobf.ShaderProgram;
-import neo.deobf.RoundedUtils;
-import net.minecraft.client.Minecraft;
+import com.botclient.MenuButton;
+import com.botclient.Client;
+import com.botclient.AltManagerScreen;
+import com.botclient.ClickGuiScreen;
+import com.botclient.FontRendererEx;
+import com.botclient.FontRegistry;
+import com.botclient.ShaderProgram;
+import com.botclient.RoundedUtils;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiOptions;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.GuiWorldSelection;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.util.Window;
+import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.option.GameOptions;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
@@ -70,7 +70,7 @@ extends GuiScreen {
     }
 
     public void initGui() {
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
         this.buttons = new ArrayList();
         (this.buttons).add(new MenuButton(1, sr.getScaledWidth() / (2), sr.getScaledHeight() / (2) - (45), 100, 16, "Одиночная игра"));
         (this.buttons).add(new MenuButton(2, sr.getScaledWidth() / (2), sr.getScaledHeight() / (2) - (45) + (20), 100, 16, "Сетевая игра"));
@@ -81,23 +81,23 @@ extends GuiScreen {
     }
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
         this.backgroundShader.useShader(sr.getScaledWidth(), sr.getScaledHeight(), (float)mouseX, (float)mouseY, (float)(System.currentTimeMillis() - this.time) / 1500.0f);
-        GL11.glBegin((int)(7));
-        GL11.glVertex2f((float)-1.00000024f, (float)-1.0f);
-        GL11.glVertex2f((float)-1.0f, (float)1.0f);
-        GL11.glVertex2f((float)1.0f, (float)1.0f);
-        GL11.glVertex2f((float)1.0f, (float)-1.0f);
-        GL11.glEnd();
+        RenderSystem.glBegin((int)(7));
+        RenderSystem.glVertex2f((float)-1.00000024f, (float)-1.0f);
+        RenderSystem.glVertex2f((float)-1.0f, (float)1.0f);
+        RenderSystem.glVertex2f((float)1.0f, (float)1.0f);
+        RenderSystem.glVertex2f((float)1.0f, (float)-1.0f);
+        RenderSystem.glEnd();
         GL20.glUseProgram((int)(0));
-        GlStateManager.disableCull();
-        GlStateManager.pushMatrix();
+        RenderSystem.disableCull();
+        RenderSystem.pushMatrix();
         RoundedUtils.drawGradientRound((float)(sr.getScaledWidth() / (2) - (65)), (float)(sr.getScaledHeight() / (2) - (80)), (float)130.0f, (float)160.0f, (float)8.0f, (Color)ClickGuiScreen.getC((int)(0)), (Color)ClickGuiScreen.getC((int)(250)), (Color)ClickGuiScreen.getC((int)(750)), (Color)ClickGuiScreen.getC((int)(1000)));
         RoundedUtils.drawRound((float)(sr.getScaledWidth() / (2) - (65) + (2)), (float)(sr.getScaledHeight() / (2) - (80) + (2)), (float)126.0f, (float)156.0f, (float)8.0f, (Color)new Color(17, 17, 17, 240));
         (FontRegistry.mnstb_16).drawCenteredGradientThemeString("NeoWare Client", (float)(sr.getScaledWidth() / (2)), (float)(sr.getScaledHeight() / (2) - (70)));
         (FontRegistry.mnstb_12).drawString("v" + (Client.VERSION_TYPE), (float)(sr.getScaledWidth() / (2) + (32)), (float)(sr.getScaledHeight() / (2) - (73)), new Color(180, 180, 180).getRGB());
         (this.buttons).forEach(mainButton -> mainButton.render(mouseX, mouseY));
-        GlStateManager.popMatrix();
+        RenderSystem.popMatrix();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

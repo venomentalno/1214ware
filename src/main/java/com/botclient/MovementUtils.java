@@ -15,18 +15,18 @@
  *  net.minecraft.util.math.RayTraceResult$Type
  *  net.minecraft.util.math.Vec3d
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.MinecraftContext;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
+import com.botclient.MinecraftContext;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MovementInput;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 
 /*
@@ -291,7 +291,7 @@ implements MinecraftContext {
         float f2 = (MovementUtils.getPlayer8().rotationYaw);
         if (f == 0.0f && f1 == 0.0f) {
             MovementUtils.getPlayer19().motionX = 0.0;
-            MovementUtils.getPlayer().motionZ = 0.0;
+            MovementUtils.player.motionZ = 0.0;
         } else if (f != 0.0f) {
             if (f1 >= 1.0f) {
                 f2 += (float)(f > 0.0f ? -35 : 35);
@@ -427,7 +427,7 @@ implements MinecraftContext {
             double d = (MovementUtils.getPlayer33().posX);
             double d2 = 0.0;
             RayTraceResult trace = worldClient.rayTraceBlocks(vec3d, new Vec3d(d, d2, (MovementUtils.getPlayer56().posZ)), false, false, false);
-            return (trace == null || (trace.typeOfHit) != (RayTraceResult.Type.BLOCK) ? 1 : 0) != 0;
+            return (trace == null || (trace.typeOfHit) != (HitResult.Type.BLOCK) ? 1 : 0) != 0;
         }
         return false;
     }

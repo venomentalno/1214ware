@@ -9,7 +9,7 @@
  *  neo.deobf.Event
  *  neo.deobf.StoppableEvent
  */
-package neo.deobf;
+package com.botclient;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,12 +18,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
-import neo.deobf.EventTarget;
-import neo.deobf.EventPriority;
-import neo.deobf.ListenerList;
-import neo.deobf.ListenerData;
-import neo.deobf.Event;
-import neo.deobf.StoppableEvent;
+import com.botclient.EventTarget;
+import com.botclient.EventPriority;
+import com.botclient.ListenerList;
+import com.botclient.ListenerData;
+import com.botclient.Event;
+import com.botclient.StoppableEvent;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

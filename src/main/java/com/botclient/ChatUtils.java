@@ -8,26 +8,26 @@
  *  net.minecraft.util.text.ITextComponent
  *  net.minecraft.util.text.TextComponentString
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.MinecraftContext;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import com.botclient.MinecraftContext;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.text.Text;
+import net.minecraft.text.Text;
 
 public class ChatUtils
 implements MinecraftContext {
 
     public static void formatMsg(String message) {
-        if ((Minecraft.getMinecraft().ingameGUI) != null) {
-            (Minecraft.getMinecraft().ingameGUI).getChatGUI().printChatMessage((ITextComponent)new TextComponentString("§d§lNeo§f§lWare §d§l• §f§l" + message.replace("&", "§")));
+        if ((MinecraftClient.getInstance().ingameGUI) != null) {
+            (MinecraftClient.getInstance().ingameGUI).getChatGUI().printChatMessage((ITextComponent)new TextComponentString("§d§lNeo§f§lWare §d§l• §f§l" + message.replace("&", "§")));
         }
     }
 
     public static void defaultMsg(String message) {
-        if ((Minecraft.getMinecraft().ingameGUI) != null) {
-            (Minecraft.getMinecraft().ingameGUI).getChatGUI().printChatMessage((ITextComponent)new TextComponentString(message.replace("&", "§")));
+        if ((MinecraftClient.getInstance().ingameGUI) != null) {
+            (MinecraftClient.getInstance().ingameGUI).getChatGUI().printChatMessage((ITextComponent)new TextComponentString(message.replace("&", "§")));
         }
     }
 }

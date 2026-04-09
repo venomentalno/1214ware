@@ -1,7 +1,7 @@
 /*
  * Decompiled with CFR 0.152.
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
 

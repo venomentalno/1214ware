@@ -4,7 +4,7 @@
  * Could not load the following classes:
  *  org.jetbrains.annotations.NotNull
  */
-package neo.deobf;
+package com.botclient;
 
 import java.io.Serializable;
 import org.jetbrains.annotations.NotNull;

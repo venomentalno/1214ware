@@ -9,15 +9,15 @@
  *  net.minecraft.client.gui.ScaledResolution
  *  net.minecraft.client.renderer.GlStateManager
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
-import neo.deobf.MinecraftContext;
-import neo.deobf.DrawUtils;
-import neo.deobf.ShaderUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
+import com.botclient.MinecraftContext;
+import com.botclient.DrawUtils;
+import com.botclient.ShaderUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.Window;
+import net.minecraft.client.render.GlStateManager;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
@@ -38,8 +38,8 @@ public class RoundedUtils {
 
     public static void drawRound(float x, float y, float width, float height, float radius, boolean blur, Color color) {
         DrawUtils.resetColor();
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc((int)(770), (int)(771));
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc((int)(770), (int)(771));
         (roundedShader).init();
         RoundedUtils.callGetMinecraft(x, y, width, height, radius, (roundedShader));
         int[] nArray = new int[1];
@@ -53,7 +53,7 @@ public class RoundedUtils {
         (roundedShader).setUniformf("color", fArray);
         ShaderUtils.drawQuads((float)(x - 1.0f), (float)(y - 1.0f), (float)(width + 2.0f), (float)(height + 2.0f));
         (roundedShader).unload();
-        GlStateManager.disableBlend();
+        RenderSystem.disableBlend();
     }
 
     public static void drawRoundCircleOut(float x, float y, float radius, float thikness, Color color, Color sidecolor) {
@@ -66,8 +66,8 @@ public class RoundedUtils {
 
     public static void drawGradientRound(float x, float y, float width, float height, float radius, Color bottomLeft, Color topLeft, Color bottomRight, Color topRight) {
         DrawUtils.resetColor();
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc((int)(770), (int)(771));
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc((int)(770), (int)(771));
         (roundedGradientShader).init();
         RoundedUtils.callGetMinecraft(x, y, width, height, radius, (roundedGradientShader));
         float[] fArray = new float[4];
@@ -96,14 +96,14 @@ public class RoundedUtils {
         (roundedGradientShader).setUniformf("color4", fArray4);
         ShaderUtils.drawQuads((float)(x - 1.0f), (float)(y - 1.0f), (float)(width + 2.0f), (float)(height + 2.0f));
         (roundedGradientShader).unload();
-        GlStateManager.disableBlend();
+        RenderSystem.disableBlend();
     }
 
     private static void callGetMinecraft(float x, float y, float width, float height, float radius, ShaderUtils roundedTexturedShader) {
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
         float[] fArray = new float[2];
         fArray[0] = x * (float)sr.getScaleFactor();
-        fArray[1] = (float)(Minecraft.getMinecraft().displayHeight) - height * (float)sr.getScaleFactor() - y * (float)sr.getScaleFactor();
+        fArray[1] = (float)(MinecraftClient.getInstance().displayHeight) - height * (float)sr.getScaleFactor() - y * (float)sr.getScaleFactor();
         roundedTexturedShader.setUniformf("location", fArray);
         float[] fArray2 = new float[2];
         fArray2[0] = width * (float)sr.getScaleFactor();
@@ -126,14 +126,14 @@ public class RoundedUtils {
         (roundedTexturedShader).setUniformf("alpha", fArray);
         ShaderUtils.drawQuads((float)(x - 1.0f), (float)(y - 1.0f), (float)(width + 2.0f), (float)(height + 2.0f));
         (roundedTexturedShader).unload();
-        GlStateManager.disableBlend();
+        RenderSystem.disableBlend();
     }
 
     public static void drawRoundOutline(float x, float y, float width, float height, float radius, float thickness, Color insideColor, Color outlineColor) {
         ScaledResolution sr = new ScaledResolution((MinecraftContext.mc));
-        GlStateManager.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc((int)(770), (int)(771));
+        RenderSystem.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc((int)(770), (int)(771));
         (roundedOutlineShader).init();
         float[] fArray = new float[2];
         fArray[0] = x * (float)sr.getScaleFactor();
@@ -163,7 +163,7 @@ public class RoundedUtils {
         (roundedOutlineShader).setUniformf("outlineColor", fArray6);
         ShaderUtils.drawQuads((float)(x - (2.0f + thickness)), (float)(y - (2.0f + thickness)), (float)(width + (4.0f + thickness * 2.0f)), (float)(height + (4.0f + thickness * 2.0f)));
         (roundedOutlineShader).unload();
-        GlStateManager.enableAlpha();
+        RenderSystem.enableAlpha();
     }
 
     public static void drawRoundScale(float x, float y, float width, float height, float radius, Color color, float scale) {

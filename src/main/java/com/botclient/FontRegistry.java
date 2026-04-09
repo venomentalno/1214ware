@@ -5,10 +5,10 @@
  *  neo.deobf.BaseFontRenderer
  *  neo.deobf.FontRendererEx
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.BaseFontRenderer;
-import neo.deobf.FontRendererEx;
+import com.botclient.BaseFontRenderer;
+import com.botclient.FontRendererEx;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

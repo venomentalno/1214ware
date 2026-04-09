@@ -5,10 +5,10 @@
  *  neo.deobf.Event
  *  net.minecraft.entity.player.EntityPlayer
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.Event;
-import net.minecraft.entity.player.EntityPlayer;
+import com.botclient.Event;
+import net.minecraft.entity.player.PlayerEntity;
 
 public class NameTagRenderEvent
 implements Event {

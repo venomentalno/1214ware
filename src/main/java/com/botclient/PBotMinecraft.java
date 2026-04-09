@@ -43,7 +43,7 @@
  *  org.apache.logging.log4j.LogManager
  *  org.apache.logging.log4j.Logger
  */
-package neo.deobf;
+package com.botclient;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -56,34 +56,34 @@ import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
-import neo.deobf.PBot;
-import neo.deobf.PBotPlayer;
-import neo.deobf.BotKeyState;
-import neo.deobf.EntityCollisionPredicate;
-import neo.deobf.RayTraceTypeSwitchMap;
-import neo.deobf.BotMovementInput;
-import neo.deobf.PBotNetHandlerPlayClient;
-import neo.deobf.PBotPlayerController;
-import neo.deobf.PBotWorldClient;
+import com.botclient.PBot;
+import com.botclient.PBotPlayer;
+import com.botclient.BotKeyState;
+import com.botclient.EntityCollisionPredicate;
+import com.botclient.RayTraceTypeSwitchMap;
+import com.botclient.BotMovementInput;
+import com.botclient.PBotNetHandlerPlayClient;
+import com.botclient.PBotPlayerController;
+import com.botclient.PBotWorldClient;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketTabComplete;
-import net.minecraft.profiler.ISnooperInfo;
-import net.minecraft.profiler.Profiler;
-import net.minecraft.profiler.Snooper;
+import net.minecraft.network.packet.c2s.play.CPacketTabComplete;
+// Removed: import net.minecraft.profiler.ISnooperInfo;
+// Removed: import net.minecraft.profiler.Profiler;
+// Removed: import net.minecraft.profiler.Snooper;
 import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.Validate;
@@ -134,7 +134,7 @@ ISnooperInfo {
                 }
                 case 2: {
                     BlockPos blockpos = (this.objectMouseOver).getBlockPos();
-                    if ((this.pbot).getWorld().getBlockState(blockpos).getMaterial() != (Material.AIR)) {
+                    if ((this.pbot).world.getBlockState(blockpos).getMaterial() != (Material.AIR)) {
                         (this.playerController).clickBlock(blockpos, (PBotMinecraft.getObjectMouseOver6(this).sideHit));
                         break;
                     }
@@ -143,7 +143,7 @@ ISnooperInfo {
                     (PBotMinecraft.getPbot32(this).player).resetCooldown();
                 }
             }
-            (PBotMinecraft.getPbot49(this).player).swingArm((EnumHand.MAIN_HAND));
+            (PBotMinecraft.getPbot49(this).player).swingArm((Hand.MAIN_HAND));
         }
     }
 
@@ -210,13 +210,13 @@ ISnooperInfo {
     }
 
     public void setDimensionAndSpawnPlayer(int dimension) {
-        (this.pbot).getWorld().setInitialSpawnLocation();
-        (this.pbot).getWorld().removeAllEntities();
+        (this.pbot).world.setInitialSpawnLocation();
+        (this.pbot).world.removeAllEntities();
         int i = 0;
         String s = null;
         if ((PBotMinecraft.getPbot30(this).player) != null) {
             i = (PBotMinecraft.getPbot27(this).player).getEntityId();
-            (this.pbot).getWorld().removeEntity((Entity)(PBotMinecraft.getPbot44(this).player));
+            (this.pbot).world.removeEntity((Entity)(PBotMinecraft.getPbot44(this).player));
             s = (PBotMinecraft.getPbot26(this).player).getServerBrand();
         }
         PBotMinecraft.getPbot38(this).player = new PBotPlayer(PBotMinecraft.getPbot47(this));
@@ -224,7 +224,7 @@ ISnooperInfo {
         PBotMinecraft.getPlayer10(PBotMinecraft.getPbot55(this)).dimension = dimension;
         (PBotMinecraft.getPbot7(this).player).preparePlayerToSpawn();
         (PBotMinecraft.getPbot29(this).player).setServerBrand(s);
-        (this.pbot).getWorld().spawnEntity((Entity)(PBotMinecraft.getPbot35(this).player));
+        (this.pbot).world.spawnEntity((Entity)(PBotMinecraft.getPbot35(this).player));
         (this.playerController).flipPlayer((EntityPlayer)(PBotMinecraft.getPbot13(this).player));
         PBotMinecraft.getPlayer33(PBotMinecraft.getPbot60(this)).movementInput = (MovementInput)new BotMovementInput(PBotMinecraft.getGameSettings(this));
         (PBotMinecraft.getPbot63(this).player).setEntityId(i);
@@ -324,7 +324,7 @@ ISnooperInfo {
 
     public void getMouseOver() {
         float partialTicks = 1.0f;
-        if ((this.pbot).getWorld() != null) {
+        if ((this.pbot).world != null) {
             double d0 = (this.playerController).getBlockReachDistance();
             this.objectMouseOver = PBotMinecraft.getPlayer17(PBotMinecraft.getPbot3(this)).rayTrace(d0, partialTicks);
             Vec3d vec3d = (PBotMinecraft.getPbot4(this).player).getPositionEyes(partialTicks);
@@ -336,13 +336,13 @@ ISnooperInfo {
                 flag = 1;
             }
             if ((this.objectMouseOver) != null) {
-                d1 = (PBotMinecraft.getObjectMouseOver13(this).hitVec).distanceTo(vec3d);
+                d1 = (PBotMinecraft.getObjectMouseOver13(this).hitVec).distance(vec3d);
             }
             Vec3d vec3d1 = (PBotMinecraft.getPbot23(this).player).getLook(1.0f);
             Vec3d vec3d2 = vec3d.add((vec3d1.x) * d0, (vec3d1.y) * d0, (vec3d1.z) * d0);
             Entity pointedEntity = null;
             Vec3d vec3d3 = null;
-            List list = (this.pbot).getWorld().getEntitiesInAABBexcluding((Entity)(PBotMinecraft.getPbot42(this).player), (PBotMinecraft.getPbot33(this).player).getEntityBoundingBox().grow((vec3d1.x) * d0, (vec3d1.y) * d0, (vec3d1.z) * d0).grow(1.0, 1.0, 1.0), Predicates.and((Predicate)(EntitySelectors.NOT_SPECTATING), (Predicate)new EntityCollisionPredicate(this)));
+            List list = (this.pbot).world.getEntitiesInAABBexcluding((Entity)(PBotMinecraft.getPbot42(this).player), (PBotMinecraft.getPbot33(this).player).getEntityBoundingBox().grow((vec3d1.x) * d0, (vec3d1.y) * d0, (vec3d1.z) * d0).grow(1.0, 1.0, 1.0), Predicates.and((Predicate)(EntitySelectors.NOT_SPECTATING), (Predicate)new EntityCollisionPredicate(this)));
             double d2 = d1;
             for (Entity entity1 : list) {
                 double d3;
@@ -355,7 +355,7 @@ ISnooperInfo {
                     d2 = 0.0;
                     continue;
                 }
-                if (raytraceresult == null || !((d3 = vec3d.distanceTo((raytraceresult.hitVec))) < d2) && d2 != 0.0) continue;
+                if (raytraceresult == null || !((d3 = vec3d.distance((raytraceresult.hitVec))) < d2) && d2 != 0.0) continue;
                 if (entity1.getLowestRidingEntity() == (PBotMinecraft.getPbot31(this).player).getLowestRidingEntity()) {
                     if (d2 != 0.0) continue;
                     pointedEntity = entity1;
@@ -366,9 +366,9 @@ ISnooperInfo {
                 vec3d3 = (raytraceresult.hitVec);
                 d2 = d3;
             }
-            if (pointedEntity != null && flag != 0 && vec3d.distanceTo(vec3d3) > 3.0) {
+            if (pointedEntity != null && flag != 0 && vec3d.distance(vec3d3) > 3.0) {
                 pointedEntity = null;
-                this.objectMouseOver = new RayTraceResult((RayTraceResult.Type.MISS), vec3d3, (EnumFacing)null, new BlockPos(vec3d3));
+                this.objectMouseOver = new RayTraceResult((HitResult.Type.MISS), vec3d3, (EnumFacing)null, new BlockPos(vec3d3));
             }
             if (pointedEntity != null && (d2 < d1 || (this.objectMouseOver) == null)) {
                 this.objectMouseOver = new RayTraceResult(pointedEntity, vec3d3);
@@ -429,7 +429,7 @@ ISnooperInfo {
 
     public BlockPos getTargetBlockPos() {
         BlockPos blockpos = null;
-        if ((this.objectMouseOver) != null && (PBotMinecraft.getObjectMouseOver12(this).typeOfHit) == (RayTraceResult.Type.BLOCK)) {
+        if ((this.objectMouseOver) != null && (PBotMinecraft.getObjectMouseOver12(this).typeOfHit) == (HitResult.Type.BLOCK)) {
             blockpos = (this.objectMouseOver).getBlockPos();
         }
         return blockpos;
@@ -441,10 +441,10 @@ ISnooperInfo {
 
     private void callGetPlayer20(boolean leftClick) {
         if (!(PBotMinecraft.getPbot62(this).player).isHandActive()) {
-            if (leftClick && (this.objectMouseOver) != null && (PBotMinecraft.getObjectMouseOver11(this).typeOfHit) == (RayTraceResult.Type.BLOCK)) {
+            if (leftClick && (this.objectMouseOver) != null && (PBotMinecraft.getObjectMouseOver11(this).typeOfHit) == (HitResult.Type.BLOCK)) {
                 BlockPos blockpos = (this.objectMouseOver).getBlockPos();
-                if ((this.pbot).getWorld().getBlockState(blockpos).getMaterial() != (Material.AIR) && (this.playerController).onPlayerDamageBlock(blockpos, (PBotMinecraft.getObjectMouseOver8(this).sideHit))) {
-                    (PBotMinecraft.getPbot48(this).player).swingArm((EnumHand.MAIN_HAND));
+                if ((this.pbot).world.getBlockState(blockpos).getMaterial() != (Material.AIR) && (this.playerController).onPlayerDamageBlock(blockpos, (PBotMinecraft.getObjectMouseOver8(this).sideHit))) {
+                    (PBotMinecraft.getPbot48(this).player).swingArm((Hand.MAIN_HAND));
                 }
             } else {
                 (this.playerController).resetBlockRemoving();
@@ -500,24 +500,24 @@ ISnooperInfo {
                 if ((this.objectMouseOver) != null) {
                     switch ((RayTraceTypeSwitchMap.$SwitchMap$net$minecraft$util$math$RayTraceResult$Type)[(PBotMinecraft.getObjectMouseOver16(this).typeOfHit).ordinal()]) {
                         case 1: {
-                            if ((this.playerController).interactWithEntity((EntityPlayer)(PBotMinecraft.getPbot18(this).player), (PBotMinecraft.getObjectMouseOver10(this).entityHit), (this.objectMouseOver), enumhand) == (EnumActionResult.SUCCESS)) {
+                            if ((this.playerController).interactWithEntity((EntityPlayer)(PBotMinecraft.getPbot18(this).player), (PBotMinecraft.getObjectMouseOver10(this).entityHit), (this.objectMouseOver), enumhand) == (ActionResult.SUCCESS)) {
                                 return;
                             }
-                            if ((this.playerController).interactWithEntity((EntityPlayer)(PBotMinecraft.getPbot59(this).player), (PBotMinecraft.getObjectMouseOver2(this).entityHit), enumhand) != (EnumActionResult.SUCCESS)) break;
+                            if ((this.playerController).interactWithEntity((EntityPlayer)(PBotMinecraft.getPbot59(this).player), (PBotMinecraft.getObjectMouseOver2(this).entityHit), enumhand) != (ActionResult.SUCCESS)) break;
                             return;
                         }
                         case 2: {
                             BlockPos blockpos = (this.objectMouseOver).getBlockPos();
-                            if ((this.pbot).getWorld().getBlockState(blockpos).getMaterial() == (Material.AIR)) break;
+                            if ((this.pbot).world.getBlockState(blockpos).getMaterial() == (Material.AIR)) break;
                             int i2 = itemstack.getCount();
-                            EnumActionResult enumactionresult = (this.playerController).processRightClickBlock((PBotMinecraft.getPbot53(this).player), (World)(this.pbot).getWorld(), blockpos, (PBotMinecraft.getObjectMouseOver3(this).sideHit), (PBotMinecraft.getObjectMouseOver18(this).hitVec), enumhand);
-                            if (enumactionresult != (EnumActionResult.SUCCESS)) break;
+                            EnumActionResult enumactionresult = (this.playerController).processRightClickBlock((PBotMinecraft.getPbot53(this).player), (World)(this.pbot).world, blockpos, (PBotMinecraft.getObjectMouseOver3(this).sideHit), (PBotMinecraft.getObjectMouseOver18(this).hitVec), enumhand);
+                            if (enumactionresult != (ActionResult.SUCCESS)) break;
                             (PBotMinecraft.getPbot37(this).player).swingArm(enumhand);
                             return;
                         }
                     }
                 }
-                if (itemstack.isEmpty() || (this.playerController).processRightClick((EntityPlayer)(PBotMinecraft.getPbot36(this).player), (World)(this.pbot).getWorld(), enumhand) != (EnumActionResult.SUCCESS)) continue;
+                if (itemstack.isEmpty() || (this.playerController).processRightClick((EntityPlayer)(PBotMinecraft.getPbot36(this).player), (World)(this.pbot).world, enumhand) != (ActionResult.SUCCESS)) continue;
                 return;
             }
         }
@@ -570,7 +570,7 @@ ISnooperInfo {
         }
         if (world != null) {
             (PBotMinecraft.getPbot6(this).player).preparePlayerToSpawn();
-            (this.pbot).getWorld().spawnEntity((Entity)(PBotMinecraft.getPbot8(this).player));
+            (this.pbot).world.spawnEntity((Entity)(PBotMinecraft.getPbot8(this).player));
             PBotMinecraft.getPlayer35(PBotMinecraft.getPbot14(this)).movementInput = (MovementInput)new BotMovementInput(PBotMinecraft.getGameSettings2(PBotMinecraft.getMc(PBotMinecraft.getPbot57(this))));
             (PBotMinecraft.getMc2(PBotMinecraft.getPbot(this)).playerController).setPlayerCapabilities((EntityPlayer)(PBotMinecraft.getPbot21(this).player));
         }

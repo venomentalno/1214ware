@@ -5,9 +5,9 @@
  *  neo.deobf.CancellableEvent
  *  net.minecraft.item.ItemStack
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.CancellableEvent;
+import com.botclient.CancellableEvent;
 import net.minecraft.item.ItemStack;
 
 public class RenderItemOverlayEvent

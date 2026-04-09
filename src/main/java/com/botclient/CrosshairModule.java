@@ -14,20 +14,20 @@
  *  net.minecraft.client.Minecraft
  *  net.minecraft.client.entity.EntityPlayerSP
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
-import neo.deobf.Render2DEvent;
-import neo.deobf.EventTarget;
-import neo.deobf.Setting;
-import neo.deobf.ModuleCategory;
-import neo.deobf.ColorSetting;
-import neo.deobf.Module;
-import neo.deobf.MinecraftContext;
-import neo.deobf.MathUtils;
-import neo.deobf.DrawUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
+import com.botclient.Render2DEvent;
+import com.botclient.EventTarget;
+import com.botclient.Setting;
+import com.botclient.ModuleCategory;
+import com.botclient.ColorSetting;
+import com.botclient.Module;
+import com.botclient.MinecraftContext;
+import com.botclient.MathUtils;
+import com.botclient.DrawUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

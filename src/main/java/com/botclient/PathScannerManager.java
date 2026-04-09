@@ -7,13 +7,13 @@
  *  neo.deobf.PathSearchTask
  *  neo.deobf.ThreadUtils
  */
-package neo.deobf;
+package com.botclient;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.vecmath.Vector3i;
-import neo.deobf.PBot;
-import neo.deobf.PathSearchTask;
-import neo.deobf.ThreadUtils;
+import com.botclient.PBot;
+import com.botclient.PathSearchTask;
+import com.botclient.ThreadUtils;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
