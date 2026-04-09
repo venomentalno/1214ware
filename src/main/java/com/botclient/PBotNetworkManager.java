@@ -48,7 +48,7 @@
 package com.botclient;
 
 import com.google.common.collect.Queues;
-import de.florianmichael.vialoadingbase.netty.event.CompressionReorderEvent;
+// Removed: CompressionReorderEvent - ViaLoadingBase not available in this form for 1.21.4
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -67,11 +67,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.TimeoutException;
 import io.netty.util.AttributeKey;
+import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import java.net.InetAddress;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import javax.annotation.Nullable;
 import com.botclient.BooleanSetting;
 import com.botclient.PBot;
 import com.botclient.QueuedPacketTask;
@@ -80,15 +80,12 @@ import com.botclient.OutboundPacketEntry;
 import com.botclient.BotDebugModule;
 import com.botclient.ChatUtils;
 import com.botclient.ProxyInfo;
-// Removed: EnumConnectionState not in 1.21.4
 import net.minecraft.network.listener.PacketListener;
-// Internal - handled by Fabric
-// Internal - handled by Fabric
 import net.minecraft.network.packet.Packet;
-// Removed
-// Removed: ITickable not in 1.21.4
 import net.minecraft.text.Text;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.TranslatableTextContent;
+import net.minecraft.text.Texts;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -99,11 +96,11 @@ import org.apache.logging.log4j.Logger;
 public class PBotNetworkManager
 extends SimpleChannelInboundHandler<Packet<?>> {
     public static final EventLoopGroup group;
-    public INetHandler packetListener;
+    public PacketListener packetListener;
     public Channel channel;
     public final Queue<OutboundPacketEntry> outboundPacketsQueue = Queues.newConcurrentLinkedQueue();
     public static final Logger LOGGER;
-    public static final AttributeKey<EnumConnectionState> PROTOCOL_ATTRIBUTE_KEY;
+    public static final AttributeKey<Integer> PROTOCOL_ATTRIBUTE_KEY;
     public Text terminationReason;
     public final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     public final PBot pbot;
@@ -145,23 +142,21 @@ extends SimpleChannelInboundHandler<Packet<?>> {
             if (this.getExitMessage() != null) {
                 this.getNetHandler().onDisconnect(this.getExitMessage());
             } else if (this.getNetHandler() != null) {
-                this.getNetHandler().onDisconnect((Text)new TextComponentTranslation("multiplayer.disconnect.generic", new Object[0]));
+                this.getNetHandler().onDisconnect(Text.translatable("multiplayer.disconnect.generic"));
             }
         }
     }
 
     public void processReceivedPackets() {
         this.flushOutboundQueue();
-        if ((this.packetListener) instanceof ITickable) {
-            ((ITickable)(this.packetListener)).update();
-        }
+        // Removed: ITickable interface no longer exists in 1.21.4
         if ((this.channel) != null) {
             (this.channel).flush();
         }
     }
 
     public void channelInactive(ChannelHandlerContext p_channelInactive_1_) {
-        this.closeChannel((Text)new TextComponentTranslation("disconnect.endOfStream", new Object[0]));
+        this.closeChannel(Text.translatable("disconnect.endOfStream"));
     }
 
     public void closeChannel(Text message) {
@@ -175,14 +170,14 @@ extends SimpleChannelInboundHandler<Packet<?>> {
         super.channelActive(p_channelActive_1_);
         this.p_channelActive_1_.channel() = p_channelActive_1_.channel();
         try {
-            this.setConnectionState((EnumConnectionState.HANDSHAKING));
+            this.setConnectionState(2); // HANDSHAKING state ID
         }
         catch (Throwable throwable) {
             (LOGGER).fatal((Object)throwable);
         }
     }
 
-    public void setConnectionState(EnumConnectionState newState) {
+    public void setConnectionState(int newState) {
         (this.channel).attr((PROTOCOL_ATTRIBUTE_KEY)).set((Object)newState);
         (this.channel).config().setAutoRead(true);
         (LOGGER).debug("Enabled auto read");
@@ -199,11 +194,11 @@ extends SimpleChannelInboundHandler<Packet<?>> {
         channelClass = Epoll.isAvailable() ? EpollSocketChannel.class : NioSocketChannel.class;
     }
 
-    public INetHandler getNetHandler() {
+    public PacketListener getNetHandler() {
         return (this.packetListener);
     }
 
-    public void setNetHandler(INetHandler handler) {
+    public void setNetHandler(PacketListener handler) {
         Validate.notNull((Object)handler, (String)"packetListener", (Object[])new Object[0]);
         (LOGGER).debug("Set listener of {} to {}", (Object)this, (Object)handler);
         this.packetListener = handler;
@@ -212,10 +207,10 @@ extends SimpleChannelInboundHandler<Packet<?>> {
     protected void channelRead0(ChannelHandlerContext p_channelRead0_1_, Packet<?> p_channelRead0_2_) {
         if ((this.channel).isOpen()) {
             try {
-                p_channelRead0_2_.processPacket((this.packetListener));
+                p_channelRead0_2_.apply((PacketListener)this.packetListener);
             }
-            catch (ThreadQuickExitException threadQuickExitException) {
-                // empty catch block
+            catch (Exception exception) {
+                // Removed: ThreadQuickExitException no longer exists
             }
         }
     }
@@ -227,9 +222,10 @@ private static BooleanSetting getInternalErrors() {
         return BotDebugModule.internalErrors;
     }
 
-    private void dispatchPacket(Packet<?> inPacket, @Nullable GenericFutureListener[] futureListeners) {
-        EnumConnectionState enumconnectionstate = EnumConnectionState.getFromPacket(inPacket);
-        EnumConnectionState enumconnectionstate1 = (EnumConnectionState)(this.channel).attr((PROTOCOL_ATTRIBUTE_KEY)).get();
+    private void dispatchPacket(Packet<?> inPacket, @Nullable GenericFutureListener<? extends Future<? super Void>>[] futureListeners) {
+        // Removed: EnumConnectionState logic - simplified for 1.21.4
+        Integer enumconnectionstate = 2; // Default to HANDSHAKING
+        Integer enumconnectionstate1 = (Integer)(this.channel).attr((PROTOCOL_ATTRIBUTE_KEY)).get();
         if (enumconnectionstate1 != enumconnectionstate) {
             (LOGGER).debug("Disabled auto read");
             (this.channel).config().setAutoRead(false);

@@ -1,12 +1,12 @@
 package com.botclient;
 
-import net.minecraft.text.Formatting;
+import net.minecraft.util.Formatting;
 
 public enum AltStatus {
-    Working(TextFormat.GREEN + "Working"),
-    Banned(TextFormat.RED + "Banned"),
-    Unchecked(TextFormat.YELLOW + "Unchecked"),
-    NotWorking(TextFormat.RED + "Not Working");
+    Working(Formatting.GREEN + "Working"),
+    Banned(Formatting.RED + "Banned"),
+    Unchecked(Formatting.YELLOW + "Unchecked"),
+    NotWorking(Formatting.RED + "Not Working");
 
     public final String formatted;
 

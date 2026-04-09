@@ -20,21 +20,20 @@ import com.botclient.PBot;
 import com.botclient.PBotNetworkManager;
 import com.botclient.StatusPingHandler;
 import com.botclient.ProxyInfo;
-// Removed: EnumConnectionState not in 1.21.4
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.handshake.HandshakeC2SPacket;
-import net.minecraft.network.status.client.CPacketServerQuery;
+import net.minecraft.network.status.client.StatusQueryC2SPacket;
 
 public class ServerStatusPinger {
 
     public void ping(PBot pbot) throws UnknownHostException {
         InetAddress serveraddress = InetAddress.getByName(pbot.getHost());
         PBotNetworkManager networkmanager = PBotNetworkManager.createNetworkManagerAndConnect((InetAddress)serveraddress, (int)pbot.getPort(), (PBot)pbot, (ProxyInfo)pbot.getProxy());
-        networkmanager.setNetHandler((INetHandler)new StatusPingHandler(this, networkmanager));
+        networkmanager.setNetHandler((PacketListener)new StatusPingHandler(this, networkmanager));
         try {
-            networkmanager.sendPacket((Packet)new C00Handshake(pbot.getHost(), pbot.getPort(), (EnumConnectionState.STATUS)));
-            networkmanager.sendPacket((Packet)new CPacketServerQuery());
+            networkmanager.sendPacket((Packet)new HandshakeC2SPacket(pbot.getHost(), pbot.getPort(), 1)); // 1 = STATUS state ID
+            networkmanager.sendPacket((Packet)new StatusQueryC2SPacket());
         }
         catch (Throwable throwable) {
             throwable.printStackTrace();
