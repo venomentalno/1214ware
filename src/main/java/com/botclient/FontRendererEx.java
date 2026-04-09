@@ -31,7 +31,7 @@ import net.minecraft.client.render.RenderSystem;
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
-public class TextRendererEx
+class TextRendererEx
 extends BaseTextRenderer {
     public float[] charWidthFloat;
     protected DragState[] boldItalicChars;

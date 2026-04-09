@@ -84,7 +84,7 @@ import org.jetbrains.annotations.NotNull;
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
-public class PBotClientWorld
+class PBotClientWorld
 extends World {
     public final Set<Entity> entitySpawnQueue;
     public static ChunkProviderClient clientChunkProvider;

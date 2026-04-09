@@ -16,7 +16,7 @@ import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockRenderEvent
+class BlockRenderEvent
 implements Event {
     public final BlockState state;
     public final BufferBuilder bufferBuilder;
