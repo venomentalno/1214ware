@@ -101,7 +101,7 @@ public class RoundedUtils {
 
     private static void callGetMinecraft(float x, float y, float width, float height, float radius, ShaderUtils roundedTexturedShader) {
         ScaledResolution sr = // ScaledResolution replaced with Window calculation
-        Window window = MinecraftClient.getInstance());
+        Window window = MinecraftClient.getInstance().getWindow();
         float[] fArray = new float[2];
         fArray[0] = x * (float)sr.getScaleFactor();
         fArray[1] = (float)(MinecraftClient.getInstance().displayHeight) - height * (float)sr.getScaleFactor() - y * (float)sr.getScaleFactor();
