@@ -70,21 +70,19 @@ extends Screen {
     }
 
     public void initGui() {
-        ScaledResolution sr = // ScaledResolution replaced with Window calculation
         Window window = MinecraftClient.getInstance().getWindow();
         this.buttons = new ArrayList();
-        (this.buttons).add(new MenuButton(1, sr.getScaledWidth() / (2), sr.getScaledHeight() / (2) - (45), 100, 16, "Одиночная игра"));
-        (this.buttons).add(new MenuButton(2, sr.getScaledWidth() / (2), sr.getScaledHeight() / (2) - (45) + (20), 100, 16, "Сетевая игра"));
-        (this.buttons).add(new MenuButton(3, sr.getScaledWidth() / (2), sr.getScaledHeight() / (2) - (45) + (40), 100, 16, "Аккаунты"));
-        (this.buttons).add(new MenuButton(4, sr.getScaledWidth() / (2), sr.getScaledHeight() / (2) - (45) + (60), 100, 16, "Настройки"));
-        (this.buttons).add(new MenuButton(5, sr.getScaledWidth() / (2), sr.getScaledHeight() / (2) - (45) + (80), 100, 16, "Мониторинг"));
-        (this.buttons).add(new MenuButton(6, sr.getScaledWidth() / (2), sr.getScaledHeight() / (2) - (45) + (108), 100, 16, "Discord"));
+        (this.buttons).add(new MenuButton(1, window.getScaledWidth() / (2), window.getScaledHeight() / (2) - (45), 100, 16, "Одиночная игра"));
+        (this.buttons).add(new MenuButton(2, window.getScaledWidth() / (2), window.getScaledHeight() / (2) - (45) + (20), 100, 16, "Сетевая игра"));
+        (this.buttons).add(new MenuButton(3, window.getScaledWidth() / (2), window.getScaledHeight() / (2) - (45) + (40), 100, 16, "Аккаунты"));
+        (this.buttons).add(new MenuButton(4, window.getScaledWidth() / (2), window.getScaledHeight() / (2) - (45) + (60), 100, 16, "Настройки"));
+        (this.buttons).add(new MenuButton(5, window.getScaledWidth() / (2), window.getScaledHeight() / (2) - (45) + (80), 100, 16, "Мониторинг"));
+        (this.buttons).add(new MenuButton(6, window.getScaledWidth() / (2), window.getScaledHeight() / (2) - (45) + (108), 100, 16, "Discord"));
     }
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        ScaledResolution sr = // ScaledResolution replaced with Window calculation
         Window window = MinecraftClient.getInstance().getWindow();
-        this.backgroundShader.useShader(sr.getScaledWidth(), sr.getScaledHeight(), (float)mouseX, (float)mouseY, (float)(System.currentTimeMillis() - this.time) / 1500.0f);
+        this.backgroundShader.useShader(window.getScaledWidth(), window.getScaledHeight(), (float)mouseX, (float)mouseY, (float)(System.currentTimeMillis() - this.time) / 1500.0f);
         RenderSystem.glBegin((int)(7));
         RenderSystem.glVertex2f((float)-1.00000024f, (float)-1.0f);
         RenderSystem.glVertex2f((float)-1.0f, (float)1.0f);

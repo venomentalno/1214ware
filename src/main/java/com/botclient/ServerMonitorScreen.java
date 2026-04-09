@@ -81,9 +81,8 @@ extends Screen {
     }
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        ScaledResolution sr = // ScaledResolution replaced with Window calculation
         Window window = MinecraftClient.getInstance().getWindow();
-        (MainMenuScreen.backgroundShader).useShader(sr.getScaledWidth(), sr.getScaledHeight(), (float)mouseX, (float)mouseY, (float)(System.currentTimeMillis() - (MainMenuScreen.time)) / 1500.0f);
+        (MainMenuScreen.backgroundShader).useShader(window.getScaledWidth(), window.getScaledHeight(), (float)mouseX, (float)mouseY, (float)(System.currentTimeMillis() - (MainMenuScreen.time)) / 1500.0f);
         RenderSystem.glBegin((int)(7));
         RenderSystem.glVertex2f((float)-1.00000048f, (float)-1.0f);
         RenderSystem.glVertex2f((float)-1.00000024f, (float)1.0f);

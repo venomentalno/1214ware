@@ -121,10 +121,8 @@ public class ShaderUtils {
     }
 
     public static void drawQuads() {
-        ScaledResolution sr = // ScaledResolution replaced with Window calculation
-        Window window = MinecraftContext.mc.getWindow();
-        float width = (float)sr.getScaledWidth_double();
-        float height = (float)sr.getScaledHeight_double();
+        float width = (float)mc.getWindow().getScaledWidth();
+        float height = (float)mc.getWindow().getScaledHeight();
         RenderSystem.glBegin((int)(7));
         RenderSystem.glTexCoord2f((float)0.0f, (float)1.0f);
         RenderSystem.glVertex2f((float)0.0f, (float)0.0f);
