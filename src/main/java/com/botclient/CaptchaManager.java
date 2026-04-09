@@ -56,7 +56,7 @@ import com.botclient.DrawUtils;
 import com.botclient.EventBus;
 import com.botclient.ChatMessageEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Formatting;
+// import net.minecraft.text.Formatting - replaced with com.botclient.TextFormat
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

@@ -19,7 +19,7 @@ import com.botclient.MinecraftContext;
 import com.botclient.RandomUtils;
 import com.botclient.RandomProvocationPool;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.NetworkPlayerInfo;
+// import net.minecraft.client.network.NetworkPlayerInfo - replaced
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

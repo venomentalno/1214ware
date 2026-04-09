@@ -81,9 +81,8 @@ extends Screen {
     }
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        ScaledResolution sr = // ScaledResolution replaced with Window calculation
-        Window window = MinecraftClient.getInstance());
-        (MainMenuScreen.backgroundShader).useShader(sr.getScaledWidth(), sr.getScaledHeight(), (float)mouseX, (float)mouseY, (float)(System.currentTimeMillis() - (MainMenuScreen.time)) / 1500.0f);
+        Window window = MinecraftClient.getInstance().getWindow();
+        (MainMenuScreen.backgroundShader).useShader(window.getScaledWidth(), window.getScaledHeight(), (float)mouseX, (float)mouseY, (float)(System.currentTimeMillis() - (MainMenuScreen.time)) / 1500.0f);
         RenderSystem.glBegin((int)(7));
         RenderSystem.glVertex2f((float)-1.00000048f, (float)-1.0f);
         RenderSystem.glVertex2f((float)-1.00000024f, (float)1.0f);
@@ -95,14 +94,14 @@ extends Screen {
         RenderSystem.pushMatrix();
         float panelWidth = 440.0f;
         float panelHeight = 280.0f;
-        RoundedUtils.drawGradientRound((float)((float)(sr.getScaledWidth() / (2)) - panelWidth / 2.0f), (float)((float)(sr.getScaledHeight() / (2)) - panelHeight / 2.0f), (float)panelWidth, (float)panelHeight, (float)8.0f, (Color)ClickGuiScreen.getC((int)(0)), (Color)ClickGuiScreen.getC((int)(250)), (Color)ClickGuiScreen.getC((int)(750)), (Color)ClickGuiScreen.getC((int)(1000)));
-        RoundedUtils.drawRound((float)((float)(sr.getScaledWidth() / (2)) - panelWidth / 2.0f + 2.0f), (float)((float)(sr.getScaledHeight() / (2)) - panelHeight / 2.0f + 2.0f), (float)(panelWidth - 4.0f), (float)(panelHeight - 4.0f), (float)8.0f, (Color)new Color(17, 17, 17, 240));
-        (FontRegistry.mnstb_16).drawCenteredGradientThemeString("Мониторинг серверов", (float)(sr.getScaledWidth() / (2)), (float)(sr.getScaledHeight() / (2)) - panelHeight / 2.0f + 15.0f);
+        RoundedUtils.drawGradientRound((float)((float)(window.getScaledWidth() / (2)) - panelWidth / 2.0f), (float)((float)(window.getScaledHeight() / (2)) - panelHeight / 2.0f), (float)panelWidth, (float)panelHeight, (float)8.0f, (Color)ClickGuiScreen.getC((int)(0)), (Color)ClickGuiScreen.getC((int)(250)), (Color)ClickGuiScreen.getC((int)(750)), (Color)ClickGuiScreen.getC((int)(1000)));
+        RoundedUtils.drawRound((float)((float)(window.getScaledWidth() / (2)) - panelWidth / 2.0f + 2.0f), (float)((float)(window.getScaledHeight() / (2)) - panelHeight / 2.0f + 2.0f), (float)(panelWidth - 4.0f), (float)(panelHeight - 4.0f), (float)8.0f, (Color)new Color(17, 17, 17, 240));
+        (FontRegistry.mnstb_16).drawCenteredGradientThemeString("Мониторинг серверов", (float)(window.getScaledWidth() / (2)), (float)(window.getScaledHeight() / (2)) - panelHeight / 2.0f + 15.0f);
         int offsetX = 0;
         int offsetY = 0;
         for (ServerData serverData : ServerParser.getServers()) {
-            float elementX = (float)(sr.getScaledWidth() / (2)) - panelWidth / 2.0f + (float)offsetX + 5.0f;
-            float elementY = (float)(sr.getScaledHeight() / (2)) - panelHeight / 2.0f + (float)offsetY + 55.0f;
+            float elementX = (float)(window.getScaledWidth() / (2)) - panelWidth / 2.0f + (float)offsetX + 5.0f;
+            float elementY = (float)(window.getScaledHeight() / (2)) - panelHeight / 2.0f + (float)offsetY + 55.0f;
             RoundedUtils.drawRound((float)elementX, (float)elementY, (float)100.0f, (float)40.0f, (float)8.0f, (Color)new Color(40, 40, 40));
             (FontRegistry.mnstb_12).drawCenteredGradientThemeString((serverData.serverIP), elementX + 50.0f, elementY + 4.0f);
             (FontRegistry.mnstb_12).drawString("Онлайн: " + PBot.stripColor((String)(serverData.populationInfo)), elementX + 30.0f, elementY + 16.0f, new Color(200, 200, 200).getRGB());

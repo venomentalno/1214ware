@@ -43,7 +43,7 @@ extends Module {
         super("Notifications", ModuleCategory.Other);
     }
 
-    public static void render(ScaledResolution res) {
+    public static void render(Window window) {
         float yOffset = -24.0f;
         if (((mc).currentScreen) instanceof GuiChat) {
             int i = (NotificationsModule.getGameSettings().guiScale);
@@ -55,7 +55,7 @@ extends Module {
             }
         }
         for (NotificationEntry notify : (notifies)) {
-            yOffset -= notify.draw(res, yOffset);
+            yOffset -= notify.draw(window, yOffset);
         }
     }
 
@@ -67,8 +67,7 @@ extends Module {
     public void onUpdate(Render2DEvent event) {
         (notifies).forEach(notify -> notify.updateAnimation());
         (notifies).removeIf(NotificationEntry::updateAnimation);
-        NotificationsModule.render(// ScaledResolution replaced with Window calculation
-        Window window = MinecraftClient.getInstance()));
+        NotificationsModule.render(MinecraftClient.getInstance().getWindow());
     }
 
 public static void notify(String title, String text, NotificationType type, int second) {

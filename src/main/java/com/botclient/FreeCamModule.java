@@ -39,7 +39,7 @@ import com.botclient.Module;
 import com.botclient.MovementUtils;
 import com.botclient.PacketReceiveEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
+// import net.minecraft.client.entity.EntityOtherPlayerMP - replaced
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.client.network.NetHandlerPlayClient;

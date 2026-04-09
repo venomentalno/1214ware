@@ -106,7 +106,7 @@ import com.botclient.PBotNetHandlerPlayClient;
 import com.botclient.PBotPlayerController;
 import com.botclient.ScriptManager;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.network.NetworkPlayerInfo;
+// import net.minecraft.client.network.NetworkPlayerInfo - replaced
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IJumpingMount;
 import net.minecraft.entity.IMerchant;

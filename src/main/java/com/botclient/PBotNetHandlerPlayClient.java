@@ -267,116 +267,116 @@ import com.botclient.SeleniumManager;
 import com.botclient.ChatUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.client.player.inventory.ContainerLocalMenu;
-import net.minecraft.client.player.inventory.LocalBlockIntercommunication;
+// import net.minecraft.client.entity.EntityOtherPlayerMP - replaced
+// import net.minecraft.client.network.NetworkPlayerInfo - replaced
+// import net.minecraft.client.player.inventory.ContainerLocalMenu - removed
+// import net.minecraft.client.player.inventory.LocalBlockIntercommunication - removed
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAreaEffectCloud;
-import net.minecraft.entity.EntityLeashKnot;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLiving;
+// import net.minecraft.entity.EntityAreaEffectCloud
+// import net.minecraft.entity.EntityLeashKnot
+// import net.minecraft.entity.EntityList
+// import net.minecraft.entity.EntityLiving
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.EntityTracker;
-import net.minecraft.entity.IMerchant;
-import net.minecraft.entity.NpcMerchant;
-import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttribute;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.ai.attributes.RangedAttribute;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityEnderCrystal;
-import net.minecraft.entity.item.EntityEnderEye;
-import net.minecraft.entity.item.EntityEnderPearl;
-import net.minecraft.entity.item.EntityExpBottle;
-import net.minecraft.entity.item.EntityFallingBlock;
-import net.minecraft.entity.item.EntityFireworkRocket;
+// import net.minecraft.entity.EntityTracker
+// import net.minecraft.entity.IMerchant
+// import net.minecraft.entity.NpcMerchant
+// import net.minecraft.entity.ai.attributes.AbstractAttributeMap
+// import net.minecraft.entity.ai.attributes.AttributeModifier
+// import net.minecraft.entity.ai.attributes.IAttribute
+// import net.minecraft.entity.ai.attributes.IAttributeInstance
+// import net.minecraft.entity.ai.attributes.RangedAttribute
+// import net.minecraft.entity.effect.EntityLightningBolt
+// import net.minecraft.entity.item.EntityArmorStand
+// import net.minecraft.entity.item.EntityBoat
+// import net.minecraft.entity.item.EntityEnderCrystal
+// import net.minecraft.entity.item.EntityEnderEye
+// import net.minecraft.entity.item.EntityEnderPearl
+// import net.minecraft.entity.item.EntityExpBottle
+// import net.minecraft.entity.item.EntityFallingBlock
+// import net.minecraft.entity.item.EntityFireworkRocket
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityPainting;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.passive.AbstractHorse;
+// import net.minecraft.entity.item.EntityItemFrame
+// import net.minecraft.entity.item.EntityMinecart
+// import net.minecraft.entity.item.EntityPainting
+// import net.minecraft.entity.item.EntityTNTPrimed
+// import net.minecraft.entity.item.EntityXPOrb
+// import net.minecraft.entity.passive.AbstractHorse
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 // Removed: PlayerCapabilities replaced
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.entity.projectile.EntityDragonFireball;
-import net.minecraft.entity.projectile.EntityEgg;
-import net.minecraft.entity.projectile.EntityEvokerFangs;
-import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.entity.projectile.EntityLargeFireball;
-import net.minecraft.entity.projectile.EntityLlamaSpit;
-import net.minecraft.entity.projectile.EntityPotion;
-import net.minecraft.entity.projectile.EntityShulkerBullet;
-import net.minecraft.entity.projectile.EntitySmallFireball;
-import net.minecraft.entity.projectile.EntitySnowball;
-import net.minecraft.entity.projectile.EntitySpectralArrow;
-import net.minecraft.entity.projectile.EntityTippedArrow;
-import net.minecraft.entity.projectile.EntityWitherSkull;
+// import net.minecraft.entity.projectile.EntityArrow
+// import net.minecraft.entity.projectile.EntityDragonFireball
+// import net.minecraft.entity.projectile.EntityEgg
+// import net.minecraft.entity.projectile.EntityEvokerFangs
+// import net.minecraft.entity.projectile.EntityFishHook
+// import net.minecraft.entity.projectile.EntityLargeFireball
+// import net.minecraft.entity.projectile.EntityLlamaSpit
+// import net.minecraft.entity.projectile.EntityPotion
+// import net.minecraft.entity.projectile.EntityShulkerBullet
+// import net.minecraft.entity.projectile.EntitySmallFireball
+// import net.minecraft.entity.projectile.EntitySnowball
+// import net.minecraft.entity.projectile.EntitySpectralArrow
+// import net.minecraft.entity.projectile.EntityTippedArrow
+// import net.minecraft.entity.projectile.EntityWitherSkull
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.inventory.ContainerHorseChest;
+// import net.minecraft.inventory.ContainerHorseChest
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.InventoryBasic;
+// import net.minecraft.inventory.InventoryBasic
 import net.minecraft.item.FilledMapItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.PacketThreadUtil;
-import net.minecraft.network.play.INetHandlerPlayClient;
-import net.minecraft.network.packet.c2s.play.CPacketClientStatus;
-import net.minecraft.network.packet.c2s.play.CPacketConfirmTeleport;
-import net.minecraft.network.packet.c2s.play.CPacketConfirmTransaction;
-import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
-import net.minecraft.network.packet.c2s.play.CPacketKeepAlive;
+// import net.minecraft.network.PacketThreadUtil
+// import net.minecraft.network.play.INetHandlerPlayClient
+// import net.minecraft.network.packet.c2s.play.CPacketClientStatus
+// import net.minecraft.network.packet.c2s.play.CPacketConfirmTeleport
+// import net.minecraft.network.packet.c2s.play.CPacketConfirmTransaction
+// import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket
+// import net.minecraft.network.packet.c2s.play.CPacketKeepAlive
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.network.packet.c2s.play.CPacketResourcePackStatus;
-import net.minecraft.network.packet.c2s.play.CPacketVehicleMove;
-import net.minecraft.network.packet.s2c.play.SPacketAdvancementInfo;
-import net.minecraft.network.packet.s2c.play.SPacketAnimation;
-import net.minecraft.network.packet.s2c.play.SPacketBlockAction;
-import net.minecraft.network.packet.s2c.play.SPacketBlockBreakAnim;
-import net.minecraft.network.packet.s2c.play.SPacketBlockChange;
-import net.minecraft.network.packet.s2c.play.SPacketCamera;
-import net.minecraft.network.packet.s2c.play.SPacketChangeGameState;
+// import net.minecraft.network.packet.c2s.play.CPacketResourcePackStatus
+// import net.minecraft.network.packet.c2s.play.CPacketVehicleMove
+// import net.minecraft.network.packet.s2c.play.SPacketAdvancementInfo
+// import net.minecraft.network.packet.s2c.play.SPacketAnimation
+// import net.minecraft.network.packet.s2c.play.SPacketBlockAction
+// import net.minecraft.network.packet.s2c.play.SPacketBlockBreakAnim
+// import net.minecraft.network.packet.s2c.play.SPacketBlockChange
+// import net.minecraft.network.packet.s2c.play.SPacketCamera
+// import net.minecraft.network.packet.s2c.play.SPacketChangeGameState
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
-import net.minecraft.network.packet.s2c.play.SPacketChunkData;
-import net.minecraft.network.packet.s2c.play.SPacketCloseWindow;
-import net.minecraft.network.packet.s2c.play.SPacketCollectItem;
-import net.minecraft.network.packet.s2c.play.SPacketCombatEvent;
-import net.minecraft.network.packet.s2c.play.SPacketConfirmTransaction;
-import net.minecraft.network.packet.s2c.play.SPacketCooldown;
-import net.minecraft.network.packet.s2c.play.SPacketCustomPayload;
-import net.minecraft.network.packet.s2c.play.SPacketCustomSound;
-import net.minecraft.network.packet.s2c.play.SPacketDestroyEntities;
-import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
-import net.minecraft.network.packet.s2c.play.SPacketDisplayObjective;
-import net.minecraft.network.packet.s2c.play.SPacketEffect;
-import net.minecraft.network.packet.s2c.play.SPacketEntity;
-import net.minecraft.network.packet.s2c.play.SPacketEntityAttach;
-import net.minecraft.network.packet.s2c.play.SPacketEntityEffect;
-import net.minecraft.network.packet.s2c.play.SPacketEntityEquipment;
-import net.minecraft.network.packet.s2c.play.SPacketEntityHeadLook;
-import net.minecraft.network.packet.s2c.play.SPacketEntityMetadata;
-import net.minecraft.network.packet.s2c.play.SPacketEntityProperties;
-import net.minecraft.network.packet.s2c.play.SPacketEntityStatus;
-import net.minecraft.network.packet.s2c.play.SPacketEntityTeleport;
-import net.minecraft.network.packet.s2c.play.SPacketEntityVelocity;
-import net.minecraft.network.packet.s2c.play.SPacketExplosion;
-import net.minecraft.network.packet.s2c.play.SPacketHeldItemChange;
-import net.minecraft.network.packet.s2c.play.SPacketJoinGame;
-import net.minecraft.network.packet.s2c.play.KeepAliveS2CPacket;
-import net.minecraft.network.packet.s2c.play.SPacketMaps;
-import net.minecraft.network.packet.s2c.play.SPacketMoveVehicle;
-import net.minecraft.network.packet.s2c.play.SPacketMultiBlockChange;
-import net.minecraft.network.packet.s2c.play.SPacketOpenWindow;
-import net.minecraft.network.packet.s2c.play.SPacketParticles;
+// import net.minecraft.network.packet.s2c.play.SPacketChunkData
+// import net.minecraft.network.packet.s2c.play.SPacketCloseWindow
+// import net.minecraft.network.packet.s2c.play.SPacketCollectItem
+// import net.minecraft.network.packet.s2c.play.SPacketCombatEvent
+// import net.minecraft.network.packet.s2c.play.SPacketConfirmTransaction
+// import net.minecraft.network.packet.s2c.play.SPacketCooldown
+// import net.minecraft.network.packet.s2c.play.SPacketCustomPayload
+// import net.minecraft.network.packet.s2c.play.SPacketCustomSound
+// import net.minecraft.network.packet.s2c.play.SPacketDestroyEntities
+// import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket
+// import net.minecraft.network.packet.s2c.play.SPacketDisplayObjective
+// import net.minecraft.network.packet.s2c.play.SPacketEffect
+// import net.minecraft.network.packet.s2c.play.SPacketEntity
+// import net.minecraft.network.packet.s2c.play.SPacketEntityAttach
+// import net.minecraft.network.packet.s2c.play.SPacketEntityEffect
+// import net.minecraft.network.packet.s2c.play.SPacketEntityEquipment
+// import net.minecraft.network.packet.s2c.play.SPacketEntityHeadLook
+// import net.minecraft.network.packet.s2c.play.SPacketEntityMetadata
+// import net.minecraft.network.packet.s2c.play.SPacketEntityProperties
+// import net.minecraft.network.packet.s2c.play.SPacketEntityStatus
+// import net.minecraft.network.packet.s2c.play.SPacketEntityTeleport
+// import net.minecraft.network.packet.s2c.play.SPacketEntityVelocity
+// import net.minecraft.network.packet.s2c.play.SPacketExplosion
+// import net.minecraft.network.packet.s2c.play.SPacketHeldItemChange
+// import net.minecraft.network.packet.s2c.play.SPacketJoinGame
+// import net.minecraft.network.packet.s2c.play.KeepAliveS2CPacket
+// import net.minecraft.network.packet.s2c.play.SPacketMaps
+// import net.minecraft.network.packet.s2c.play.SPacketMoveVehicle
+// import net.minecraft.network.packet.s2c.play.SPacketMultiBlockChange
+// import net.minecraft.network.packet.s2c.play.SPacketOpenWindow
+// import net.minecraft.network.packet.s2c.play.SPacketParticles
 import net.minecraft.network.packet.s2c.play.SPacketPlaceGhostRecipe;
 import net.minecraft.network.packet.s2c.play.SPacketPlayerAbilities;
 import net.minecraft.network.packet.s2c.play.SPacketPlayerListHeaderFooter;

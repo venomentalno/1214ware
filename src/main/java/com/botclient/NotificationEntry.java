@@ -53,9 +53,9 @@ public class NotificationEntry {
         return stringBuilder.toString();
     }
 
-    public float draw(ScaledResolution res, float yOffset) {
-        int w = res.getScaledWidth();
-        int h = res.getScaledHeight();
+    public float draw(Window window, float yOffset) {
+        int w = window.getScaledWidth();
+        int h = window.getScaledHeight();
         double anim = this.animation.get();
         GlowUtils.drawGlow((float)((float)((double)w - (double)(this.width + 29.0f) * anim - 2.0)), (float)((float)h + yOffset - 2.0f), (float)(this.width + 27.0f), (float)21.0f, (int)(6), (Color)new Color(12, 12, 12, 150));
         RoundedUtils.drawRound((float)((float)((double)w - (double)(this.width + 29.0f) * anim - 2.0)), (float)((float)h + yOffset - 2.0f), (float)(this.width + 27.0f), (float)21.0f, (float)2.0f, (Color)new Color(12, 12, 12, 170));
