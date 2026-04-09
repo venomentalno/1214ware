@@ -1,46 +1,77 @@
 ```
-# Java/JDK related
-jdk-*/
-
-# Compiled and build artifacts
-*.class
-*.jar
-*.war
-*.ear
-*.jmod
-*.o
-*.obj
-*.so
-*.dll
-*.a
-*.lib
-
-# Dependencies and build tools
+# Gradle
 .gradle/
 build/
-target/
-dist/
-out/
+.libs/
 
-# IDE specific
-.idea/
-.vscode/
-*.iml
-*.ipr
-*.iws
+# Dependencies
+node_modules/
+vendor/
 
-# Environment and temporary files
+# Logs
+*.log
+
+# Environment
 .env
 .env.local
-*.env.*
-*.tmp
-*.temp
-*.log
-*~
-.swp
-.swo
+.env.*
 
-# OS specific
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
 .DS_Store
 Thumbs.db
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg-info/
+.eggs/
+
+# Compiled
+*.class
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.out
+
+# Archives
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
 ```
