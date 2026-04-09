@@ -1,0 +1,40 @@
+```
+# Compiled and build artifacts
+*.class
+*.o
+*.obj
+*.out
+*.dll
+*.so
+*.a
+
+# Dependencies
+target/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Gradle
+.gradle/
+
+# System files
+.DS_Store
+Thumbs.db
+```
