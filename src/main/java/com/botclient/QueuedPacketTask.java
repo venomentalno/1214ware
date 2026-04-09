@@ -18,7 +18,7 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.util.concurrent.GenericFutureListener;
 import com.botclient.PBotNetworkManager;
 import net.minecraft.network.EnumConnectionState;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 
 /*
  * Exception performing whole class analysis ignored.

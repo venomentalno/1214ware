@@ -15,9 +15,9 @@
  *  neo.deobf.ImageUtils
  *  net.minecraft.client.Minecraft
  *  net.minecraft.network.Packet
- *  net.minecraft.network.play.client.CPacketUseEntity
- *  net.minecraft.util.EnumHand
- *  net.minecraft.util.text.TextFormatting
+ *  net.minecraft.network.play.client.PlayerInteractEntityC2SPacket
+ *  net.minecraft.util.Hand
+ *  net.minecraft.util.text.Formatting
  */
 package com.botclient;
 
@@ -37,8 +37,8 @@ import com.botclient.ChatUtils;
 import com.botclient.GifFrameInfo;
 import com.botclient.ImageUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.Packet;
-import net.minecraft.network.packet.c2s.play.CPacketUseEntity;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.text.TextFormat;
 
@@ -113,7 +113,7 @@ public class CaptchaPacket {
     public void rotateFrame(int x, int y) {
         ImageUtils.rotateFrame((BufferedImage)this.captcha, (int)x, (int)y);
         if (!this.isMap() && (this.pbot).isOnline()) {
-            (CaptchaPacket.getPlayer(CaptchaPacket.getPbot2(this)).connection).sendPacket((Packet)new CPacketUseEntity(this.getFrame(x, y).getId(), (Hand.MAIN_HAND)));
+            (CaptchaPacket.getPlayer(CaptchaPacket.getPbot2(this)).connection).sendPacket((Packet)new PlayerInteractEntityC2SPacket(this.getFrame(x, y).getId(), (Hand.MAIN_HAND)));
         }
     }
 

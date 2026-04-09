@@ -10,7 +10,7 @@ package com.botclient;
 
 import com.botclient.CancellableEvent;
 import com.botclient.Event;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 
 public class PacketReceiveEvent
 extends CancellableEvent

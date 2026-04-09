@@ -4,7 +4,7 @@
  * Could not load the following classes:
  *  neo.deobf.ClickGuiScreen
  *  neo.deobf.DragState
- *  neo.deobf.BaseFontRenderer
+ *  neo.deobf.BaseTextRenderer
  *  net.minecraft.client.renderer.BufferBuilder
  *  net.minecraft.client.renderer.GlStateManager
  *  net.minecraft.client.renderer.Tessellator
@@ -19,20 +19,20 @@ import java.awt.Color;
 import java.awt.Font;
 import com.botclient.ClickGuiScreen;
 import com.botclient.DragState;
-import com.botclient.BaseFontRenderer;
+import com.botclient.BaseTextRenderer;
 import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.texture.DynamicTexture;
 import net.minecraft.client.render.vertex.DefaultVertexFormats;
 import net.minecraft.client.render.vertex.VertexFormat;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.render.RenderSystem;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
-public class FontRendererEx
-extends BaseFontRenderer {
+public class TextRendererEx
+extends BaseTextRenderer {
     public float[] charWidthFloat;
     protected DragState[] boldItalicChars;
     protected DragState[] boldChars;
@@ -71,7 +71,7 @@ extends BaseFontRenderer {
             RenderSystem.enableTexture2D();
             RenderSystem.bindTexture((int)(this.tex).getGlTextureId());
             RenderSystem.glBindTexture((int)(3553), (int)(this.tex).getGlTextureId());
-            (this.bufferbuilder).begin(4, (DefaultVertexFormats.POSITION_TEX));
+            (this.bufferbuilder).begin(4, (VertexFormats.POSITION_TEXTURE));
             for (int i = 0; i < text.length(); ++i) {
                 char character = text.charAt(i);
                 if (String.valueOf(character).equals("§")) {
@@ -99,7 +99,7 @@ extends BaseFontRenderer {
                 float charAlpha = (float)(color >> (24) & (255)) / 255.0f;
                 RenderSystem.color((float)((float)(color >> (16) & (255)) / 255.0f), (float)((float)(color >> (8) & (255)) / 255.0f), (float)((float)(color & (255)) / 255.0f), (float)charAlpha);
                 this.drawChar((this.charData), character, (float)x, (float)y);
-                x += (double)((FontRendererEx.getCharData6(this)[character].width) - (8) + (this.charOffset));
+                x += (double)((TextRendererEx.getCharData6(this)[character].width) - (8) + (this.charOffset));
             }
             (this.tessellator).draw();
             RenderSystem.glHint((int)(3155), (int)(4352));
@@ -148,7 +148,7 @@ extends BaseFontRenderer {
             RenderSystem.enableTexture2D();
             RenderSystem.bindTexture((int)(this.tex).getGlTextureId());
             RenderSystem.glBindTexture((int)(3553), (int)(this.tex).getGlTextureId());
-            (this.bufferbuilder).begin(4, (DefaultVertexFormats.POSITION_TEX));
+            (this.bufferbuilder).begin(4, (VertexFormats.POSITION_TEXTURE));
             for (int i = 0; i < text.length(); ++i) {
                 char character = text.charAt(i);
                 if (String.valueOf(character).equals("§")) {
@@ -172,7 +172,7 @@ extends BaseFontRenderer {
                 }
                 if (character >= (this.charData).length) continue;
                 this.drawChar((this.charData), character, (float)x, (float)y);
-                x += (double)((FontRendererEx.getCharData4(this)[character].width) - (8) + (this.charOffset));
+                x += (double)((TextRendererEx.getCharData4(this)[character].width) - (8) + (this.charOffset));
             }
             (this.tessellator).draw();
             RenderSystem.glHint((int)(3155), (int)(4352));
@@ -188,7 +188,7 @@ extends BaseFontRenderer {
         super.setFractionalMetrics(fractionalMetrics);
     }
 
-    public FontRendererEx(Font font, boolean antiAlias, boolean fractionalMetrics) {
+    public TextRendererEx(Font font, boolean antiAlias, boolean fractionalMetrics) {
         super(font, antiAlias, fractionalMetrics);
         this.boldChars = new DragState[1110];
         this.italicChars = new DragState[1110];
@@ -242,7 +242,7 @@ extends BaseFontRenderer {
         super.setAntiAlias(antiAlias);
     }
 
-    public static void drawStringWithOutline(FontRendererEx fontRenderer, String text, float x, float y, int color) {
+    public static void drawStringWithOutline(TextRendererEx fontRenderer, String text, float x, float y, int color) {
         fontRenderer.drawString(text, x - 0.800000012f, y, (Color.BLACK).getRGB());
         fontRenderer.drawString(text, x + 0.800000012f, y, (Color.BLACK).getRGB());
         fontRenderer.drawString(text, x, y - 0.800000012f, (Color.BLACK).getRGB());
@@ -250,7 +250,7 @@ extends BaseFontRenderer {
         fontRenderer.drawString(text, x, y, color);
     }
 
-    private static DragState[] getCharData4(FontRendererEx instance) {
+    private static DragState[] getCharData4(TextRendererEx instance) {
         return instance.charData;
     }
 
@@ -258,7 +258,7 @@ extends BaseFontRenderer {
         return this.drawString(text, x - (float)this.getStringWidth(text) / 2.0f, y, color, shadow);
     }
 
-    private static DragState[] getCharData6(FontRendererEx instance) {
+    private static DragState[] getCharData6(TextRendererEx instance) {
         return instance.charData;
     }
 
@@ -313,7 +313,7 @@ extends BaseFontRenderer {
         this.drawGradientThemeString(text, x - (float)this.getStringWidth(text) / 2.0f, y);
     }
 
-    private static DragState[] getCharData10(FontRendererEx instance) {
+    private static DragState[] getCharData10(TextRendererEx instance) {
         return instance.charData;
     }
 
@@ -354,7 +354,7 @@ extends BaseFontRenderer {
         return stringbuilder.toString();
     }
 
-    public void drawCenteredStringWithOutline(FontRendererEx fontRenderer, String text, float x, float y, int color) {
+    public void drawCenteredStringWithOutline(TextRendererEx fontRenderer, String text, float x, float y, int color) {
         this.drawCenteredString(text, x - 1.0f, y, (Color.BLACK).getRGB());
         this.drawCenteredString(text, x + 1.0f, y, (Color.BLACK).getRGB());
         this.drawCenteredString(text, x, y - 1.0f, (Color.BLACK).getRGB());
@@ -385,7 +385,7 @@ extends BaseFontRenderer {
                 continue;
             }
             if (character >= (this.charData).length) continue;
-            x += (FontRendererEx.getCharData10(this)[character].width) - (8) + (this.charOffset);
+            x += (TextRendererEx.getCharData10(this)[character].width) - (8) + (this.charOffset);
         }
         return x / (2);
     }

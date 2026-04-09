@@ -11,11 +11,11 @@
  *  net.minecraft.network.EnumConnectionState
  *  net.minecraft.network.INetHandler
  *  net.minecraft.network.login.INetHandlerLoginClient
- *  net.minecraft.network.login.server.SPacketDisconnect
+ *  net.minecraft.network.login.server.DisconnectS2CPacket
  *  net.minecraft.network.login.server.SPacketEnableCompression
  *  net.minecraft.network.login.server.SPacketEncryptionRequest
  *  net.minecraft.network.login.server.SPacketLoginSuccess
- *  net.minecraft.util.text.ITextComponent
+ *  net.minecraft.util.text.Text
  */
 package com.botclient;
 
@@ -28,7 +28,7 @@ import com.botclient.ChatUtils;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.login.INetHandlerLoginClient;
-import net.minecraft.network.login.server.SPacketDisconnect;
+import net.minecraft.network.login.server.DisconnectS2CPacket;
 import net.minecraft.network.login.server.SPacketEnableCompression;
 import net.minecraft.network.login.server.SPacketEncryptionRequest;
 import net.minecraft.network.login.server.SPacketLoginSuccess;
@@ -52,7 +52,7 @@ public PBotStatFileWriter(PBotNetworkManager networkManagerIn, PBot pbot) {
         this.pbot = pbot;
     }
 
-    public void onDisconnect(ITextComponent reason) {
+    public void onDisconnect(Text reason) {
     }
 
     private static BooleanSetting getDisconnect() {
@@ -75,7 +75,7 @@ public PBotStatFileWriter(PBotNetworkManager networkManagerIn, PBot pbot) {
         }
     }
 
-    public void handleDisconnect(SPacketDisconnect packetIn) {
+    public void handleDisconnect(DisconnectS2CPacket packetIn) {
         if ((PBotStatFileWriter.getDisconnect2().value)) {
             ChatUtils.formatMsg((String)("Отключение &d&l" + (this.pbot).getNickname() + "&f&l " + packetIn.getReason().getFormattedText()));
         }

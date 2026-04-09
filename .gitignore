@@ -4,33 +4,40 @@
 *.o
 *.obj
 *.out
+*.dll
+*.so
+*.a
+*.pyc
+__pycache__/
 
 # Dependencies
-lib/
 target/
 .gradle/
-
-# Logs and temp files
-*.log
-*.tmp
-*.swp
+node_modules/
+venv/
+.venv/
 
 # Editors
 .vscode/
 .idea/
 *.swp
 *.swo
+*.tmp
+
+# Logs
+*.log
 
 # Environment
 .env
 .env.local
 *.env.*
 
-# Coverage reports
+# Coverage
 coverage/
 htmlcov/
 .coverage
 
-# Package manager
-node_modules/
+# System
+.DS_Store
+Thumbs.db
 ```

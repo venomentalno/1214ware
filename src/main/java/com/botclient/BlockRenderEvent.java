@@ -3,7 +3,7 @@
  * 
  * Could not load the following classes:
  *  neo.deobf.Event
- *  net.minecraft.block.state.IBlockState
+ *  net.minecraft.block.state.BlockState
  *  net.minecraft.client.renderer.BufferBuilder
  *  net.minecraft.util.math.BlockPos
  *  net.minecraft.world.IBlockAccess
@@ -18,7 +18,7 @@ import net.minecraft.world.IBlockAccess;
 
 public class BlockRenderEvent
 implements Event {
-    public final IBlockState state;
+    public final BlockState state;
     public final BufferBuilder bufferBuilder;
     public final BlockPos pos;
     public final IBlockAccess access;
@@ -39,7 +39,7 @@ implements Event {
         return instance.pos;
     }
 
-    public IBlockState getState() {
+    public BlockState getState() {
         return (this.state);
     }
 
@@ -47,14 +47,14 @@ implements Event {
         return (this.bufferBuilder);
     }
 
-    public BlockRenderEvent(IBlockState state, BlockPos pos, IBlockAccess access, BufferBuilder bufferBuilder) {
+    public BlockRenderEvent(BlockState state, BlockPos pos, IBlockAccess access, BufferBuilder bufferBuilder) {
         this.state = state;
         this.pos = pos;
         this.access = access;
         this.bufferBuilder = bufferBuilder;
     }
 
-    private static IBlockState getState(BlockRenderEvent instance) {
+    private static BlockState getState(BlockRenderEvent instance) {
         return instance.state;
     }
 

@@ -39,7 +39,7 @@
  *  net.minecraft.network.Packet
  *  net.minecraft.network.ThreadQuickExitException
  *  net.minecraft.util.ITickable
- *  net.minecraft.util.text.ITextComponent
+ *  net.minecraft.util.text.Text
  *  net.minecraft.util.text.TextComponentTranslation
  *  org.apache.commons.lang3.Validate
  *  org.apache.logging.log4j.LogManager
@@ -84,7 +84,7 @@ import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.NettyCompressionDecoder;
 import net.minecraft.network.NettyCompressionEncoder;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.ThreadQuickExitException;
 import net.minecraft.util.ITickable;
 import net.minecraft.text.Text;
@@ -104,12 +104,12 @@ extends SimpleChannelInboundHandler<Packet<?>> {
     public final Queue<OutboundPacketEntry> outboundPacketsQueue = Queues.newConcurrentLinkedQueue();
     public static final Logger LOGGER;
     public static final AttributeKey<EnumConnectionState> PROTOCOL_ATTRIBUTE_KEY;
-    public ITextComponent terminationReason;
+    public Text terminationReason;
     public final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     public final PBot pbot;
     public static final Class<? extends Channel> channelClass;
 
-    public ITextComponent getExitMessage() {
+    public Text getExitMessage() {
         return (this.terminationReason);
     }
 
@@ -145,7 +145,7 @@ extends SimpleChannelInboundHandler<Packet<?>> {
             if (this.getExitMessage() != null) {
                 this.getNetHandler().onDisconnect(this.getExitMessage());
             } else if (this.getNetHandler() != null) {
-                this.getNetHandler().onDisconnect((ITextComponent)new TextComponentTranslation("multiplayer.disconnect.generic", new Object[0]));
+                this.getNetHandler().onDisconnect((Text)new TextComponentTranslation("multiplayer.disconnect.generic", new Object[0]));
             }
         }
     }
@@ -161,10 +161,10 @@ extends SimpleChannelInboundHandler<Packet<?>> {
     }
 
     public void channelInactive(ChannelHandlerContext p_channelInactive_1_) {
-        this.closeChannel((ITextComponent)new TextComponentTranslation("disconnect.endOfStream", new Object[0]));
+        this.closeChannel((Text)new TextComponentTranslation("disconnect.endOfStream", new Object[0]));
     }
 
-    public void closeChannel(ITextComponent message) {
+    public void closeChannel(Text message) {
         if ((this.channel) != null && (this.channel).isOpen()) {
             (this.channel).close();
             this.terminationReason = message;
@@ -310,7 +310,7 @@ private static BooleanSetting getInternalErrors() {
             textcomponenttranslation = new TextComponentTranslation("disconnect.genericReason", objectArray);
         }
         (LOGGER).debug(textcomponenttranslation.getUnformattedText(), p_exceptionCaught_2_);
-        this.closeChannel((ITextComponent)textcomponenttranslation);
+        this.closeChannel((Text)textcomponenttranslation);
     }
 
 }

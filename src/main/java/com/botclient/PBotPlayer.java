@@ -11,7 +11,7 @@
  *  neo.deobf.PBotNetHandlerPlayClient
  *  neo.deobf.PBotPlayerController
  *  neo.deobf.ScriptManager
- *  net.minecraft.block.state.IBlockState
+ *  net.minecraft.block.state.BlockState
  *  net.minecraft.client.network.NetworkPlayerInfo
  *  net.minecraft.entity.Entity
  *  net.minecraft.entity.IJumpingMount
@@ -20,8 +20,8 @@
  *  net.minecraft.entity.item.EntityBoat
  *  net.minecraft.entity.item.EntityItem
  *  net.minecraft.entity.passive.AbstractHorse
- *  net.minecraft.entity.player.EntityPlayer
- *  net.minecraft.entity.player.EntityPlayer$EnumChatVisibility
+ *  net.minecraft.entity.player.PlayerEntity
+ *  net.minecraft.entity.player.PlayerEntity$EnumChatVisibility
  *  net.minecraft.entity.player.EnumPlayerModelParts
  *  net.minecraft.entity.player.InventoryPlayer
  *  net.minecraft.entity.player.PlayerCapabilities
@@ -49,7 +49,7 @@
  *  net.minecraft.network.datasync.DataParameter
  *  net.minecraft.network.datasync.EntityDataManager
  *  net.minecraft.network.play.client.CPacketAnimation
- *  net.minecraft.network.play.client.CPacketChatMessage
+ *  net.minecraft.network.play.client.ChatMessageC2SPacket
  *  net.minecraft.network.play.client.CPacketClientSettings
  *  net.minecraft.network.play.client.CPacketClientStatus
  *  net.minecraft.network.play.client.CPacketClientStatus$State
@@ -57,13 +57,13 @@
  *  net.minecraft.network.play.client.CPacketEntityAction
  *  net.minecraft.network.play.client.CPacketEntityAction$Action
  *  net.minecraft.network.play.client.CPacketInput
- *  net.minecraft.network.play.client.CPacketPlayer
- *  net.minecraft.network.play.client.CPacketPlayer$Position
- *  net.minecraft.network.play.client.CPacketPlayer$PositionRotation
- *  net.minecraft.network.play.client.CPacketPlayer$Rotation
- *  net.minecraft.network.play.client.CPacketPlayerAbilities
- *  net.minecraft.network.play.client.CPacketPlayerDigging
- *  net.minecraft.network.play.client.CPacketPlayerDigging$Action
+ *  net.minecraft.network.play.client.PlayerMoveC2SPacket
+ *  net.minecraft.network.play.client.PlayerMoveC2SPacket$Position
+ *  net.minecraft.network.play.client.PlayerMoveC2SPacket$PositionRotation
+ *  net.minecraft.network.play.client.PlayerMoveC2SPacket$Rotation
+ *  net.minecraft.network.play.client.PlayerMoveC2SPacketAbilities
+ *  net.minecraft.network.play.client.PlayerMoveC2SPacketDigging
+ *  net.minecraft.network.play.client.PlayerMoveC2SPacketDigging$Action
  *  net.minecraft.network.play.client.CPacketRecipeInfo
  *  net.minecraft.network.play.client.CPacketVehicleMove
  *  net.minecraft.potion.Potion
@@ -76,9 +76,9 @@
  *  net.minecraft.tileentity.TileEntitySign
  *  net.minecraft.tileentity.TileEntityStructure
  *  net.minecraft.util.DamageSource
- *  net.minecraft.util.EnumFacing
- *  net.minecraft.util.EnumHand
- *  net.minecraft.util.EnumHandSide
+ *  net.minecraft.util.Direction
+ *  net.minecraft.util.Hand
+ *  net.minecraft.util.HandSide
  *  net.minecraft.util.MovementInput
  *  net.minecraft.util.SoundEvent
  *  net.minecraft.util.math.AxisAlignedBB
@@ -86,7 +86,7 @@
  *  net.minecraft.util.math.MathHelper
  *  net.minecraft.util.math.Vec2f
  *  net.minecraft.util.math.Vec3d
- *  net.minecraft.util.text.ITextComponent
+ *  net.minecraft.util.text.Text
  *  net.minecraft.world.GameType
  *  net.minecraft.world.IBlockAccess
  *  net.minecraft.world.IInteractionObject
@@ -140,19 +140,19 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemElytra;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.packet.c2s.play.CPacketAnimation;
-import net.minecraft.network.packet.c2s.play.CPacketChatMessage;
+import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.c2s.play.CPacketClientSettings;
 import net.minecraft.network.packet.c2s.play.CPacketClientStatus;
 import net.minecraft.network.packet.c2s.play.CPacketCloseWindow;
 import net.minecraft.network.packet.c2s.play.CPacketEntityAction;
 import net.minecraft.network.packet.c2s.play.CPacketInput;
-import net.minecraft.network.packet.c2s.play.CPacketPlayer;
-import net.minecraft.network.packet.c2s.play.CPacketPlayerAbilities;
-import net.minecraft.network.packet.c2s.play.CPacketPlayerDigging;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacketAbilities;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacketDigging;
 import net.minecraft.network.packet.c2s.play.CPacketRecipeInfo;
 import net.minecraft.network.packet.c2s.play.CPacketVehicleMove;
 import net.minecraft.entity.effect.StatusEffect;
@@ -167,7 +167,7 @@ import net.minecraft.stats.StatisticsManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
-import net.minecraft.util.EnumHandSide;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Box;
@@ -185,7 +185,7 @@ import net.minecraft.world.World;
  * Illegal identifiers - consider using --renameillegalidents true
  */
 public class PBotPlayer
-extends EntityPlayer {
+extends PlayerEntity {
     public float prevTimeInPortal;
     public double lastReportedPosZ;
     public float renderArmYaw;
@@ -203,7 +203,7 @@ extends EntityPlayer {
     public boolean autoJumpEnabled;
     public int sprintToggleTimer;
     public int horseJumpPowerCounter;
-    public EnumHand activeHand;
+    public Hand activeHand;
     public final Set<EnumPlayerModelParts> setModelParts = Sets.newHashSet((Object[])EnumPlayerModelParts.values());
     public final RecipeBook recipeBook;
     public int autoJumpTime;
@@ -318,7 +318,7 @@ extends EntityPlayer {
     }
 
     public void openGuiHorseInventory(AbstractHorse horse, IInventory inventoryIn) {
-        this.openContainer = (Container)new ContainerHorseInventory((IInventory)PBotPlayer.getInventory10(this), inventoryIn, horse, (EntityPlayer)this);
+        this.openContainer = (Container)new ContainerHorseInventory((IInventory)PBotPlayer.getInventory10(this), inventoryIn, horse, (PlayerEntity)this);
     }
 
     private static MovementInput getMovementInput3(PBotPlayer instance) {
@@ -361,7 +361,7 @@ extends EntityPlayer {
             for (EnumPlayerModelParts enumplayermodelparts : (this.setModelParts)) {
                 i |= enumplayermodelparts.getPartMask();
             }
-            (this.pbot).sendPacket((Packet)new CPacketClientSettings("en_us", 4, (EntityPlayer.EnumChatVisibility.FULL), true, i, (EnumHandSide.RIGHT)));
+            (this.pbot).sendPacket((Packet)new CPacketClientSettings("en_us", 4, (PlayerEntity.EnumChatVisibility.FULL), true, i, (HandSide.RIGHT)));
         }
     }
 
@@ -392,10 +392,10 @@ extends EntityPlayer {
             float f13 = (float)((vec3d13.x) * (vec3d12.x) + (vec3d13.z) * (vec3d12.z));
             if (f13 >= -0.150000036f) {
                 BlockPos blockpos = new BlockPos((this.posX), (this.getEntityBoundingBox().maxY), (this.posZ));
-                IBlockState iblockstate = (this.world).getBlockState(blockpos);
+                BlockState iblockstate = (this.world).getBlockState(blockpos);
                 if (iblockstate.getCollisionBoundingBox((IBlockAccess)(this.world), blockpos) == null) {
                     blockpos = blockpos.up();
-                    IBlockState iblockstate1 = (this.world).getBlockState(blockpos);
+                    BlockState iblockstate1 = (this.world).getBlockState(blockpos);
                     if (iblockstate1.getCollisionBoundingBox((IBlockAccess)(this.world), blockpos) == null) {
                         float f14;
                         float f7 = 1.20000005f;
@@ -428,14 +428,14 @@ extends EntityPlayer {
                             int i = 1;
                             while (!((float)i >= f7)) {
                                 BlockPos blockpos2 = blockpos1.up(i);
-                                IBlockState iblockstate2 = (this.world).getBlockState(blockpos2);
+                                BlockState iblockstate2 = (this.world).getBlockState(blockpos2);
                                 AxisAlignedBB axisalignedbb1 = iblockstate2.getCollisionBoundingBox((IBlockAccess)(this.world), blockpos2);
                                 if (axisalignedbb1 != null && (double)(f11 = (float)(axisalignedbb1.maxY) + (float)blockpos2.getY()) - (this.getEntityBoundingBox().minY) > (double)f7) {
                                     return;
                                 }
                                 if (i > (1)) {
                                     blockpos = blockpos.up();
-                                    IBlockState iblockstate3 = (this.world).getBlockState(blockpos);
+                                    BlockState iblockstate3 = (this.world).getBlockState(blockpos);
                                     if (iblockstate3.getCollisionBoundingBox((IBlockAccess)(this.world), blockpos) != null) {
                                         return;
                                     }
@@ -591,8 +591,8 @@ extends EntityPlayer {
 
     @Nullable
     public EntityItem dropItem(boolean dropAll) {
-        CPacketPlayerDigging.Action cpacketplayerdigging$action = dropAll ? (CPacketPlayerDigging.Action.DROP_ALL_ITEMS) : (CPacketPlayerDigging.Action.DROP_ITEM);
-        (this.connection).sendPacket((Packet)new CPacketPlayerDigging(cpacketplayerdigging$action, (BlockPos.ORIGIN), (Direction.DOWN)));
+        PlayerMoveC2SPacketDigging.Action cpacketplayerdigging$action = dropAll ? (PlayerMoveC2SPacketDigging.Action.DROP_ALL_ITEMS) : (PlayerMoveC2SPacketDigging.Action.DROP_ITEM);
+        (this.connection).sendPacket((Packet)new PlayerMoveC2SPacketDigging(cpacketplayerdigging$action, (BlockPos.ORIGIN), (Direction.DOWN)));
         return null;
     }
 
@@ -608,7 +608,7 @@ extends EntityPlayer {
         if ((this.world).isBlockLoaded(new BlockPos((this.posX), 0.0, (this.posZ)))) {
             super.onUpdate();
             if (this.isRiding()) {
-                (this.connection).sendPacket((Packet)new CPacketPlayer.Rotation((this.rotationYaw), (this.rotationPitch), (this.onGround)));
+                (this.connection).sendPacket((Packet)new PlayerMoveC2SPacket.Rotation((this.rotationYaw), (this.rotationPitch), (this.onGround)));
                 (this.connection).sendPacket((Packet)new CPacketInput((this.moveStrafing), (this.moveVertical), (PBotPlayer.getMovementInput(this).jump), (PBotPlayer.getMovementInput35(this).sneak)));
                 Entity entity = this.getLowestRidingEntity();
                 if (entity != this && entity.canPassengerSteer()) {
@@ -629,7 +629,7 @@ extends EntityPlayer {
     }
 
     public void sendChatMessage(String message) {
-        (this.connection).sendPacket((Packet)new CPacketChatMessage(message));
+        (this.connection).sendPacket((Packet)new ChatMessageC2SPacket(message));
     }
 
     public boolean isAutoJumpEnabled() {
@@ -736,7 +736,7 @@ extends EntityPlayer {
         return instance.inventory;
     }
 
-    private static void setActiveHand(PBotPlayer instance, EnumHand enumHand) {
+    private static void setActiveHand(PBotPlayer instance, Hand enumHand) {
         instance.activeHand = enumHand;
     }
 
@@ -772,7 +772,7 @@ extends EntityPlayer {
         return instance.timeInPortal;
     }
 
-    public void swingArm(EnumHand hand) {
+    public void swingArm(Hand hand) {
         super.swingArm(hand);
         (this.connection).sendPacket((Packet)new CPacketAnimation(hand));
     }
@@ -941,14 +941,14 @@ extends EntityPlayer {
     }
 
     public void sendPlayerAbilities() {
-        (this.connection).sendPacket((Packet)new CPacketPlayerAbilities((this.capabilities)));
+        (this.connection).sendPacket((Packet)new PlayerMoveC2SPacketAbilities((this.capabilities)));
     }
 
     public void sendHorseInventory() {
         (this.connection).sendPacket((Packet)new CPacketEntityAction((Entity)this, (CPacketEntityAction.Action.OPEN_INVENTORY)));
     }
 
-    private static EnumHand getActiveHand(PBotPlayer instance) {
+    private static Hand getActiveHand(PBotPlayer instance) {
         return instance.activeHand;
     }
 
@@ -1077,7 +1077,7 @@ extends EntityPlayer {
         return instance.rotationPitch;
     }
 
-    public void setActiveHand(EnumHand hand) {
+    public void setActiveHand(Hand hand) {
         ItemStack itemstack = this.getHeldItem(hand);
         if (!itemstack.isEmpty() && !this.isHandActive()) {
             super.setActiveHand(hand);
@@ -1090,7 +1090,7 @@ extends EntityPlayer {
         return instance.capabilities;
     }
 
-    public void sendStatusMessage(ITextComponent chatComponent, boolean actionBar) {
+    public void sendStatusMessage(Text chatComponent, boolean actionBar) {
         if (actionBar) {
             // empty if block
         }
@@ -1119,7 +1119,7 @@ extends EntityPlayer {
     public void onEnchantmentCritical(Entity entityHit) {
     }
 
-    public void openBook(ItemStack stack, EnumHand hand) {
+    public void openBook(ItemStack stack, Hand hand) {
         Item item = stack.getItem();
         if (item == (Items.WRITABLE_BOOK)) {
             // empty if block
@@ -1130,7 +1130,7 @@ extends EntityPlayer {
         return instance.movementInput;
     }
 
-    public void sendMessage(ITextComponent component) {
+    public void sendMessage(Text component) {
     }
 
     private static PBotMinecraft getMc3(PBotPlayer instance) {
@@ -1180,7 +1180,7 @@ extends EntityPlayer {
             if ("minecraft:enchanting_table".equals(s)) {
                 this.openContainer = (Container)new ContainerEnchantment(PBotPlayer.getInventory11(this), PBotPlayer.getWorld15(this));
             } else if ("minecraft:anvil".equals(s)) {
-                this.openContainer = (Container)new ContainerRepair(PBotPlayer.getInventory(this), PBotPlayer.getWorld11(this), (EntityPlayer)this);
+                this.openContainer = (Container)new ContainerRepair(PBotPlayer.getInventory(this), PBotPlayer.getWorld11(this), (PlayerEntity)this);
             }
         }
     }
@@ -1233,9 +1233,9 @@ extends EntityPlayer {
         String s;
         String string = s = chestInventory instanceof IInteractionObject ? ((IInteractionObject)chestInventory).getGuiID() : "minecraft:container";
         if ("minecraft:chest".equals(s)) {
-            this.openContainer = (Container)new ContainerChest((IInventory)PBotPlayer.getInventory12(this), chestInventory, (EntityPlayer)this);
+            this.openContainer = (Container)new ContainerChest((IInventory)PBotPlayer.getInventory12(this), chestInventory, (PlayerEntity)this);
         } else if ("minecraft:hopper".equals(s)) {
-            this.openContainer = (Container)new ContainerHopper(PBotPlayer.getInventory4(this), chestInventory, (EntityPlayer)this);
+            this.openContainer = (Container)new ContainerHopper(PBotPlayer.getInventory4(this), chestInventory, (PlayerEntity)this);
         } else if ("minecraft:furnace".equals(s)) {
             this.openContainer = (Container)new ContainerFurnace(PBotPlayer.getInventory6(this), chestInventory);
         } else if ("minecraft:brewing_stand".equals(s)) {
@@ -1244,9 +1244,9 @@ extends EntityPlayer {
             this.openContainer = (Container)new ContainerBeacon((IInventory)PBotPlayer.getInventory2(this), chestInventory);
         } else if (!"minecraft:dispenser".equals(s) && !"minecraft:dropper".equals(s)) {
             if ("minecraft:shulker_box".equals(s)) {
-                this.openContainer = (Container)new ContainerShulkerBox(PBotPlayer.getInventory3(this), chestInventory, (EntityPlayer)this);
+                this.openContainer = (Container)new ContainerShulkerBox(PBotPlayer.getInventory3(this), chestInventory, (PlayerEntity)this);
             } else {
-                this.openContainer = (Container)new ContainerChest((IInventory)PBotPlayer.getInventory13(this), chestInventory, (EntityPlayer)this);
+                this.openContainer = (Container)new ContainerChest((IInventory)PBotPlayer.getInventory13(this), chestInventory, (PlayerEntity)this);
             }
         } else {
             this.openContainer = (Container)new ContainerDispenser((IInventory)PBotPlayer.getInventory5(this), chestInventory);
@@ -1336,7 +1336,7 @@ extends EntityPlayer {
         this.serverBrand = brand;
     }
 
-    public EnumHand getActiveHand() {
+    public Hand getActiveHand() {
         return (this.activeHand);
     }
 
@@ -1389,16 +1389,16 @@ extends EntityPlayer {
             int flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 0.00089999999999999998 || (this.positionUpdateTicks) >= (20) ? 1 : 0;
             int n = flag3 = d3 != 0.0 || d4 != 0.0 ? 1 : 0;
             if (this.isRiding()) {
-                (this.connection).sendPacket((Packet)new CPacketPlayer.PositionRotation((this.motionX), -999.0, (this.motionZ), (this.rotationYaw), (this.rotationPitch), (this.onGround)));
+                (this.connection).sendPacket((Packet)new PlayerMoveC2SPacket.PositionRotation((this.motionX), -999.0, (this.motionZ), (this.rotationYaw), (this.rotationPitch), (this.onGround)));
                 flag2 = 0;
             } else if (flag2 != 0 && flag3 != 0) {
-                (this.connection).sendPacket((Packet)new CPacketPlayer.PositionRotation((this.posX), (this.posY), (this.posZ), (this.rotationYaw), (this.rotationPitch), (this.onGround)));
+                (this.connection).sendPacket((Packet)new PlayerMoveC2SPacket.PositionRotation((this.posX), (this.posY), (this.posZ), (this.rotationYaw), (this.rotationPitch), (this.onGround)));
             } else if (flag2 != 0) {
-                (this.connection).sendPacket((Packet)new CPacketPlayer.Position((this.posX), (this.posY), (this.posZ), (this.onGround)));
+                (this.connection).sendPacket((Packet)new PlayerMoveC2SPacket.Position((this.posX), (this.posY), (this.posZ), (this.onGround)));
             } else if (flag3 != 0) {
-                (this.connection).sendPacket((Packet)new CPacketPlayer.Rotation((this.rotationYaw), (this.rotationPitch), (this.onGround)));
+                (this.connection).sendPacket((Packet)new PlayerMoveC2SPacket.Rotation((this.rotationYaw), (this.rotationPitch), (this.onGround)));
             } else if ((this.prevOnGround) != (this.onGround)) {
-                (this.connection).sendPacket((Packet)new CPacketPlayer((this.onGround)));
+                (this.connection).sendPacket((Packet)new PlayerMoveC2SPacket((this.onGround)));
             }
             if (flag2 != 0) {
                 this.lastReportedPosX = PBotPlayer.getPosX13(this);
@@ -1422,9 +1422,9 @@ extends EntityPlayer {
     public void notifyDataManagerChange(DataParameter<?> key) {
         super.notifyDataManagerChange(key);
         if ((HAND_STATES).equals(key)) {
-            EnumHand enumhand;
+            Hand enumhand;
             int flag = ((Byte)(this.dataManager).get((HAND_STATES)) & (1)) > 0 ? 1 : 0;
-            EnumHand enumHand = enumhand = ((Byte)(this.dataManager).get((HAND_STATES)) & (2)) > 0 ? (Hand.OFF_HAND) : (Hand.MAIN_HAND);
+            Hand enumHand = enumhand = ((Byte)(this.dataManager).get((HAND_STATES)) & (2)) > 0 ? (Hand.OFF_HAND) : (Hand.MAIN_HAND);
             if (flag != 0 && !(this.handActive)) {
                 this.setActiveHand(enumhand);
             } else if (flag == 0 && (this.handActive)) {

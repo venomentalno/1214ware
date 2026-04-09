@@ -11,13 +11,13 @@
  *  neo.deobf.Module
  *  neo.deobf.DrawUtils
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityPlayerSP
- *  net.minecraft.client.multiplayer.WorldClient
+ *  net.minecraft.client.entity.PlayerEntitySP
+ *  net.minecraft.client.multiplayer.ClientWorld
  *  net.minecraft.client.renderer.GlStateManager
  *  net.minecraft.client.renderer.entity.RenderManager
  *  net.minecraft.client.settings.GameSettings
  *  net.minecraft.entity.Entity
- *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.entity.player.PlayerEntity
  *  net.minecraft.util.math.Vec3d
  *  org.lwjgl.opengl.GL11
  */
@@ -36,13 +36,13 @@ import com.botclient.DrawUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import net.minecraft.client.render.entity.RenderManager;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.render.RenderSystem;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
@@ -52,7 +52,7 @@ extends Module {
     public static ColorSetting color = new ColorSetting("Р¦РІРµС‚", Color.WHITE.getRGB());
     public BooleanSetting onlyplayers = new BooleanSetting("РўРѕР»СЊРєРѕ РёРіСЂРѕРєРё", true);
 
-    private static EntityPlayerSP getPlayer2() {
+    private static PlayerEntitySP getPlayer2() {
         return Minecraft.player;
     }
 
@@ -60,7 +60,7 @@ extends Module {
         return Minecraft.gameSettings;
     }
 
-    private static WorldClient getWorld(Minecraft minecraft) {
+    private static ClientWorld getWorld(Minecraft minecraft) {
         return minecraft.world;
     }
 
@@ -75,7 +75,7 @@ extends Module {
     @EventTarget
     public void onEvent3D(Render3DEvent event) {
         for (Entity entity : (TracersModule.getWorld((mc)).loadedEntityList)) {
-            if (entity == (Minecraft.player) || (TracersModule.getOnlyplayers(this).value) && !(entity instanceof EntityPlayer)) continue;
+            if (entity == (Minecraft.player) || (TracersModule.getOnlyplayers(this).value) && !(entity instanceof PlayerEntity)) continue;
             TracersModule.getGameSettings().viewBobbing = false;
             double d = (entity.lastTickPosX) + ((entity.posX) - (entity.lastTickPosX)) * (double)event.getPartialTicks();
             (mc).getRenderManager();
@@ -111,7 +111,7 @@ extends Module {
         }
     }
 
-    private static EntityPlayerSP getPlayer3() {
+    private static PlayerEntitySP getPlayer3() {
         return Minecraft.player;
     }
 

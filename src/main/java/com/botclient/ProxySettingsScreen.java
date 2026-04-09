@@ -7,11 +7,11 @@
  *  neo.deobf.ProxyType
  *  neo.deobf.ProxyInfo
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.FontRenderer
- *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.TextRenderer
+ *  net.minecraft.client.gui.ButtonWidget
  *  net.minecraft.client.gui.GuiMultiplayer
  *  net.minecraft.client.gui.GuiScreen
- *  net.minecraft.client.gui.GuiTextField
+ *  net.minecraft.client.gui.TextFieldWidget
  *  net.minecraft.client.renderer.GlStateManager
  *  org.apache.commons.io.FileUtils
  *  org.json.JSONObject
@@ -36,31 +36,31 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.client.util.InputUtil;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
 public class ProxySettingsScreen
-extends GuiScreen {
-    public GuiTextField passwordField;
+extends Screen {
+    public TextFieldWidget passwordField;
     private final int offset = 20;
     public static int type = 3;
-    public GuiTextField proxyField;
+    public TextFieldWidget proxyField;
     public static String username;
     public static String proxy;
     public final Minecraft mc = MinecraftClient.getInstance();
     public static String password;
-    public GuiTextField usernameField;
+    public TextFieldWidget usernameField;
 
     private static int getWidth(ProxySettingsScreen instance) {
         return instance.width;
     }
 
-    private static GuiTextField getPasswordField(ProxySettingsScreen instance) {
+    private static TextFieldWidget getPasswordField(ProxySettingsScreen instance) {
         return instance.passwordField;
     }
 
@@ -71,14 +71,14 @@ extends GuiScreen {
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         super.keyTyped(typedChar, keyCode);
         if (keyCode == (28)) {
-            this.actionPerformed((GuiButton)(this.buttonList).get(1));
+            this.actionPerformed((ButtonWidget)(this.buttonList).get(1));
         }
         (this.proxyField).textboxKeyTyped(typedChar, keyCode);
         (this.usernameField).textboxKeyTyped(typedChar, keyCode);
         (this.passwordField).textboxKeyTyped(typedChar, keyCode);
     }
 
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(ButtonWidget button) throws IOException {
         ProxyInfo proxyInfo;
         if ((button.id) == 0) {
             String fieldText = ProxySettingsScreen.keepNumbersAndColonOnly((this.proxyField).getText());
@@ -139,7 +139,7 @@ extends GuiScreen {
         return (ProxyType.NO_PROXY);
     }
 
-    private static FontRenderer getFontRenderer(ProxySettingsScreen instance) {
+    private static TextRenderer getTextRenderer(ProxySettingsScreen instance) {
         return instance.fontRenderer;
     }
 
@@ -165,20 +165,20 @@ extends GuiScreen {
 
     public void initGui() {
         Keyboard.enableRepeatEvents(true);
-        (this.buttonList).add(new GuiButton(0, (this.width) / (2) - (100), (this.height) - (50), 200, 20, "Done"));
-        (this.buttonList).add(new GuiButton(1, (this.width) / (2) + (50), (this.height) / (2) + (10) - (20), 30, 20, "Reset"));
-        (this.buttonList).add(new GuiButton(3, (this.width) / (2) + (80), (this.height) / (2) + (10) - (20), 30, 20, "Type"));
-        (this.buttonList).add(new GuiButton(4, (this.width) / (2) + (50), (this.height) / (2) + (35) - (20), 63, 20, "Free Proxy"));
-        this.proxyField = new GuiTextField(2, ProxySettingsScreen.getFontRenderer5(this), ProxySettingsScreen.getWidth4(this) / (2) - (110), ProxySettingsScreen.getHeight2(this) / (2) + (10) - (20), 220, 20);
+        (this.buttonList).add(new ButtonWidget(0, (this.width) / (2) - (100), (this.height) - (50), 200, 20, "Done"));
+        (this.buttonList).add(new ButtonWidget(1, (this.width) / (2) + (50), (this.height) / (2) + (10) - (20), 30, 20, "Reset"));
+        (this.buttonList).add(new ButtonWidget(3, (this.width) / (2) + (80), (this.height) / (2) + (10) - (20), 30, 20, "Type"));
+        (this.buttonList).add(new ButtonWidget(4, (this.width) / (2) + (50), (this.height) / (2) + (35) - (20), 63, 20, "Free Proxy"));
+        this.proxyField = new TextFieldWidget(2, ProxySettingsScreen.getTextRenderer5(this), ProxySettingsScreen.getWidth4(this) / (2) - (110), ProxySettingsScreen.getHeight2(this) / (2) + (10) - (20), 220, 20);
         (this.proxyField).setMaxStringLength(22);
         (this.proxyField).setFocused(true);
         (this.proxyField).setText((proxy));
-        this.usernameField = new GuiTextField(2, ProxySettingsScreen.getFontRenderer(this), ProxySettingsScreen.getWidth(this) / (2) - (110), ProxySettingsScreen.getHeight4(this) / (2) + (10) + (50) - (20), 220, 20);
+        this.usernameField = new TextFieldWidget(2, ProxySettingsScreen.getTextRenderer(this), ProxySettingsScreen.getWidth(this) / (2) - (110), ProxySettingsScreen.getHeight4(this) / (2) + (10) + (50) - (20), 220, 20);
         (this.usernameField).setMaxStringLength(22);
         (this.usernameField).setFocused(false);
         (this.usernameField).setText((username));
         (this.usernameField).setVisible(((type) == (1) ? 1 : 0) != 0);
-        this.passwordField = new GuiTextField(2, ProxySettingsScreen.getFontRenderer2(this), ProxySettingsScreen.getWidth9(this) / (2) - (110), ProxySettingsScreen.getHeight9(this) / (2) + (10) + (90) - (20), 220, 20);
+        this.passwordField = new TextFieldWidget(2, ProxySettingsScreen.getTextRenderer2(this), ProxySettingsScreen.getWidth9(this) / (2) - (110), ProxySettingsScreen.getHeight9(this) / (2) + (10) + (90) - (20), 220, 20);
         (this.passwordField).setMaxStringLength(22);
         (this.passwordField).setFocused(false);
         (this.passwordField).setText((password));
@@ -216,7 +216,7 @@ extends GuiScreen {
         return instance.width;
     }
 
-    private static FontRenderer getFontRenderer2(ProxySettingsScreen instance) {
+    private static TextRenderer getTextRenderer2(ProxySettingsScreen instance) {
         return instance.fontRenderer;
     }
 
@@ -244,7 +244,7 @@ extends GuiScreen {
         return instance.height;
     }
 
-    private static FontRenderer getFontRenderer5(ProxySettingsScreen instance) {
+    private static TextRenderer getTextRenderer5(ProxySettingsScreen instance) {
         return instance.fontRenderer;
     }
 

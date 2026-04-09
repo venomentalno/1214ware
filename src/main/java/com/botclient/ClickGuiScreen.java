@@ -19,7 +19,7 @@
  *  neo.deobf.AnimationUtils
  *  neo.deobf.BackendApi
  *  neo.deobf.Theme
- *  neo.deobf.FontRendererEx
+ *  neo.deobf.TextRendererEx
  *  neo.deobf.FontRegistry
  *  neo.deobf.MillisTimer
  *  neo.deobf.ColorUtils
@@ -63,7 +63,7 @@ import com.botclient.ClickGuiModule;
 import com.botclient.AnimationUtils;
 import com.botclient.BackendApi;
 import com.botclient.Theme;
-import com.botclient.FontRendererEx;
+import com.botclient.TextRendererEx;
 import com.botclient.FontRegistry;
 import com.botclient.MillisTimer;
 import com.botclient.ColorUtils;
@@ -74,19 +74,19 @@ import com.botclient.StencilUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.Window;
-import net.minecraft.util.ChatAllowedCharacters;
+// ChatAllowedCharacters removed in 1.21.4
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
+import net.minecraft.client.util.InputUtil;
+import org.lwjgl.glfw.GLFW;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
 public class ClickGuiScreen
-extends GuiScreen {
+extends Screen {
     public static float prevY;
     public float scroll = 0.0f;
     public final ArrayList<SnowflakeParticle> effectList;
@@ -205,9 +205,9 @@ extends GuiScreen {
                             (FontRegistry.mnstb_14).drawString((colorSetting.name), x + 110.0f, y + 60.0f + (float)offset1 + (float)offset + (this.animScroll), new Color(153, 180, 189, 255).getRGB());
                             int pickerX = (int)((float)mouseX - (x + 110.0f));
                             int pickerY = (int)((float)mouseY - (y + 70.0f + (float)offset1 + (float)offset + (this.animScroll)));
-                            DrawUtils.drawImage((ResourceLocation)new ResourceLocation("neoware/images/colorpicker.png"), (float)(x + 110.0f), (float)(y + 70.0f + (float)offset1 + (float)offset + (this.animScroll)), (float)75.0f, (float)10.0f, (Color)new Color(255, 255, 255));
+                            DrawUtils.drawImage((ResourceLocation)new Identifier("neoware/images/colorpicker.png"), (float)(x + 110.0f), (float)(y + 70.0f + (float)offset1 + (float)offset + (this.animScroll)), (float)75.0f, (float)10.0f, (Color)new Color(255, 255, 255));
                             DrawUtils.drawRect((float)(x + 195.0f), (float)(y + 70.0f + (float)offset1 + (float)offset + (this.animScroll)), (float)10.0f, (float)10.0f, (Color)colorSetting.getColorc());
-                            if (Mouse.isButtonDown((int)(0)) && pickerX >= 0 && pickerY >= 0 && pickerX < (colorpicker).getWidth() && pickerY < (colorpicker).getHeight()) {
+                            if (GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), (int)(0)) && pickerX >= 0 && pickerY >= 0 && pickerX < (colorpicker).getWidth() && pickerY < (colorpicker).getHeight()) {
                                 colorSetting.color = ClickGuiScreen.getColor((colorpicker), pickerX, pickerY).getRGB();
                                 colorSetting.picker = pickerX;
                             }
@@ -366,8 +366,8 @@ extends GuiScreen {
     }
 
     public void handleMouseInput() throws IOException {
-        if (Mouse.hasWheel() && this.isHovered((this.mousex), (this.mousey), (x) + 80.0f, (y), (width), (height))) {
-            int mouse = Mouse.getDWheel();
+        if (true && this.isHovered((this.mousex), (this.mousey), (x) + 80.0f, (y), (width), (height))) {
+            int mouse = GLFW.glfwGetScrollCallback;
             if (mouse > 0) {
                 ClickGuiScreen br = this;
                 br.scroll = ClickGuiScreen.getScroll2(br) + 50.0f;
@@ -473,7 +473,7 @@ extends GuiScreen {
         StencilUtils.readStencilBuffer((int)(1));
         RoundedUtils.drawRound((float)((x) + 1.0f), (float)((y) + 2.0f), (float)25.0f, (float)(height), (float)2.0f, (Color)new Color(25, 25, 25, 255));
         RoundedUtils.drawRound((float)((x) + 10.0f), (float)((y) + 2.0f), (float)80.0f, (float)(height), (float)0.0f, (Color)new Color(25, 25, 25, 255));
-        DrawUtils.drawImage((ResourceLocation)new ResourceLocation("neoware/images/neoware.png"), (float)((x) + 10.0f), (float)((y) + 10.0f), (float)20.0f, (float)20.0f, (Color)new Color(255, 255, 255));
+        DrawUtils.drawImage((ResourceLocation)new Identifier("neoware/images/neoware.png"), (float)((x) + 10.0f), (float)((y) + 10.0f), (float)20.0f, (float)20.0f, (Color)new Color(255, 255, 255));
         int[] nArray = new int[4];
         nArray[0] = ClickGuiScreen.getC(0).getRGB();
         nArray[1] = ClickGuiScreen.getC(250).getRGB();
@@ -525,13 +525,14 @@ extends GuiScreen {
             }
         }
         StencilUtils.uninitStencilBuffer();
-        if ((this.dragging) && Mouse.isButtonDown((int)(0))) {
+        if ((this.dragging) && GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), (int)(0))) {
             x = (float)mouseX + (prevX);
             y = (float)mouseY + (prevY);
         } else {
             this.dragging = false;
         }
-        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
+        ScaledResolution sr = // ScaledResolution replaced with Window calculation
+        Window window = MinecraftClient.getInstance());
         if ((ClickGuiScreen.getSnow().value) && !(this.effectList).isEmpty()) {
             (this.effectList).forEach(snow -> snow.update(sr));
         }
@@ -668,7 +669,7 @@ extends GuiScreen {
         width = 370.0f;
         height = 265.0f;
         try {
-            colorpicker = ImageIO.read(MinecraftClient.getInstance().getResourceManager().getResource(new ResourceLocation("neoware/images/colorpicker.png")).getInputStream());
+            colorpicker = ImageIO.read(MinecraftClient.getInstance().getResourceManager().getResource(new Identifier("neoware/images/colorpicker.png")).getInputStream());
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -689,7 +690,7 @@ extends GuiScreen {
             if (key == (14) && (this.currentMessage).length() > 0) {
                 this.currentMessage = ClickGuiScreen.getCurrentMessage10(this).substring(0, ClickGuiScreen.getCurrentMessage8(this).length() - (1));
             }
-            if (Keyboard.isKeyDown((int)(29)) && Keyboard.isKeyDown((int)(47))) {
+            if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(29)) && InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(47))) {
                 ClickGuiScreen br = this;
                 br.currentMessage = ClickGuiScreen.getCurrentMessage7(br) + ClickGuiScreen.getClipboardString();
             }
@@ -711,7 +712,7 @@ extends GuiScreen {
                     if (key == (14) && ((TextSetting)setting.text).length() > 0) {
                         (TextSetting)setting.text = ClickGuiScreen.getText4((TextSetting)setting).substring(0, ClickGuiScreen.ijkcbJQnpp((TextSetting)setting).length() - (1));
                     }
-                    if (Keyboard.isKeyDown((int)(29)) && Keyboard.isKeyDown((int)(47))) {
+                    if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(29)) && InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(47))) {
                         TextSetting bA = (TextSetting)setting;
                         bA.text = ClickGuiScreen.getText5(bA) + ClickGuiScreen.getClipboardString();
                     }

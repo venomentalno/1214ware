@@ -19,9 +19,9 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Objects;
 import com.botclient.ColorUtils;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import net.minecraft.client.render.texture.TextureUtil;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.render.RenderSystem;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

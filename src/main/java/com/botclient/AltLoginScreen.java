@@ -8,11 +8,11 @@
  *  neo.deobf.GuiPasswordField
  *  neo.deobf.DrawUtils
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.FontRenderer
- *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.TextRenderer
+ *  net.minecraft.client.gui.ButtonWidget
  *  net.minecraft.client.gui.GuiScreen
- *  net.minecraft.client.gui.GuiTextField
- *  net.minecraft.util.text.TextFormatting
+ *  net.minecraft.client.gui.TextFieldWidget
+ *  net.minecraft.util.text.Formatting
  *  org.lwjgl.input.Keyboard
  */
 package com.botclient;
@@ -33,19 +33,19 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.TextFormat;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.client.util.InputUtil;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
 public final class AltLoginScreen
-extends GuiScreen {
-    public GuiTextField username;
+extends Screen {
+    public TextFieldWidget username;
     public GuiPasswordField password;
     public final GuiScreen previousScreen;
     public AltLoginThread thread;
 
-    private static FontRenderer getFontRenderer(Minecraft minecraft) {
+    private static TextRenderer getTextRenderer(Minecraft minecraft) {
         return minecraft.fontRenderer;
     }
 
@@ -74,7 +74,7 @@ extends GuiScreen {
             }
         }
         if (character == (13)) {
-            this.actionPerformed((GuiButton)(this.buttonList).get(0));
+            this.actionPerformed((ButtonWidget)(this.buttonList).get(0));
         }
         (this.username).textboxKeyTyped(character, key);
         (this.password).textboxKeyTyped(character, key);
@@ -100,8 +100,8 @@ extends GuiScreen {
         (this.buttonList).add(new NeoButton(0, (this.width) / (2) - (100), height1 + (72) + (12), "Login"));
         (this.buttonList).add(new NeoButton(1, (this.width) / (2) - (100), height1 + (72) + (12) + (24), "Back"));
         (this.buttonList).add(new NeoButton(2, (this.width) / (2) - (100), height1 + (72) + (12) - (24), "Import User:Pass"));
-        this.username = new GuiTextField(height1, AltLoginScreen.getFontRenderer5(AltLoginScreen.getMc3(this)), AltLoginScreen.getWidth7(this) / (2) - (100), 60, 200, 20);
-        this.password = new GuiPasswordField(AltLoginScreen.getFontRenderer(AltLoginScreen.getMc(this)), AltLoginScreen.getWidth6(this) / (2) - (100), 100, 200, 20);
+        this.username = new TextFieldWidget(height1, AltLoginScreen.getTextRenderer5(AltLoginScreen.getMc3(this)), AltLoginScreen.getWidth7(this) / (2) - (100), 60, 200, 20);
+        this.password = new GuiPasswordField(AltLoginScreen.getTextRenderer(AltLoginScreen.getMc(this)), AltLoginScreen.getWidth6(this) / (2) - (100), 100, 200, 20);
         (this.username).setFocused(true);
         Keyboard.enableRepeatEvents(true);
     }
@@ -129,7 +129,7 @@ extends GuiScreen {
         return instance.width;
     }
 
-    protected void actionPerformed(GuiButton button) {
+    protected void actionPerformed(ButtonWidget button) {
         try {
             switch ((button.id)) {
                 case 0: {
@@ -156,7 +156,7 @@ extends GuiScreen {
         }
     }
 
-    private static FontRenderer getFontRenderer5(Minecraft minecraft) {
+    private static TextRenderer getTextRenderer5(Minecraft minecraft) {
         return minecraft.fontRenderer;
     }
 

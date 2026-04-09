@@ -10,7 +10,7 @@ package com.botclient;
 
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 
 /*
  * Exception performing whole class analysis ignored.

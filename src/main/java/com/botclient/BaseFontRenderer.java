@@ -29,7 +29,7 @@ import net.minecraft.util.Identifier;
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
-public class BaseFontRenderer {
+public class BaseTextRenderer {
     public DynamicTexture tex;
     public boolean fractionalMetrics;
     protected final Tessellator tessellator = BufferRenderer.getAvailableRenderer();
@@ -48,38 +48,38 @@ public class BaseFontRenderer {
     public void setAntiAlias(boolean antiAlias) {
         if ((this.antiAlias) != antiAlias) {
             this.antiAlias = antiAlias;
-            this.tex = this.setupTexture(BaseFontRenderer.getFont2(this), antiAlias, BaseFontRenderer.getFractionalMetrics2(this), BaseFontRenderer.getCharData3(this));
+            this.tex = this.setupTexture(BaseTextRenderer.getFont2(this), antiAlias, BaseTextRenderer.getFractionalMetrics2(this), BaseTextRenderer.getCharData3(this));
         }
     }
 
-    private static boolean getAntiAlias(BaseFontRenderer instance) {
+    private static boolean getAntiAlias(BaseTextRenderer instance) {
         return instance.antiAlias;
     }
 
     public void setFractionalMetrics(boolean fractionalMetrics) {
         if ((this.fractionalMetrics) != fractionalMetrics) {
             this.fractionalMetrics = fractionalMetrics;
-            this.tex = this.setupTexture(BaseFontRenderer.getFont(this), BaseFontRenderer.getAntiAlias2(this), fractionalMetrics, BaseFontRenderer.getCharData2(this));
+            this.tex = this.setupTexture(BaseTextRenderer.getFont(this), BaseTextRenderer.getAntiAlias2(this), fractionalMetrics, BaseTextRenderer.getCharData2(this));
         }
     }
 
-    private static Font getFont(BaseFontRenderer instance) {
+    private static Font getFont(BaseTextRenderer instance) {
         return instance.font;
     }
 
-    private static DragState[] getCharData(BaseFontRenderer instance) {
+    private static DragState[] getCharData(BaseTextRenderer instance) {
         return instance.charData;
     }
 
-    private static boolean getFractionalMetrics2(BaseFontRenderer instance) {
+    private static boolean getFractionalMetrics2(BaseTextRenderer instance) {
         return instance.fractionalMetrics;
     }
 
-    private static int getFontHeight(BaseFontRenderer instance) {
+    private static int getFontHeight(BaseTextRenderer instance) {
         return instance.fontHeight;
     }
 
-    private static void setFractionalMetrics(BaseFontRenderer ef, boolean value) {
+    private static void setFractionalMetrics(BaseTextRenderer ef, boolean value) {
         ef.fractionalMetrics = value;
     }
 
@@ -94,7 +94,7 @@ public class BaseFontRenderer {
         }
     }
 
-    private static DragState[] getCharData2(BaseFontRenderer instance) {
+    private static DragState[] getCharData2(BaseTextRenderer instance) {
         return instance.charData;
     }
 
@@ -111,13 +111,13 @@ public class BaseFontRenderer {
         (this.bufferbuilder).pos((double)(x + width), (double)y, 0.0).tex((double)(renderSRCX + renderSRCWidth), (double)renderSRCY).endVertex();
     }
 
-    private static Font getFont2(BaseFontRenderer instance) {
+    private static Font getFont2(BaseTextRenderer instance) {
         return instance.font;
     }
 
     public static Font readFontFromFile(String fontName, float size) {
         try {
-            Font font = Font.createFont(0, MinecraftClient.getInstance().getResourceManager().getResource(new ResourceLocation("neoware/fonts/" + fontName)).getInputStream());
+            Font font = Font.createFont(0, MinecraftClient.getInstance().getResourceManager().getResource(new Identifier("neoware/fonts/" + fontName)).getInputStream());
             return font.deriveFont(size);
         }
         catch (Exception e) {
@@ -126,11 +126,11 @@ public class BaseFontRenderer {
         }
     }
 
-    private static boolean getFractionalMetrics3(BaseFontRenderer instance) {
+    private static boolean getFractionalMetrics3(BaseTextRenderer instance) {
         return instance.fractionalMetrics;
     }
 
-    public BaseFontRenderer(Font font, boolean antiAlias, boolean fractionalMetrics) {
+    public BaseTextRenderer(Font font, boolean antiAlias, boolean fractionalMetrics) {
         this.imageSize = 512;
         this.charData = new DragState[1110];
         this.fontHeight = -1;
@@ -148,7 +148,7 @@ public class BaseFontRenderer {
         for (int i = 0; i < n; ++i) {
             char c = cArray[i];
             if (c >= (this.charData).length) continue;
-            width += (BaseFontRenderer.getCharData5(this)[c].width) - (8) + (this.charOffset);
+            width += (BaseTextRenderer.getCharData5(this)[c].width) - (8) + (this.charOffset);
         }
         return width / (2);
     }
@@ -190,8 +190,8 @@ public class BaseFontRenderer {
             if (ch > (1038) || ch < (256)) {
                 DragState charData = new DragState();
                 Rectangle2D dimensions = fontMetrics.getStringBounds(String.valueOf(ch), g);
-                charData.width = BaseFontRenderer.getWidth6(dimensions.getBounds()) + (8);
-                charData.height = BaseFontRenderer.getHeight3(dimensions.getBounds());
+                charData.width = BaseTextRenderer.getWidth6(dimensions.getBounds()) + (8);
+                charData.height = BaseTextRenderer.getHeight3(dimensions.getBounds());
                 if (positionX + (charData.width) >= imgSize) {
                     positionX = 0;
                     positionY += charHeight;
@@ -203,7 +203,7 @@ public class BaseFontRenderer {
                 charData.storedX = positionX;
                 charData.storedY = positionY;
                 if ((charData.height) > (this.fontHeight)) {
-                    this.fontHeight = BaseFontRenderer.getHeight2(charData);
+                    this.fontHeight = BaseTextRenderer.getHeight2(charData);
                 }
                 chars[i] = charData;
                 g.drawString(String.valueOf(ch), positionX + (2), positionY + fontMetrics.getAscent());
@@ -219,11 +219,11 @@ private static int getHeight3(Rectangle rectangle) {
         return rectangle.height;
     }
 
-    private static void setAntiAlias(BaseFontRenderer ef, boolean value) {
+    private static void setAntiAlias(BaseTextRenderer ef, boolean value) {
         ef.antiAlias = value;
     }
 
-    private static DragState[] getCharData3(BaseFontRenderer instance) {
+    private static DragState[] getCharData3(BaseTextRenderer instance) {
         return instance.charData;
     }
 
@@ -233,10 +233,10 @@ private static int getHeight3(Rectangle rectangle) {
 
     public void setFont(Font font) {
         this.font = font;
-        this.tex = this.setupTexture(font, BaseFontRenderer.getAntiAlias(this), BaseFontRenderer.getFractionalMetrics3(this), BaseFontRenderer.getCharData(this));
+        this.tex = this.setupTexture(font, BaseTextRenderer.getAntiAlias(this), BaseTextRenderer.getFractionalMetrics3(this), BaseTextRenderer.getCharData(this));
     }
 
-    private static DragState[] getCharData5(BaseFontRenderer instance) {
+    private static DragState[] getCharData5(BaseTextRenderer instance) {
         return instance.charData;
     }
 
@@ -244,11 +244,11 @@ private static int getHeight3(Rectangle rectangle) {
         return rectangle.width;
     }
 
-    private static void setFont(BaseFontRenderer ef, Font font) {
+    private static void setFont(BaseTextRenderer ef, Font font) {
         ef.font = font;
     }
 
-    private static boolean getAntiAlias2(BaseFontRenderer instance) {
+    private static boolean getAntiAlias2(BaseTextRenderer instance) {
         return instance.antiAlias;
     }
 

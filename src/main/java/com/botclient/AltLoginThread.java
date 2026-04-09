@@ -12,7 +12,7 @@
  *  neo.deobf.AltManager
  *  net.minecraft.client.Minecraft
  *  net.minecraft.util.Session
- *  net.minecraft.util.text.TextFormatting
+ *  net.minecraft.util.text.Formatting
  */
 package com.botclient;
 
@@ -46,7 +46,7 @@ extends Thread {
         bc.status = string;
     }
 
-    private static TextFormatting getGREEN() {
+    private static Formatting getGREEN() {
         return TextFormat.GREEN;
     }
 
@@ -67,7 +67,7 @@ extends Thread {
         this.status = "§7Waiting...";
     }
 
-    private static TextFormatting getGREEN2() {
+    private static Formatting getGREEN2() {
         return TextFormat.GREEN;
     }
 

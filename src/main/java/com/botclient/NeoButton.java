@@ -4,8 +4,8 @@
  * Could not load the following classes:
  *  neo.deobf.RoundedUtils
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.FontRenderer
- *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.TextRenderer
+ *  net.minecraft.client.gui.ButtonWidget
  *  net.minecraft.client.renderer.GlStateManager
  *  net.minecraft.util.ResourceLocation
  */
@@ -16,14 +16,14 @@ import com.botclient.RoundedUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import net.minecraft.util.Identifier;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
 public class NeoButton
-extends GuiButton {
+extends ButtonWidget {
     public int opacity = 40;
 
     private static int getOpacity2(NeoButton instance) {

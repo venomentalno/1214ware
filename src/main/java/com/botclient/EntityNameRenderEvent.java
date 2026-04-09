@@ -3,7 +3,7 @@
  * 
  * Could not load the following classes:
  *  neo.deobf.CancellableEvent
- *  net.minecraft.entity.EntityLivingBase
+ *  net.minecraft.entity.LivingEntity
  */
 package com.botclient;
 
@@ -16,22 +16,22 @@ import net.minecraft.entity.LivingEntity;
 public class EntityNameRenderEvent
 extends CancellableEvent {
     public String renderedName;
-    public final EntityLivingBase entity;
+    public final LivingEntity entity;
 
     private static void setRenderedName(EntityNameRenderEvent u, String string) {
         u.renderedName = string;
     }
 
-    private static EntityLivingBase getEntity(EntityNameRenderEvent instance) {
+    private static LivingEntity getEntity(EntityNameRenderEvent instance) {
         return instance.entity;
     }
 
-    public EntityNameRenderEvent(EntityLivingBase entity, String renderedName) {
+    public EntityNameRenderEvent(LivingEntity entity, String renderedName) {
         this.entity = entity;
         this.renderedName = renderedName;
     }
 
-    public EntityLivingBase getEntity() {
+    public LivingEntity getEntity() {
         return (this.entity);
     }
 

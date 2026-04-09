@@ -21,7 +21,7 @@
  *  neo.deobf.PBotNetworkManager
  *  neo.deobf.PBotPlayerController
  *  neo.deobf.ServerStatusPinger
- *  neo.deobf.PBotWorldClient
+ *  neo.deobf.PBotClientWorld
  *  neo.deobf.BotController
  *  neo.deobf.AutoRejoinModule
  *  neo.deobf.BotDebugModule
@@ -43,11 +43,11 @@
  *  net.minecraft.block.properties.IProperty
  *  net.minecraft.block.properties.PropertyEnum
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityPlayerSP
+ *  net.minecraft.client.entity.PlayerEntitySP
  *  net.minecraft.client.settings.GameSettings
  *  net.minecraft.client.settings.KeyBinding
  *  net.minecraft.entity.Entity
- *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.entity.player.PlayerEntity
  *  net.minecraft.entity.player.InventoryPlayer
  *  net.minecraft.entity.player.PlayerCapabilities
  *  net.minecraft.init.Items
@@ -66,17 +66,17 @@
  *  net.minecraft.network.PacketBuffer
  *  net.minecraft.network.handshake.client.C00Handshake
  *  net.minecraft.network.login.client.CPacketLoginStart
- *  net.minecraft.network.play.client.CPacketChatMessage
+ *  net.minecraft.network.play.client.ChatMessageC2SPacket
  *  net.minecraft.network.play.client.CPacketCloseWindow
  *  net.minecraft.network.play.client.CPacketCustomPayload
  *  net.minecraft.network.play.client.CPacketHeldItemChange
- *  net.minecraft.network.play.client.CPacketPlayerDigging
- *  net.minecraft.network.play.client.CPacketPlayerDigging$Action
- *  net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock
- *  net.minecraft.network.play.client.CPacketUseEntity
+ *  net.minecraft.network.play.client.PlayerMoveC2SPacketDigging
+ *  net.minecraft.network.play.client.PlayerMoveC2SPacketDigging$Action
+ *  net.minecraft.network.play.client.PlayerMoveC2SPacketTryUseItemOnBlock
+ *  net.minecraft.network.play.client.PlayerInteractEntityC2SPacket
  *  net.minecraft.potion.PotionUtils
- *  net.minecraft.util.EnumFacing
- *  net.minecraft.util.EnumHand
+ *  net.minecraft.util.Direction
+ *  net.minecraft.util.Hand
  *  net.minecraft.util.NonNullList
  *  net.minecraft.util.Session
  *  net.minecraft.util.math.BlockPos
@@ -114,7 +114,7 @@ import com.botclient.PBotNetHandlerPlayClient;
 import com.botclient.PBotNetworkManager;
 import com.botclient.PBotPlayerController;
 import com.botclient.ServerStatusPinger;
-import com.botclient.PBotWorldClient;
+import com.botclient.PBotClientWorld;
 import com.botclient.BotController;
 import com.botclient.AutoRejoinModule;
 import com.botclient.BotDebugModule;
@@ -155,17 +155,17 @@ import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.listener.PacketListener;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.CPacketLoginStart;
-import net.minecraft.network.packet.c2s.play.CPacketChatMessage;
+import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.c2s.play.CPacketCloseWindow;
 import net.minecraft.network.packet.c2s.play.CPacketCustomPayload;
 import net.minecraft.network.packet.c2s.play.CPacketHeldItemChange;
-import net.minecraft.network.packet.c2s.play.CPacketPlayerDigging;
-import net.minecraft.network.packet.c2s.play.CPacketPlayerTryUseItemOnBlock;
-import net.minecraft.network.packet.c2s.play.CPacketUseEntity;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacketDigging;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacketTryUseItemOnBlock;
+import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -187,7 +187,7 @@ public class PBot {
     public static CopyOnWriteArrayList<PBot> bots = new CopyOnWriteArrayList();
     public String host;
     public final BotController botBaritone;
-    public PBotWorldClient world;
+    public PBotClientWorld world;
     public MillisTimer captchaDetector;
     public List<BufferedImage> gifExemplars;
     public PBotNetworkManager networkManager;
@@ -336,7 +336,7 @@ public class PBot {
 
     public void swapHands() {
         if (this.isOnline()) {
-            this.sendPacket((Packet)new CPacketPlayerDigging((CPacketPlayerDigging.Action.SWAP_HELD_ITEMS), (BlockPos.ORIGIN), (Direction.DOWN)));
+            this.sendPacket((Packet)new PlayerMoveC2SPacketDigging((PlayerMoveC2SPacketDigging.Action.SWAP_HELD_ITEMS), (BlockPos.ORIGIN), (Direction.DOWN)));
         }
     }
 
@@ -371,13 +371,13 @@ public class PBot {
 
     public void rclickStop() {
         if (this.isOnline()) {
-            (PBot.getMc13(this).playerController).onStoppedUsingItem((EntityPlayer)(this.player));
+            (PBot.getMc13(this).playerController).onStoppedUsingItem((PlayerEntity)(this.player));
         }
     }
 
     public void useItem() {
         if (this.isOnline()) {
-            (PBot.getMc3(this).playerController).processRightClick((EntityPlayer)(this.player), (World)this.world, (Hand.MAIN_HAND));
+            (PBot.getMc3(this).playerController).processRightClick((PlayerEntity)(this.player), (World)this.world, (Hand.MAIN_HAND));
         }
     }
 
@@ -389,7 +389,7 @@ public class PBot {
         return instance.inventory;
     }
 
-    public final PBotWorldClient getWorld() {
+    public final PBotClientWorld getWorld() {
         return (this.world);
     }
 
@@ -433,7 +433,7 @@ public class PBot {
         return instance.player;
     }
 
-    private static EntityPlayerSP getPlayer13() {
+    private static PlayerEntitySP getPlayer13() {
         return Minecraft.player;
     }
 
@@ -535,7 +535,7 @@ public class PBot {
         return instance.mc;
     }
 
-    public void setWorld(PBotWorldClient newWorld) {
+    public void setWorld(PBotClientWorld newWorld) {
         if ((this.player) != null) {
             PBot.getPlayer41(this).world = (World)newWorld;
         }
@@ -586,11 +586,11 @@ public class PBot {
                 Vector2f vector2f = BlockUtils.getBlockAngles((double)(entity.posX), (double)(entity.posY), (double)(entity.posZ), (double)(PBot.getPlayer2(this).posX), (double)(PBot.getPlayer7(this).posY), (double)(PBot.getPlayer31(this).posZ));
                 PBot.getPlayer9(this).rotationYaw = BlockUtils.normalizeYaw((float)PBot.getY(vector2f));
                 PBot.getPlayer64(this).rotationPitch = BlockUtils.normalizePitch((float)PBot.getX3(vector2f));
-                (PBot.getPlayer4(this).connection).sendPacket((Packet)new CPacketUseEntity(entity, (Hand.MAIN_HAND)));
+                (PBot.getPlayer4(this).connection).sendPacket((Packet)new PlayerInteractEntityC2SPacket(entity, (Hand.MAIN_HAND)));
             }
         } else {
             ChatUtils.formatMsg((String)("Бот &d&l" + this.getNickname() + "&6 Не указан энтити с таким ID, отправляю обычный клик без ротации."));
-            (PBot.getPlayer14(this).connection).sendPacket((Packet)new CPacketUseEntity(id, (Hand.MAIN_HAND)));
+            (PBot.getPlayer14(this).connection).sendPacket((Packet)new PlayerInteractEntityC2SPacket(id, (Hand.MAIN_HAND)));
         }
     }
 
@@ -608,7 +608,7 @@ public class PBot {
 
     public void sendMessage(String msg) {
         if (this.isOnline()) {
-            this.sendPacket((Packet)new CPacketChatMessage(msg));
+            this.sendPacket((Packet)new ChatMessageC2SPacket(msg));
         }
     }
 
@@ -620,7 +620,7 @@ public class PBot {
         return null;
     }
 
-    private static float getRotationPitch(EntityPlayerSP entityPlayerSP) {
+    private static float getRotationPitch(PlayerEntitySP entityPlayerSP) {
         return entityPlayerSP.rotationPitch;
     }
 
@@ -809,7 +809,7 @@ public class PBot {
                         if ((double)(this.player).getDistance(e) <= 3.0) {
                             if ((double)(this.player).getCooledAttackStrength(1.0f) >= 0.93000000000000005 && (this.c).hasReached((double)((2300) + RandomUtils.intRandom((int)(0), (int)(100))))) {
                                 (this.c).reset();
-                                (PBot.getMc10(this).playerController).attackEntity((EntityPlayer)(this.player), e);
+                                (PBot.getMc10(this).playerController).attackEntity((PlayerEntity)(this.player), e);
                                 (this.player).swingArm((Hand.MAIN_HAND));
                                 (this.player).resetCooldown();
                             }
@@ -847,7 +847,7 @@ public class PBot {
     }
 
     public void windowClick(int slot, int mouseButton, ClickType type) {
-        (PBot.getMc18(this).playerController).windowClick((PBot.getOpenContainer5(PBot.getPlayer18(this)).windowId), slot, mouseButton, type, (EntityPlayer)(this.player));
+        (PBot.getMc18(this).playerController).windowClick((PBot.getOpenContainer5(PBot.getPlayer18(this)).windowId), slot, mouseButton, type, (PlayerEntity)(this.player));
     }
 
     private static KeyBinding mfbGWusihm(GameSettings gameSettings) {
@@ -969,7 +969,7 @@ public class PBot {
 
     public void clickBlock(int x, int y, int z, String enumFace) {
         BlockPos blockPos = new BlockPos(x, y, z);
-        this.sendPacket((Packet)new CPacketPlayerTryUseItemOnBlock(new BlockPos(blockPos.getX(), blockPos.getY(), blockPos.getZ()), EnumFacing.byName((String)enumFace), (Hand.MAIN_HAND), (float)blockPos.getX(), (float)blockPos.getY(), (float)blockPos.getZ()));
+        this.sendPacket((Packet)new PlayerMoveC2SPacketTryUseItemOnBlock(new BlockPos(blockPos.getX(), blockPos.getY(), blockPos.getZ()), Direction.byName((String)enumFace), (Hand.MAIN_HAND), (float)blockPos.getX(), (float)blockPos.getY(), (float)blockPos.getZ()));
     }
 
     private static PBotPlayer getPlayer42(PBot instance) {
@@ -1000,7 +1000,7 @@ public class PBot {
                         if ((PBot.getPlayer10(this).world).getBlockState(blockPos).getProperties().size() == 0 || !(PBot.getPlayer65(this).world).getBlockState(blockPos).getBlock().getTranslationKey().equalsIgnoreCase("tile.cloth") || !((EnumDyeColor)(PBot.getPlayer29(this).world).getBlockState(blockPos).getValue((IProperty)PBot.getCOLOR())).toString().equalsIgnoreCase((BotSettingsModule.gameguardBlock).get())) continue;
                         if (BlockUtils.getDistance((PBot)this, (double)9.0, (double)52.0, (double)0.0) < 4.0f) {
                             PBot.getGameSettings10(PBot.getMc21(this)).keyBindForward = false;
-                            this.sendPacket((Packet)new CPacketPlayerTryUseItemOnBlock(new BlockPos(blockPos.getX() - (1), blockPos.getY(), blockPos.getZ()), (Direction.SOUTH), (Hand.MAIN_HAND), (float)blockPos.getX(), (float)blockPos.getY(), (float)blockPos.getZ()));
+                            this.sendPacket((Packet)new PlayerMoveC2SPacketTryUseItemOnBlock(new BlockPos(blockPos.getX() - (1), blockPos.getY(), blockPos.getZ()), (Direction.SOUTH), (Hand.MAIN_HAND), (float)blockPos.getX(), (float)blockPos.getY(), (float)blockPos.getZ()));
                         } else {
                             PBot.getGameSettings15(PBot.getMc9(this)).keyBindForward = true;
                         }
@@ -1069,7 +1069,7 @@ public class PBot {
 
     public void dropItem(int slot) {
         if (this.isOnline()) {
-            (PBot.getMc7(this).playerController).windowClick((PBot.getOpenContainer6(PBot.getPlayer19(this)).windowId), slot, 1, (ClickType.THROW), (EntityPlayer)(this.player));
+            (PBot.getMc7(this).playerController).windowClick((PBot.getOpenContainer6(PBot.getPlayer19(this)).windowId), slot, 1, (ClickType.THROW), (PlayerEntity)(this.player));
         }
     }
 
@@ -1289,7 +1289,7 @@ public class PBot {
         return instance.mc;
     }
 
-    private static float getRotationYaw2(EntityPlayerSP entityPlayerSP) {
+    private static float getRotationYaw2(PlayerEntitySP entityPlayerSP) {
         return entityPlayerSP.rotationYaw;
     }
 
@@ -1363,7 +1363,7 @@ public class PBot {
         return (Boolean)this.getParameters().get(key);
     }
 
-    private static EntityPlayerSP getPlayer62() {
+    private static PlayerEntitySP getPlayer62() {
         return Minecraft.player;
     }
 

@@ -17,11 +17,11 @@
  *  neo.deobf.DrawUtils
  *  net.minecraft.client.Minecraft
  *  net.minecraft.client.entity.AbstractClientPlayer
- *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.TextRenderer
  *  net.minecraft.client.gui.Gui
- *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.ButtonWidget
  *  net.minecraft.client.gui.GuiScreen
- *  net.minecraft.client.gui.GuiTextField
+ *  net.minecraft.client.gui.TextFieldWidget
  *  net.minecraft.client.renderer.GlStateManager
  *  net.minecraft.client.renderer.IImageBuffer
  *  net.minecraft.client.renderer.ImageBufferDownload
@@ -32,7 +32,7 @@
  *  net.minecraft.util.ResourceLocation
  *  net.minecraft.util.Session
  *  net.minecraft.util.StringUtils
- *  net.minecraft.util.text.TextFormatting
+ *  net.minecraft.util.text.Formatting
  *  org.lwjgl.input.Keyboard
  *  org.lwjgl.input.Mouse
  *  org.lwjgl.opengl.GL11
@@ -65,7 +65,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.render.ImageBufferDownload;
 import net.minecraft.client.render.ThreadDownloadImageData;
@@ -76,18 +76,18 @@ import net.minecraft.util.Identifier;
 import net.minecraft.client.session.Session;
 import net.minecraft.util.StringUtils;
 import net.minecraft.text.TextFormat;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.util.InputUtil;
+import org.lwjgl.glfw.GLFW;
+import net.minecraft.client.render.RenderSystem;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
 public class AltManagerScreen
-extends GuiScreen {
+extends Screen {
     public float offset;
     public ResourceLocation resourceLocation;
-    public GuiTextField searchField;
+    public TextFieldWidget searchField;
     public String status = TextFormat.DARK_GRAY + "(" + TextFormat.GRAY + AltManager.registry.size() + TextFormat.DARK_GRAY + ")";
     public AltLoginThread loginThread;
     public NeoButton remove;
@@ -125,7 +125,7 @@ extends GuiScreen {
     }
 
     public void initGui() {
-        this.searchField = new GuiTextField(AltManagerScreen.getEventButton(this), AltManagerScreen.getFontRenderer(AltManagerScreen.getMc11(this)), AltManagerScreen.getWidth12(this) / (2) + (116), AltManagerScreen.getHeight6(this) - (22), 72, 16);
+        this.searchField = new TextFieldWidget(AltManagerScreen.getEventButton(this), AltManagerScreen.getTextRenderer(AltManagerScreen.getMc11(this)), AltManagerScreen.getWidth12(this) / (2) + (116), AltManagerScreen.getHeight6(this) - (22), 72, 16);
         List list = (this.buttonList);
         NeoButton bm = new NeoButton(1, (this.width) / (2) - (122), (this.height) - (48), 60, 20, "Login");
         this.login = bm;
@@ -150,7 +150,7 @@ extends GuiScreen {
         return instance.mc;
     }
 
-    private static FontRenderer getFontRenderer(Minecraft minecraft) {
+    private static TextRenderer getTextRenderer(Minecraft minecraft) {
         return minecraft.fontRenderer;
     }
 
@@ -183,11 +183,11 @@ extends GuiScreen {
         return instance.login;
     }
 
-    private static TextFormatting getGREEN() {
+    private static Formatting getGREEN() {
         return TextFormat.GREEN;
     }
 
-    public void actionPerformed(GuiButton button) {
+    public void actionPerformed(ButtonWidget button) {
         switch ((button.id)) {
             case 0: {
                 break;
@@ -238,8 +238,8 @@ extends GuiScreen {
     public void drawScreen(int par1, int par2, float par3) {
         DrawUtils.drawRect((float)0.0f, (float)0.0f, (float)(AltManagerScreen.getMc10(this).displayWidth), (float)(AltManagerScreen.getMc14(this).displayHeight), (Color)new Color(17, 17, 17));
         super.drawScreen(par1, par2, par3);
-        if (Mouse.hasWheel()) {
-            int wheel = Mouse.getDWheel();
+        if (true) {
+            int wheel = GLFW.glfwGetScrollCallback;
             if (wheel < 0) {
                 AltManagerScreen bo = this;
                 bo.offset = (float)((double)AltManagerScreen.getOffset7(bo) + 26.0);
@@ -277,10 +277,10 @@ extends GuiScreen {
                     AltManagerScreen.getLogin2(this).enabled = true;
                     AltManagerScreen.getRemove(this).enabled = true;
                 }
-                if (Keyboard.isKeyDown((int)(200))) {
+                if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(200))) {
                     AltManagerScreen bo = this;
                     bo.offset = (float)((double)AltManagerScreen.getOffset10(bo) - 26.0);
-                } else if (Keyboard.isKeyDown((int)(208))) {
+                } else if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(208))) {
                     AltManagerScreen bo = this;
                     bo.offset = (float)((double)AltManagerScreen.getOffset(bo) + 26.0);
                 }
@@ -343,7 +343,7 @@ extends GuiScreen {
         for (AltAccount alt : this.getAlts()) {
             if (this.callGetWidth5(par1, par2, y)) {
                 if (alt == (this.selectedAlt)) {
-                    this.actionPerformed((GuiButton)(this.login));
+                    this.actionPerformed((ButtonWidget)(this.login));
                     return;
                 }
                 this.selectedAlt = alt;

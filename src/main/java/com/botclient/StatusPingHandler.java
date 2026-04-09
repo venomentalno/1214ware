@@ -10,8 +10,8 @@
  *  net.minecraft.network.status.client.CPacketPing
  *  net.minecraft.network.status.server.SPacketPong
  *  net.minecraft.network.status.server.SPacketServerInfo
- *  net.minecraft.util.text.ITextComponent
- *  net.minecraft.util.text.TextComponentString
+ *  net.minecraft.util.text.Text
+ *  net.minecraft.util.text.LiteralTextContent
  *  org.jetbrains.annotations.NotNull
  */
 package com.botclient;
@@ -19,7 +19,7 @@ package com.botclient;
 import com.botclient.PBotNetworkManager;
 import com.botclient.ServerStatusPinger;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.status.INetHandlerStatusClient;
 import net.minecraft.network.status.client.CPacketPing;
 import net.minecraft.network.status.server.SPacketPong;
@@ -42,10 +42,10 @@ implements INetHandlerStatusClient {
     }
 
     public void handlePong(@NotNull SPacketPong packetIn) {
-        this.val$networkmanager.closeChannel((ITextComponent)new TextComponentString("Finished"));
+        this.val$networkmanager.closeChannel((Text)new LiteralTextContent("Finished"));
     }
 
-    public void onDisconnect(@NotNull ITextComponent reason) {
+    public void onDisconnect(@NotNull Text reason) {
     }
 
     StatusPingHandler(ServerStatusPinger this$0, PBotNetworkManager cP) {

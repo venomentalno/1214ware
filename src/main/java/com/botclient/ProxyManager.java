@@ -11,7 +11,7 @@
  *  neo.deobf.ProxyType
  *  neo.deobf.ProxyInfo
  *  net.minecraft.client.Minecraft
- *  net.minecraft.util.text.TextFormatting
+ *  net.minecraft.util.text.Formatting
  *  org.jsoup.Jsoup
  *  org.jsoup.nodes.Document
  */

@@ -11,7 +11,7 @@ package com.botclient;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import com.botclient.MathUtils;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import net.minecraft.util.math.MathHelper;
 
 public class ColorUtils {

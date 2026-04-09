@@ -44,18 +44,18 @@
  *  neo.deobf.ServerAddressUtils
  *  neo.deobf.ThreadUtils
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityPlayerSP
+ *  net.minecraft.client.entity.PlayerEntitySP
  *  net.minecraft.entity.Entity
  *  net.minecraft.inventory.ClickType
  *  net.minecraft.inventory.Container
  *  net.minecraft.item.ItemStack
  *  net.minecraft.network.Packet
- *  net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock
- *  net.minecraft.network.play.client.CPacketUseEntity
- *  net.minecraft.util.EnumFacing
- *  net.minecraft.util.EnumHand
+ *  net.minecraft.network.play.client.PlayerMoveC2SPacketTryUseItemOnBlock
+ *  net.minecraft.network.play.client.PlayerInteractEntityC2SPacket
+ *  net.minecraft.util.Direction
+ *  net.minecraft.util.Hand
  *  net.minecraft.util.math.BlockPos
- *  net.minecraft.util.text.TextFormatting
+ *  net.minecraft.util.text.Formatting
  */
 package com.botclient;
 
@@ -111,9 +111,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
-import net.minecraft.network.packet.c2s.play.CPacketPlayerTryUseItemOnBlock;
-import net.minecraft.network.packet.c2s.play.CPacketUseEntity;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacketTryUseItemOnBlock;
+import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -487,7 +487,7 @@ extends Command {
                                         Vector2f vector2f = BlockUtils.getBlockAngles((double)block.getX(), (double)block.getY(), (double)block.getZ(), (double)((BotsCommand.getPlayer9(bot).posX) + 0.5), (double)(BotsCommand.getPlayer2(bot).posY), (double)(BotsCommand.getPlayer19(bot).posZ));
                                         BotsCommand.getPlayer8(bot).rotationYaw = BlockUtils.normalizeYaw((float)BotsCommand.getY(vector2f));
                                         BotsCommand.getPlayer20(bot).rotationPitch = BlockUtils.normalizePitch((float)BotsCommand.getX(vector2f));
-                                        bot.sendPacket((Packet)new CPacketPlayerTryUseItemOnBlock(new BlockPos(block.getX(), block.getY(), block.getZ()), (Direction.SOUTH), (Hand.MAIN_HAND), (float)block.getX(), (float)block.getY(), (float)block.getZ()));
+                                        bot.sendPacket((Packet)new PlayerMoveC2SPacketTryUseItemOnBlock(new BlockPos(block.getX(), block.getY(), block.getZ()), (Direction.SOUTH), (Hand.MAIN_HAND), (float)block.getX(), (float)block.getY(), (float)block.getZ()));
                                     }
                                     catch (Exception exception) {
                                         exception.printStackTrace();
@@ -520,11 +520,11 @@ extends Command {
                                             Vector2f vector2f = BlockUtils.getBlockAngles((double)(npc.posX), (double)(npc.posY), (double)(npc.posZ), (double)(BotsCommand.getPlayer10(bot).posX), (double)((BotsCommand.getPlayer11(bot).posY) + 0.5), (double)(BotsCommand.getPlayer7(bot).posZ));
                                             BotsCommand.getPlayer13(bot).rotationYaw = BlockUtils.normalizeYaw((float)BotsCommand.getY2(vector2f));
                                             BotsCommand.getPlayer14(bot).rotationPitch = BlockUtils.normalizePitch((float)BotsCommand.getX2(vector2f));
-                                            (BotsCommand.getPlayer5(bot).connection).sendPacket((Packet)new CPacketUseEntity(npc, (Hand.MAIN_HAND)));
+                                            (BotsCommand.getPlayer5(bot).connection).sendPacket((Packet)new PlayerInteractEntityC2SPacket(npc, (Hand.MAIN_HAND)));
                                             continue;
                                         }
                                         ChatUtils.formatMsg((String)("Бот &d&l" + bot.getNickname() + "&6 Не найдено энтити с таким ID, отправляю обычный клик без ротации."));
-                                        (BotsCommand.getPlayer(bot).connection).sendPacket((Packet)new CPacketUseEntity((npcId), (Hand.MAIN_HAND)));
+                                        (BotsCommand.getPlayer(bot).connection).sendPacket((Packet)new PlayerInteractEntityC2SPacket((npcId), (Hand.MAIN_HAND)));
                                     }
                                 } else if (args[1].equalsIgnoreCase("stop")) {
                                     npcId = -1;
@@ -792,11 +792,11 @@ extends Command {
         return instance.gameSettings;
     }
 
-    private static EntityPlayerSP getPlayer15() {
+    private static PlayerEntitySP getPlayer15() {
         return Minecraft.player;
     }
 
-    private static EntityPlayerSP getPlayer16() {
+    private static PlayerEntitySP getPlayer16() {
         return Minecraft.player;
     }
 
@@ -808,7 +808,7 @@ extends Command {
         return vector2f.y;
     }
 
-    private static EntityPlayerSP getPlayer18() {
+    private static PlayerEntitySP getPlayer18() {
         return Minecraft.player;
     }
 

@@ -9,8 +9,8 @@
  *  neo.deobf.BooleanSetting
  *  neo.deobf.Module
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityPlayerSP
- *  net.minecraft.client.multiplayer.WorldClient
+ *  net.minecraft.client.entity.PlayerEntitySP
+ *  net.minecraft.client.multiplayer.ClientWorld
  *  net.minecraft.entity.Entity
  *  net.minecraft.entity.item.EntityArmorStand
  *  net.minecraft.init.MobEffects
@@ -82,7 +82,7 @@ extends Module {
         }
     }
 
-    private static WorldClient getWorld4(Minecraft minecraft) {
+    private static ClientWorld getWorld4(Minecraft minecraft) {
         return minecraft.world;
     }
 
