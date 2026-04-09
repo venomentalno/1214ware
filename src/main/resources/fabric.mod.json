@@ -3,19 +3,17 @@
   "id": "botclient",
   "version": "${version}",
   "name": "BotClient",
-  "description": "A proxy client for joining on lots of accounts in 1 window",
-  "authors": ["BotClient"],
-  "contact": {},
+  "description": "Advanced bot client for Minecraft",
+  "authors": ["BotClient Team"],
+  "contact": {
+    "sources": "https://github.com/yourrepo/botclient"
+  },
   "license": "MIT",
   "icon": "assets/botclient/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "com.botclient.BotClientMod"
-    ],
-    "client": [
-      "com.botclient.BotClientClient"
-    ]
+    "main": ["com.botclient.BotClientMod"],
+    "client": ["com.botclient.BotClientClient"]
   },
   "mixins": [
     "botclient.mixins.json"
@@ -26,5 +24,13 @@
     "minecraft": "~1.21.4",
     "java": ">=21",
     "fabric-api": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  },
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/class_310": ["com/botclient/MinecraftContext"]
+    }
   }
 }
