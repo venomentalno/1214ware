@@ -30,7 +30,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.registry.Registries;MobEffects;
+import net.minecraft.registry.Registries;
 import net.minecraft.entity.effect.StatusEffect;
 
 /*
