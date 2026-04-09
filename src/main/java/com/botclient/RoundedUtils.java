@@ -100,7 +100,8 @@ public class RoundedUtils {
     }
 
     private static void callGetMinecraft(float x, float y, float width, float height, float radius, ShaderUtils roundedTexturedShader) {
-        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
+        ScaledResolution sr = // ScaledResolution replaced with Window calculation
+        Window window = MinecraftClient.getInstance());
         float[] fArray = new float[2];
         fArray[0] = x * (float)sr.getScaleFactor();
         fArray[1] = (float)(MinecraftClient.getInstance().displayHeight) - height * (float)sr.getScaleFactor() - y * (float)sr.getScaleFactor();
@@ -130,7 +131,8 @@ public class RoundedUtils {
     }
 
     public static void drawRoundOutline(float x, float y, float width, float height, float radius, float thickness, Color insideColor, Color outlineColor) {
-        ScaledResolution sr = new ScaledResolution(MinecraftContext.mc);
+        ScaledResolution sr = // ScaledResolution replaced with Window calculation
+        Window window = MinecraftContext.mc);
         RenderSystem.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc((int)(770), (int)(771));
