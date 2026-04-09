@@ -17,6 +17,7 @@ repositories {
     maven { url 'https://maven.shedaniel.me/' }
     maven { url 'https://maven.florianmichael.de/' }
     maven { url 'https://repo.viaversion.com/' }
+    maven { url 'https://mvn.jonao.dev/snapshots' }
 }
 
 dependencies {
@@ -27,9 +28,8 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     
     // ViaVersion for protocol support (updated for 1.21.4)
-    modImplementation "com.viaversion:ViaFabric:3.0.1"
-    modImplementation "com.viaversion:ViaBackwards:5.0.1"
-    modImplementation "com.viaversion:ViaRewind:2.2.1"
+    // Using ViaFabricPlus which bundles all Via libraries
+    modImplementation "de.florianmichael:ViaFabricPlus:3.0.0-SNAPSHOT"
     
     // External libraries
     implementation 'org.json:json:20231013'
