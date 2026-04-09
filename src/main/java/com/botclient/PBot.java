@@ -143,7 +143,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
-import net.minecraft.registry.Registries;Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.inventory.ContainerRepair;

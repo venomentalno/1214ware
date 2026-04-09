@@ -1,4 +1,3 @@
---- src/main/java/com/botclient/PBotPlayer.java (原始)
 /*
  * Decompiled with CFR 0.152.
  *
@@ -119,8 +118,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
-import net.minecraft.registry.Registries;Items;
-import net.minecraft.registry.Registries;MobEffects;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.inventory.ContainerBeacon;
 import net.minecraft.inventory.ContainerBrewingStand;
