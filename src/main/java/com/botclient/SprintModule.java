@@ -10,15 +10,15 @@
  *  net.minecraft.client.Minecraft
  *  net.minecraft.client.entity.EntityPlayerSP
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.UpdateEvent;
-import neo.deobf.EventTarget;
-import neo.deobf.ModuleCategory;
-import neo.deobf.Module;
-import neo.deobf.MovementUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
+import com.botclient.UpdateEvent;
+import com.botclient.EventTarget;
+import com.botclient.ModuleCategory;
+import com.botclient.Module;
+import com.botclient.MovementUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

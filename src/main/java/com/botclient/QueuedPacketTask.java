@@ -10,13 +10,13 @@
  *  net.minecraft.network.EnumConnectionState
  *  net.minecraft.network.Packet
  */
-package neo.deobf;
+package com.botclient;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.util.concurrent.GenericFutureListener;
-import neo.deobf.PBotNetworkManager;
+import com.botclient.PBotNetworkManager;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.Packet;
 

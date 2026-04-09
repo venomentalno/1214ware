@@ -13,18 +13,18 @@
  *  net.minecraft.item.Item
  *  net.minecraft.item.ItemFishingRod
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.PBot;
-import neo.deobf.PBotPlayer;
-import neo.deobf.BotTask;
-import neo.deobf.BlockUtils;
-import neo.deobf.MillisTimer;
-import neo.deobf.ThreadUtils;
+import com.botclient.PBot;
+import com.botclient.PBotPlayer;
+import com.botclient.BotTask;
+import com.botclient.BlockUtils;
+import com.botclient.MillisTimer;
+import com.botclient.ThreadUtils;
 import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.init.Items;
+import net.minecraft.registry.Registries;Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemFishingRod;
+import net.minecraft.item.FishingRodItem;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

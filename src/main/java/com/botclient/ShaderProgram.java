@@ -4,7 +4,7 @@
  * Could not load the following classes:
  *  org.lwjgl.opengl.GL20
  */
-package neo.deobf;
+package com.botclient;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

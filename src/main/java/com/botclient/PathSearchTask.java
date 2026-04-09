@@ -10,14 +10,14 @@
  *  net.minecraft.entity.player.EntityPlayer
  *  net.minecraft.world.World
  */
-package neo.deobf;
+package com.botclient;
 
 import javax.vecmath.Vector3i;
-import neo.deobf.PBot;
-import neo.deobf.PBotPlayer;
-import neo.deobf.PathScanner;
-import neo.deobf.AbstractPathScanner;
-import net.minecraft.entity.player.EntityPlayer;
+import com.botclient.PBot;
+import com.botclient.PBotPlayer;
+import com.botclient.PathScanner;
+import com.botclient.AbstractPathScanner;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
 /*
@@ -44,7 +44,7 @@ public class PathSearchTask {
     public PathSearchTask(Vector3i startPos, Vector3i finalPos, PBot pbot) {
         this.startPos = startPos;
         this.finalPos = finalPos;
-        this.scanner = new PathScanner(startPos, finalPos, (World)pbot.getWorld());
+        this.scanner = new PathScanner(startPos, finalPos, (World)pbot.world);
         this.scanned = 0;
     }
 

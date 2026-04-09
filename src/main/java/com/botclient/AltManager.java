@@ -6,12 +6,12 @@
  *  neo.deobf.AltAccount
  *  neo.deobf.FileManager
  */
-package neo.deobf;
+package com.botclient;
 
 import java.util.ArrayList;
-import neo.deobf.Client;
-import neo.deobf.AltAccount;
-import neo.deobf.FileManager;
+import com.botclient.Client;
+import com.botclient.AltAccount;
+import com.botclient.FileManager;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

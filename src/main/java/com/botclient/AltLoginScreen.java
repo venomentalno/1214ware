@@ -15,24 +15,24 @@
  *  net.minecraft.util.text.TextFormatting
  *  org.lwjgl.input.Keyboard
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.io.IOException;
 import java.util.List;
-import neo.deobf.AltAccount;
-import neo.deobf.AltLoginThread;
-import neo.deobf.NeoButton;
-import neo.deobf.GuiPasswordField;
-import neo.deobf.DrawUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.util.text.TextFormatting;
+import com.botclient.AltAccount;
+import com.botclient.AltLoginThread;
+import com.botclient.NeoButton;
+import com.botclient.GuiPasswordField;
+import com.botclient.DrawUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.text.TextFormat;
 import org.lwjgl.input.Keyboard;
 
 /*
@@ -114,13 +114,13 @@ extends GuiScreen {
         DrawUtils.drawRect((float)0.0f, (float)0.0f, (float)(this.width), (float)(this.height), (Color)new Color(22, 22, 22, 255));
         (this.username).drawTextBox();
         (this.password).drawTextBox();
-        (Minecraft.getMinecraft().fontRenderer).drawStringWithShadow("Alt Login", (float)(this.width) / 2.0f - 10.0f, 20.0f, -1);
-        (Minecraft.getMinecraft().fontRenderer).drawStringWithShadow((this.thread) == null ? (TextFormatting.GRAY) + "Alts..." : (this.thread).getStatus(), (float)(this.width) / 2.0f, 29.0f, -1);
+        (MinecraftClient.getInstance().fontRenderer).drawStringWithShadow("Alt Login", (float)(this.width) / 2.0f - 10.0f, 20.0f, -1);
+        (MinecraftClient.getInstance().fontRenderer).drawStringWithShadow((this.thread) == null ? (TextFormat.GRAY) + "Alts..." : (this.thread).getStatus(), (float)(this.width) / 2.0f, 29.0f, -1);
         if ((this.username).getText().isEmpty() && !(this.username).isFocused()) {
-            (Minecraft.getMinecraft().fontRenderer).drawStringWithShadow("Username / E-Mail", (float)((this.width) / (2) - (96)), 66.0f, -7829368);
+            (MinecraftClient.getInstance().fontRenderer).drawStringWithShadow("Username / E-Mail", (float)((this.width) / (2) - (96)), 66.0f, -7829368);
         }
         if ((this.password).getText().isEmpty() && !(this.password).isFocused()) {
-            (Minecraft.getMinecraft().fontRenderer).drawStringWithShadow("Password", (float)((this.width) / (2) - (96)), 106.0f, -7829368);
+            (MinecraftClient.getInstance().fontRenderer).drawStringWithShadow("Password", (float)((this.width) / (2) - (96)), 106.0f, -7829368);
         }
         super.drawScreen(x, y, z);
     }

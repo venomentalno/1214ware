@@ -6,10 +6,10 @@
  *  net.minecraft.util.EnumFacing
  *  net.minecraft.util.math.BlockPos
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.CancellableEvent;
-import net.minecraft.util.EnumFacing;
+import com.botclient.CancellableEvent;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 
 public class BlockClickEvent

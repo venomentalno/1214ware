@@ -6,9 +6,9 @@
  *  net.minecraft.util.math.MathHelper
  *  org.lwjgl.opengl.GL11
  */
-package neo.deobf;
+package com.botclient;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
@@ -19,7 +19,7 @@ public class AnimationUtils {
     public static double delta;
 
     public static float animation(float animation, float target, float speedTarget) {
-        float dif = (target - animation) / Math.max((float)Minecraft.getDebugFPS(), 5.0f) * 15.0f;
+        float dif = (target - animation) / Math.max((float)MinecraftClient.getInstance().getCurrentFps(), 5.0f) * 15.0f;
         if (dif > 0.0f) {
             dif = Math.max(speedTarget, dif);
             dif = Math.min(target - animation, dif);
@@ -40,12 +40,12 @@ public class AnimationUtils {
     }
 
     public static void scaleAnimation(float x, float y, float scale, Runnable data) {
-        GL11.glPushMatrix();
-        GL11.glTranslatef((float)x, (float)y, (float)0.0f);
-        GL11.glScalef((float)scale, (float)scale, (float)1.0f);
-        GL11.glTranslatef((float)(-x), (float)(-y), (float)0.0f);
+        RenderSystem.glPushMatrix();
+        RenderSystem.glTranslatef((float)x, (float)y, (float)0.0f);
+        RenderSystem.glScalef((float)scale, (float)scale, (float)1.0f);
+        RenderSystem.glTranslatef((float)(-x), (float)(-y), (float)0.0f);
         data.run();
-        GL11.glPopMatrix();
+        RenderSystem.glPopMatrix();
     }
 
     public static double Interpolate(double start, double end, double step) {
@@ -53,7 +53,7 @@ public class AnimationUtils {
     }
 
     public static double animation(double animation, double target, double speedTarget) {
-        double dif = (target - animation) / (double)Math.max(Minecraft.getDebugFPS(), 5) * speedTarget;
+        double dif = (target - animation) / (double)Math.max(MinecraftClient.getInstance().getCurrentFps(), 5) * speedTarget;
         if (dif > 0.0) {
             dif = Math.max(speedTarget, dif);
             dif = Math.min(target - animation, dif);
@@ -65,10 +65,10 @@ public class AnimationUtils {
     }
 
     public static void translateAnimation(float x, float y, Runnable data) {
-        GL11.glPushMatrix();
-        GL11.glTranslatef((float)x, (float)y, (float)0.0f);
+        RenderSystem.glPushMatrix();
+        RenderSystem.glTranslatef((float)x, (float)y, (float)0.0f);
         data.run();
-        GL11.glPopMatrix();
+        RenderSystem.glPopMatrix();
     }
 
     public static float calculateCompensation(float target, float current, float delta, double speed) {

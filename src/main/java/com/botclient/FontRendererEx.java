@@ -13,19 +13,19 @@
  *  net.minecraft.client.renderer.vertex.VertexFormat
  *  org.lwjgl.opengl.GL11
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
 import java.awt.Font;
-import neo.deobf.ClickGuiScreen;
-import neo.deobf.DragState;
-import neo.deobf.BaseFontRenderer;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexFormat;
+import com.botclient.ClickGuiScreen;
+import com.botclient.DragState;
+import com.botclient.BaseFontRenderer;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.texture.DynamicTexture;
+import net.minecraft.client.render.vertex.DefaultVertexFormats;
+import net.minecraft.client.render.vertex.VertexFormat;
 import org.lwjgl.opengl.GL11;
 
 /*
@@ -55,22 +55,22 @@ extends BaseFontRenderer {
             }
             x -= 1.0;
             text = this.fixStr(text);
-            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
-            GlStateManager.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
-            GL11.glEnable((int)(3042));
+            RenderSystem.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            RenderSystem.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            RenderSystem.glEnable((int)(3042));
             if (text == null) {
                 return 0.0f;
             }
             float alpha = (float)(gradientColors[0] >> (24) & (255)) / 255.0f;
             x *= 2.0;
             y = (y - 3.0) * 2.0;
-            GL11.glPushMatrix();
-            GlStateManager.scale((float)0.5f, (float)0.5f, (float)0.5f);
-            GlStateManager.enableBlend();
-            GlStateManager.blendFunc((int)(770), (int)(771));
-            GlStateManager.enableTexture2D();
-            GlStateManager.bindTexture((int)(this.tex).getGlTextureId());
-            GL11.glBindTexture((int)(3553), (int)(this.tex).getGlTextureId());
+            RenderSystem.glPushMatrix();
+            RenderSystem.scale((float)0.5f, (float)0.5f, (float)0.5f);
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc((int)(770), (int)(771));
+            RenderSystem.enableTexture2D();
+            RenderSystem.bindTexture((int)(this.tex).getGlTextureId());
+            RenderSystem.glBindTexture((int)(3553), (int)(this.tex).getGlTextureId());
             (this.bufferbuilder).begin(4, (DefaultVertexFormats.POSITION_TEX));
             for (int i = 0; i < text.length(); ++i) {
                 char character = text.charAt(i);
@@ -78,9 +78,9 @@ extends BaseFontRenderer {
                     char next = text.charAt(i + (1));
                     int colorIndex = "0123456789abcdefklmnor".indexOf(next);
                     if (next == (114)) {
-                        GlStateManager.color((float)((float)(gradientColors[0] >> (16) & (255)) / 255.0f), (float)((float)(gradientColors[0] >> (8) & (255)) / 255.0f), (float)((float)(gradientColors[0] & (255)) / 255.0f), (float)alpha);
+                        RenderSystem.color((float)((float)(gradientColors[0] >> (16) & (255)) / 255.0f), (float)((float)(gradientColors[0] >> (8) & (255)) / 255.0f), (float)((float)(gradientColors[0] & (255)) / 255.0f), (float)alpha);
                     } else if (colorIndex < (16)) {
-                        GlStateManager.bindTexture((int)(this.tex).getGlTextureId());
+                        RenderSystem.bindTexture((int)(this.tex).getGlTextureId());
                         if (colorIndex < 0) {
                             colorIndex = 15;
                         }
@@ -88,7 +88,7 @@ extends BaseFontRenderer {
                             colorIndex += 16;
                         }
                         int colorcode = (this.colorCode)[colorIndex];
-                        GlStateManager.color((float)((float)(colorcode >> (16) & (255)) / 255.0f), (float)((float)(colorcode >> (8) & (255)) / 255.0f), (float)((float)(colorcode & (255)) / 255.0f), (float)alpha);
+                        RenderSystem.color((float)((float)(colorcode >> (16) & (255)) / 255.0f), (float)((float)(colorcode >> (8) & (255)) / 255.0f), (float)((float)(colorcode & (255)) / 255.0f), (float)alpha);
                     }
                     ++i;
                     continue;
@@ -97,13 +97,13 @@ extends BaseFontRenderer {
                 int colorIndex = Math.min(i, gradientColors.length - (1));
                 int color = gradientColors[colorIndex];
                 float charAlpha = (float)(color >> (24) & (255)) / 255.0f;
-                GlStateManager.color((float)((float)(color >> (16) & (255)) / 255.0f), (float)((float)(color >> (8) & (255)) / 255.0f), (float)((float)(color & (255)) / 255.0f), (float)charAlpha);
+                RenderSystem.color((float)((float)(color >> (16) & (255)) / 255.0f), (float)((float)(color >> (8) & (255)) / 255.0f), (float)((float)(color & (255)) / 255.0f), (float)charAlpha);
                 this.drawChar((this.charData), character, (float)x, (float)y);
                 x += (double)((FontRendererEx.getCharData6(this)[character].width) - (8) + (this.charOffset));
             }
             (this.tessellator).draw();
-            GL11.glHint((int)(3155), (int)(4352));
-            GL11.glPopMatrix();
+            RenderSystem.glHint((int)(3155), (int)(4352));
+            RenderSystem.glPopMatrix();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -122,9 +122,9 @@ extends BaseFontRenderer {
             }
             x -= 1.0;
             text = this.fixStr(text);
-            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
-            GlStateManager.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
-            GL11.glEnable((int)(3042));
+            RenderSystem.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            RenderSystem.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            RenderSystem.glEnable((int)(3042));
             if (text == null) {
                 return 0.0f;
             }
@@ -140,14 +140,14 @@ extends BaseFontRenderer {
             float alpha = (float)(color >> (24) & (255)) / 255.0f;
             x *= 2.0;
             y = (y - 3.0) * 2.0;
-            GL11.glPushMatrix();
-            GlStateManager.scale((float)0.5f, (float)0.5f, (float)0.5f);
-            GlStateManager.enableBlend();
-            GlStateManager.blendFunc((int)(770), (int)(771));
-            GlStateManager.color((float)((float)(color >> (16) & (255)) / 255.0f), (float)((float)(color >> (8) & (255)) / 255.0f), (float)((float)(color & (255)) / 255.0f), (float)alpha);
-            GlStateManager.enableTexture2D();
-            GlStateManager.bindTexture((int)(this.tex).getGlTextureId());
-            GL11.glBindTexture((int)(3553), (int)(this.tex).getGlTextureId());
+            RenderSystem.glPushMatrix();
+            RenderSystem.scale((float)0.5f, (float)0.5f, (float)0.5f);
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc((int)(770), (int)(771));
+            RenderSystem.color((float)((float)(color >> (16) & (255)) / 255.0f), (float)((float)(color >> (8) & (255)) / 255.0f), (float)((float)(color & (255)) / 255.0f), (float)alpha);
+            RenderSystem.enableTexture2D();
+            RenderSystem.bindTexture((int)(this.tex).getGlTextureId());
+            RenderSystem.glBindTexture((int)(3553), (int)(this.tex).getGlTextureId());
             (this.bufferbuilder).begin(4, (DefaultVertexFormats.POSITION_TEX));
             for (int i = 0; i < text.length(); ++i) {
                 char character = text.charAt(i);
@@ -155,9 +155,9 @@ extends BaseFontRenderer {
                     char next = text.charAt(i + (1));
                     int colorIndex = "0123456789abcdefklmnor".indexOf(next);
                     if (next == (114)) {
-                        GlStateManager.color((float)((float)(color >> (16) & (255)) / 255.0f), (float)((float)(color >> (8) & (255)) / 255.0f), (float)((float)(color & (255)) / 255.0f), (float)alpha);
+                        RenderSystem.color((float)((float)(color >> (16) & (255)) / 255.0f), (float)((float)(color >> (8) & (255)) / 255.0f), (float)((float)(color & (255)) / 255.0f), (float)alpha);
                     } else if (colorIndex < (16)) {
-                        GlStateManager.bindTexture((int)(this.tex).getGlTextureId());
+                        RenderSystem.bindTexture((int)(this.tex).getGlTextureId());
                         if (colorIndex < 0) {
                             colorIndex = 15;
                         }
@@ -165,7 +165,7 @@ extends BaseFontRenderer {
                             colorIndex += 16;
                         }
                         int colorcode = (this.colorCode)[colorIndex];
-                        GlStateManager.color((float)((float)(colorcode >> (16) & (255)) / 255.0f), (float)((float)(colorcode >> (8) & (255)) / 255.0f), (float)((float)(colorcode & (255)) / 255.0f), (float)alpha);
+                        RenderSystem.color((float)((float)(colorcode >> (16) & (255)) / 255.0f), (float)((float)(colorcode >> (8) & (255)) / 255.0f), (float)((float)(colorcode & (255)) / 255.0f), (float)alpha);
                     }
                     ++i;
                     continue;
@@ -175,8 +175,8 @@ extends BaseFontRenderer {
                 x += (double)((FontRendererEx.getCharData4(this)[character].width) - (8) + (this.charOffset));
             }
             (this.tessellator).draw();
-            GL11.glHint((int)(3155), (int)(4352));
-            GL11.glPopMatrix();
+            RenderSystem.glHint((int)(3155), (int)(4352));
+            RenderSystem.glPopMatrix();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -363,13 +363,13 @@ extends BaseFontRenderer {
     }
 
     private void drawLine(double x, double y, double x1, double y1, float width) {
-        GL11.glDisable((int)(3553));
-        GL11.glLineWidth((float)width);
-        GL11.glBegin((int)(1));
-        GL11.glVertex2d((double)x, (double)y);
-        GL11.glVertex2d((double)x1, (double)y1);
-        GL11.glEnd();
-        GL11.glEnable((int)(3553));
+        RenderSystem.glDisable((int)(3553));
+        RenderSystem.glLineWidth((float)width);
+        RenderSystem.glBegin((int)(1));
+        RenderSystem.glVertex2d((double)x, (double)y);
+        RenderSystem.glVertex2d((double)x1, (double)y1);
+        RenderSystem.glEnd();
+        RenderSystem.glEnable((int)(3553));
     }
 
     public int getStringWidth(String text) {

@@ -4,10 +4,10 @@
  * Could not load the following classes:
  *  neo.deobf.ListenerData
  */
-package neo.deobf;
+package com.botclient;
 
 import java.util.concurrent.CopyOnWriteArrayList;
-import neo.deobf.ListenerData;
+import com.botclient.ListenerData;
 
 /*
  * Exception performing whole class analysis ignored.

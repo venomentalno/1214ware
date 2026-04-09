@@ -7,13 +7,13 @@
  *  neo.deobf.ModuleCategory
  *  neo.deobf.Module
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
-import neo.deobf.ThemeSetting;
-import neo.deobf.Setting;
-import neo.deobf.ModuleCategory;
-import neo.deobf.Module;
+import com.botclient.ThemeSetting;
+import com.botclient.Setting;
+import com.botclient.ModuleCategory;
+import com.botclient.Module;
 
 public class ThemeModule
 extends Module {

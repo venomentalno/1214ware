@@ -8,13 +8,13 @@
  *  neo.deobf.BotsCommand
  *  neo.deobf.ChatMessageEvent
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.EventTarget;
-import neo.deobf.CommandManager;
-import neo.deobf.PBot;
-import neo.deobf.BotsCommand;
-import neo.deobf.ChatMessageEvent;
+import com.botclient.EventTarget;
+import com.botclient.CommandManager;
+import com.botclient.PBot;
+import com.botclient.BotsCommand;
+import com.botclient.ChatMessageEvent;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

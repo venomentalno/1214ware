@@ -4,7 +4,7 @@
  * Could not load the following classes:
  *  javax.vecmath.Vector3i
  */
-package neo.deobf;
+package com.botclient;
 
 import javax.vecmath.Vector3i;
 

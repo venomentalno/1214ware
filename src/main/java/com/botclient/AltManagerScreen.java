@@ -37,7 +37,7 @@
  *  org.lwjgl.input.Mouse
  *  org.lwjgl.opengl.GL11
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -45,37 +45,37 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-import neo.deobf.MainMenuScreen;
-import neo.deobf.AltStatus;
-import neo.deobf.AltAccount;
-import neo.deobf.AltLoginThread;
-import neo.deobf.AltManager;
-import neo.deobf.AuthServiceSwitcher;
-import neo.deobf.AddAltScreen;
-import neo.deobf.NeoButton;
-import neo.deobf.AltLoginScreen;
-import neo.deobf.EditAltScreen;
-import neo.deobf.RandomUtils;
-import neo.deobf.ColorUtils;
-import neo.deobf.DrawUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.IImageBuffer;
-import net.minecraft.client.renderer.ImageBufferDownload;
-import net.minecraft.client.renderer.ThreadDownloadImageData;
-import net.minecraft.client.renderer.texture.ITextureObject;
-import net.minecraft.client.renderer.texture.TextureManager;
+import com.botclient.MainMenuScreen;
+import com.botclient.AltStatus;
+import com.botclient.AltAccount;
+import com.botclient.AltLoginThread;
+import com.botclient.AltManager;
+import com.botclient.AuthServiceSwitcher;
+import com.botclient.AddAltScreen;
+import com.botclient.NeoButton;
+import com.botclient.AltLoginScreen;
+import com.botclient.EditAltScreen;
+import com.botclient.RandomUtils;
+import com.botclient.ColorUtils;
+import com.botclient.DrawUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.texture.NativeImage;
+import net.minecraft.client.render.ImageBufferDownload;
+import net.minecraft.client.render.ThreadDownloadImageData;
+import net.minecraft.client.render.texture.ITextureObject;
+import net.minecraft.client.render.texture.TextureManager;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Session;
+import net.minecraft.util.Identifier;
+import net.minecraft.client.session.Session;
 import net.minecraft.util.StringUtils;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.text.TextFormat;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -88,7 +88,7 @@ extends GuiScreen {
     public float offset;
     public ResourceLocation resourceLocation;
     public GuiTextField searchField;
-    public String status = TextFormatting.DARK_GRAY + "(" + TextFormatting.GRAY + AltManager.registry.size() + TextFormatting.DARK_GRAY + ")";
+    public String status = TextFormat.DARK_GRAY + "(" + TextFormat.GRAY + AltManager.registry.size() + TextFormat.DARK_GRAY + ")";
     public AltLoginThread loginThread;
     public NeoButton remove;
     public NeoButton login;
@@ -184,7 +184,7 @@ extends GuiScreen {
     }
 
     private static TextFormatting getGREEN() {
-        return TextFormatting.GREEN;
+        return TextFormat.GREEN;
     }
 
     public void actionPerformed(GuiButton button) {
@@ -255,21 +255,21 @@ extends GuiScreen {
             }
         }
         String altName = "Name: " + (AltManagerScreen.getMc5(this).session).getUsername();
-        GlStateManager.pushMatrix();
-        GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
-        (Minecraft.getMinecraft().fontRenderer).drawCenteredString(altName, (double)((float)(this.width) / 2.0f), 10.0, -1);
-        GlStateManager.pushMatrix();
+        RenderSystem.pushMatrix();
+        RenderSystem.disableBlend();
+        RenderSystem.popMatrix();
+        (MinecraftClient.getInstance().fontRenderer).drawCenteredString(altName, (double)((float)(this.width) / 2.0f), 10.0, -1);
+        RenderSystem.pushMatrix();
         DrawUtils.scissorRect((float)0.0f, (float)33.0f, (float)(this.width), (double)((this.height) - (50)));
-        GL11.glEnable((int)(3089));
+        RenderSystem.glEnable((int)(3089));
         int y = 38;
         int number = 0;
         Iterator<AltAccount> e = this.getAlts().iterator();
         while (true) {
             String name;
             if (!e.hasNext()) {
-                GL11.glDisable((int)(3089));
-                GL11.glPopMatrix();
+                RenderSystem.glDisable((int)(3089));
+                RenderSystem.glPopMatrix();
                 if ((this.selectedAlt) == null) {
                     AltManagerScreen.getLogin3(this).enabled = false;
                     AltManagerScreen.getRemove2(this).enabled = false;
@@ -301,19 +301,19 @@ extends GuiScreen {
             name = prefix + name + "§r ";
             String pass = alt.getPassword().equals("") ? "§cNot License" : "§aLicense";
             String numberP = "§7" + number + ". §f";
-            GlStateManager.pushMatrix();
-            GlStateManager.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            RenderSystem.pushMatrix();
+            RenderSystem.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
             if ((this.resourceLocation) == null) {
                 this.AbstractClientPlayer.getLocationSkin((String)name) = AbstractClientPlayer.getLocationSkin((String)name);
                 this.callGetMc12((this.resourceLocation), name);
             } else {
                 (this.mc).getTextureManager().bindTexture((this.resourceLocation));
-                GlStateManager.enableTexture2D();
+                RenderSystem.enableTexture2D();
                 Gui.drawScaledCustomSizeModalRect((int)((int)((float)(this.width) / 2.0f - 110.0f)), (int)((int)((float)y - (this.offset))), (float)8.0f, (float)8.0f, (int)(8), (int)(8), (int)(25), (int)(25), (float)64.0f, (float)64.0f);
             }
-            GlStateManager.popMatrix();
-            (Minecraft.getMinecraft().fontRenderer).drawString(name, (int)((float)(this.width) / 2.0f - 80.0f), (int)((double)y - (double)(this.offset) + 5.0), -1);
-            (Minecraft.getMinecraft().fontRenderer).drawString((alt.getStatus().equals((Object)(AltStatus.NotWorking)) ? "§m" : "") + pass, (int)((float)(this.width) / 2.0f - 80.0f), (int)((double)y - (double)(this.offset) + 15.0), ColorUtils.getColor((int)(110)));
+            RenderSystem.popMatrix();
+            (MinecraftClient.getInstance().fontRenderer).drawString(name, (int)((float)(this.width) / 2.0f - 80.0f), (int)((double)y - (double)(this.offset) + 5.0), -1);
+            (MinecraftClient.getInstance().fontRenderer).drawString((alt.getStatus().equals((Object)(AltStatus.NotWorking)) ? "§m" : "") + pass, (int)((float)(this.width) / 2.0f - 80.0f), (int)((double)y - (double)(this.offset) + 15.0), ColorUtils.getColor((int)(110)));
             y += 40;
         }
     }

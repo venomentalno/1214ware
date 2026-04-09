@@ -9,16 +9,16 @@
  *  net.minecraft.client.Minecraft
  *  net.minecraft.client.network.NetworkPlayerInfo
  */
-package neo.deobf;
+package com.botclient;
 
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
-import neo.deobf.PBot;
-import neo.deobf.MinecraftContext;
-import neo.deobf.RandomUtils;
-import neo.deobf.RandomProvocationPool;
-import net.minecraft.client.Minecraft;
+import com.botclient.PBot;
+import com.botclient.MinecraftContext;
+import com.botclient.RandomUtils;
+import com.botclient.RandomProvocationPool;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 
 /*

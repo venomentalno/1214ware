@@ -4,9 +4,9 @@
  * Could not load the following classes:
  *  neo.deobf.ProxyType
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.ProxyType;
+import com.botclient.ProxyType;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

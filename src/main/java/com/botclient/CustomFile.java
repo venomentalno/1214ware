@@ -4,11 +4,11 @@
  * Could not load the following classes:
  *  neo.deobf.FileManager
  */
-package neo.deobf;
+package com.botclient;
 
 import java.io.File;
 import java.io.IOException;
-import neo.deobf.FileManager;
+import com.botclient.FileManager;
 
 /*
  * Exception performing whole class analysis ignored.

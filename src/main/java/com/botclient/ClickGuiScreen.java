@@ -38,7 +38,7 @@
  *  org.lwjgl.input.Keyboard
  *  org.lwjgl.input.Mouse
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -46,36 +46,36 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.imageio.ImageIO;
-import neo.deobf.TextSetting;
-import neo.deobf.ThemeSetting;
-import neo.deobf.Setting;
-import neo.deobf.Client;
-import neo.deobf.ModuleManager;
-import neo.deobf.ModuleCategory;
-import neo.deobf.SnowflakeParticle;
-import neo.deobf.BooleanSetting;
-import neo.deobf.ColorSetting;
-import neo.deobf.InfoSetting;
-import neo.deobf.ModeSetting;
-import neo.deobf.NumberSetting;
-import neo.deobf.Module;
-import neo.deobf.ClickGuiModule;
-import neo.deobf.AnimationUtils;
-import neo.deobf.BackendApi;
-import neo.deobf.Theme;
-import neo.deobf.FontRendererEx;
-import neo.deobf.FontRegistry;
-import neo.deobf.MillisTimer;
-import neo.deobf.ColorUtils;
-import neo.deobf.GlowUtils;
-import neo.deobf.DrawUtils;
-import neo.deobf.RoundedUtils;
-import neo.deobf.StencilUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
+import com.botclient.TextSetting;
+import com.botclient.ThemeSetting;
+import com.botclient.Setting;
+import com.botclient.Client;
+import com.botclient.ModuleManager;
+import com.botclient.ModuleCategory;
+import com.botclient.SnowflakeParticle;
+import com.botclient.BooleanSetting;
+import com.botclient.ColorSetting;
+import com.botclient.InfoSetting;
+import com.botclient.ModeSetting;
+import com.botclient.NumberSetting;
+import com.botclient.Module;
+import com.botclient.ClickGuiModule;
+import com.botclient.AnimationUtils;
+import com.botclient.BackendApi;
+import com.botclient.Theme;
+import com.botclient.FontRendererEx;
+import com.botclient.FontRegistry;
+import com.botclient.MillisTimer;
+import com.botclient.ColorUtils;
+import com.botclient.GlowUtils;
+import com.botclient.DrawUtils;
+import com.botclient.RoundedUtils;
+import com.botclient.StencilUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.Window;
 import net.minecraft.util.ChatAllowedCharacters;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -531,7 +531,7 @@ extends GuiScreen {
         } else {
             this.dragging = false;
         }
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
         if ((ClickGuiScreen.getSnow().value) && !(this.effectList).isEmpty()) {
             (this.effectList).forEach(snow -> snow.update(sr));
         }
@@ -668,7 +668,7 @@ extends GuiScreen {
         width = 370.0f;
         height = 265.0f;
         try {
-            colorpicker = ImageIO.read(Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("neoware/images/colorpicker.png")).getInputStream());
+            colorpicker = ImageIO.read(MinecraftClient.getInstance().getResourceManager().getResource(new ResourceLocation("neoware/images/colorpicker.png")).getInputStream());
         }
         catch (IOException e) {
             e.printStackTrace();

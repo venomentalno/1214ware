@@ -6,7 +6,7 @@
  *  io.netty.util.concurrent.GenericFutureListener
  *  net.minecraft.network.Packet
  */
-package neo.deobf;
+package com.botclient;
 
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;

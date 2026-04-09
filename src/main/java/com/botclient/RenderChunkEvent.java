@@ -5,10 +5,10 @@
  *  neo.deobf.CancellableEvent
  *  net.minecraft.client.renderer.chunk.RenderChunk
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.CancellableEvent;
-import net.minecraft.client.renderer.chunk.RenderChunk;
+import com.botclient.CancellableEvent;
+import net.minecraft.client.render.chunk.RenderChunk;
 
 public class RenderChunkEvent
 extends CancellableEvent {

@@ -10,15 +10,15 @@
  *  neo.deobf.ModeSetting
  *  neo.deobf.Module
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.TextSetting;
-import neo.deobf.Setting;
-import neo.deobf.ModuleCategory;
-import neo.deobf.BooleanSetting;
-import neo.deobf.InfoSetting;
-import neo.deobf.ModeSetting;
-import neo.deobf.Module;
+import com.botclient.TextSetting;
+import com.botclient.Setting;
+import com.botclient.ModuleCategory;
+import com.botclient.BooleanSetting;
+import com.botclient.InfoSetting;
+import com.botclient.ModeSetting;
+import com.botclient.Module;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

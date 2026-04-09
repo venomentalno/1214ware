@@ -14,18 +14,18 @@
  *  net.minecraft.util.text.TextComponentString
  *  org.jetbrains.annotations.NotNull
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.PBotNetworkManager;
-import neo.deobf.ServerStatusPinger;
-import net.minecraft.client.Minecraft;
+import com.botclient.PBotNetworkManager;
+import com.botclient.ServerStatusPinger;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.Packet;
 import net.minecraft.network.status.INetHandlerStatusClient;
 import net.minecraft.network.status.client.CPacketPing;
 import net.minecraft.network.status.server.SPacketPong;
 import net.minecraft.network.status.server.SPacketServerInfo;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.text.Text;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 /*

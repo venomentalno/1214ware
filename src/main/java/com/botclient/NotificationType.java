@@ -1,4 +1,4 @@
-package neo.deobf;
+package com.botclient;
 
 public enum NotificationType {
     SUCCESS,

@@ -7,13 +7,13 @@
  *  neo.deobf.FontRegistry
  *  neo.deobf.RoundedUtils
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
-import neo.deobf.AnimationUtils;
-import neo.deobf.FontRendererEx;
-import neo.deobf.FontRegistry;
-import neo.deobf.RoundedUtils;
+import com.botclient.AnimationUtils;
+import com.botclient.FontRendererEx;
+import com.botclient.FontRegistry;
+import com.botclient.RoundedUtils;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

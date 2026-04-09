@@ -5,9 +5,9 @@
  *  neo.deobf.Event
  *  net.minecraft.entity.Entity
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.Event;
+import com.botclient.Event;
 import net.minecraft.entity.Entity;
 
 public class EntityRenderEvent

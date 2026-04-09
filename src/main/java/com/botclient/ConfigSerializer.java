@@ -12,17 +12,17 @@
  *  neo.deobf.Module
  *  neo.deobf.Theme
  */
-package neo.deobf;
+package com.botclient;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import neo.deobf.Client;
-import neo.deobf.ModuleManager;
-import neo.deobf.ThemeManager;
-import neo.deobf.ModuleCategory;
-import neo.deobf.ClickGuiScreen;
-import neo.deobf.Module;
-import neo.deobf.Theme;
+import com.botclient.Client;
+import com.botclient.ModuleManager;
+import com.botclient.ThemeManager;
+import com.botclient.ModuleCategory;
+import com.botclient.ClickGuiScreen;
+import com.botclient.Module;
+import com.botclient.Theme;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

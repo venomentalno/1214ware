@@ -19,28 +19,28 @@
  *  net.minecraft.util.EnumHand
  *  net.minecraft.util.text.TextFormatting
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
-import neo.deobf.BooleanSetting;
-import neo.deobf.PBot;
-import neo.deobf.PBotPlayer;
-import neo.deobf.PBotNetHandlerPlayClient;
-import neo.deobf.BotDebugModule;
-import neo.deobf.CaptchaManagerModule;
-import neo.deobf.NotificationType;
-import neo.deobf.NotificationsModule;
-import neo.deobf.ChatUtils;
-import neo.deobf.GifFrameInfo;
-import neo.deobf.ImageUtils;
-import net.minecraft.client.Minecraft;
+import com.botclient.BooleanSetting;
+import com.botclient.PBot;
+import com.botclient.PBotPlayer;
+import com.botclient.PBotNetHandlerPlayClient;
+import com.botclient.BotDebugModule;
+import com.botclient.CaptchaManagerModule;
+import com.botclient.NotificationType;
+import com.botclient.NotificationsModule;
+import com.botclient.ChatUtils;
+import com.botclient.GifFrameInfo;
+import com.botclient.ImageUtils;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketUseEntity;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.network.packet.c2s.play.CPacketUseEntity;
+import net.minecraft.util.Hand;
+import net.minecraft.text.TextFormat;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
@@ -61,12 +61,12 @@ public class CaptchaPacket {
 
     public void sendAnswer(String text) {
         if ((CaptchaPacket.getSaveCaptcha().value)) {
-            ImageUtils.saveImage((BufferedImage)this.captcha, (File)new File((Minecraft.getMinecraft().gameDir), "/NeoWare/ManualHelper/saved/" + text + ".png"));
+            ImageUtils.saveImage((BufferedImage)this.captcha, (File)new File((MinecraftClient.getInstance().gameDir), "/NeoWare/ManualHelper/saved/" + text + ".png"));
         }
         if ((this.pbot).isOnline()) {
             (this.pbot).sendMessage(text);
             if ((CaptchaPacket.getNotifications().value)) {
-                NotificationsModule.notify((String)((TextFormatting.GREEN) + "Captcha"), (String)("Р‘РѕС‚ " + (this.pbot).getNickname() + " РћС‚РІРµС‚ " + text), (NotificationType)(NotificationType.SUCCESS), (int)(4));
+                NotificationsModule.notify((String)((TextFormat.GREEN) + "Captcha"), (String)("Р‘РѕС‚ " + (this.pbot).getNickname() + " РћС‚РІРµС‚ " + text), (NotificationType)(NotificationType.SUCCESS), (int)(4));
             }
             if ((CaptchaPacket.getCaptcha().value)) {
                 ChatUtils.formatMsg((String)("РљР°РїС‡Р° РґР»СЏ " + (this.pbot).getNickname() + " СЂРµС€РµРЅР°! РћС‚РІРµС‚ " + text));
@@ -113,7 +113,7 @@ public class CaptchaPacket {
     public void rotateFrame(int x, int y) {
         ImageUtils.rotateFrame((BufferedImage)this.captcha, (int)x, (int)y);
         if (!this.isMap() && (this.pbot).isOnline()) {
-            (CaptchaPacket.getPlayer(CaptchaPacket.getPbot2(this)).connection).sendPacket((Packet)new CPacketUseEntity(this.getFrame(x, y).getId(), (EnumHand.MAIN_HAND)));
+            (CaptchaPacket.getPlayer(CaptchaPacket.getPbot2(this)).connection).sendPacket((Packet)new CPacketUseEntity(this.getFrame(x, y).getId(), (Hand.MAIN_HAND)));
         }
     }
 

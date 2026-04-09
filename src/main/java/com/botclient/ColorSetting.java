@@ -4,11 +4,11 @@
  * Could not load the following classes:
  *  neo.deobf.Setting
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
 import java.util.function.Supplier;
-import neo.deobf.Setting;
+import com.botclient.Setting;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

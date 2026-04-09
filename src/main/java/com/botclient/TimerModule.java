@@ -11,15 +11,15 @@
  *  net.minecraft.client.Minecraft
  *  net.minecraft.util.Timer
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.PreMotionEvent;
-import neo.deobf.EventTarget;
-import neo.deobf.Setting;
-import neo.deobf.ModuleCategory;
-import neo.deobf.NumberSetting;
-import neo.deobf.Module;
-import net.minecraft.client.Minecraft;
+import com.botclient.PreMotionEvent;
+import com.botclient.EventTarget;
+import com.botclient.Setting;
+import com.botclient.ModuleCategory;
+import com.botclient.NumberSetting;
+import com.botclient.Module;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Timer;
 
 /*

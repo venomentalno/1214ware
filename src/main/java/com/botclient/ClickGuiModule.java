@@ -10,15 +10,15 @@
  *  net.minecraft.client.Minecraft
  *  net.minecraft.client.gui.GuiScreen
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.Setting;
-import neo.deobf.ModuleCategory;
-import neo.deobf.ClickGuiScreen;
-import neo.deobf.BooleanSetting;
-import neo.deobf.Module;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import com.botclient.Setting;
+import com.botclient.ModuleCategory;
+import com.botclient.ClickGuiScreen;
+import com.botclient.BooleanSetting;
+import com.botclient.Module;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

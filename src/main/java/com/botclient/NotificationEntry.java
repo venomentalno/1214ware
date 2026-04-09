@@ -12,18 +12,18 @@
  *  net.minecraft.client.gui.ScaledResolution
  *  net.minecraft.util.ResourceLocation
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
-import neo.deobf.NotificationType;
-import neo.deobf.AnimationState;
-import neo.deobf.FontRendererEx;
-import neo.deobf.FontRegistry;
-import neo.deobf.GlowUtils;
-import neo.deobf.DrawUtils;
-import neo.deobf.RoundedUtils;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.ResourceLocation;
+import com.botclient.NotificationType;
+import com.botclient.AnimationState;
+import com.botclient.FontRendererEx;
+import com.botclient.FontRegistry;
+import com.botclient.GlowUtils;
+import com.botclient.DrawUtils;
+import com.botclient.RoundedUtils;
+import net.minecraft.client.util.Window;
+import net.minecraft.util.Identifier;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

@@ -17,22 +17,22 @@
  *  net.minecraft.network.login.server.SPacketLoginSuccess
  *  net.minecraft.util.text.ITextComponent
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.BooleanSetting;
-import neo.deobf.PBot;
-import neo.deobf.PBotNetHandlerPlayClient;
-import neo.deobf.PBotNetworkManager;
-import neo.deobf.BotDebugModule;
-import neo.deobf.ChatUtils;
+import com.botclient.BooleanSetting;
+import com.botclient.PBot;
+import com.botclient.PBotNetHandlerPlayClient;
+import com.botclient.PBotNetworkManager;
+import com.botclient.BotDebugModule;
+import com.botclient.ChatUtils;
 import net.minecraft.network.EnumConnectionState;
-import net.minecraft.network.INetHandler;
+import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.login.INetHandlerLoginClient;
 import net.minecraft.network.login.server.SPacketDisconnect;
 import net.minecraft.network.login.server.SPacketEnableCompression;
 import net.minecraft.network.login.server.SPacketEncryptionRequest;
 import net.minecraft.network.login.server.SPacketLoginSuccess;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.text.Text;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

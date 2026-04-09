@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "botclient",
+  "version": "${version}",
+  "name": "BotClient",
+  "description": "A proxy client for joining on lots of accounts in 1 window",
+  "authors": ["BotClient"],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/botclient/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.botclient.BotClientMod"
+    ],
+    "client": [
+      "com.botclient.BotClientClient"
+    ]
+  },
+  "mixins": [
+    "botclient.mixins.json"
+  ],
+  "accessWidener": "botclient.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}

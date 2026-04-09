@@ -23,7 +23,7 @@
  *  net.minecraft.world.World
  *  net.minecraft.world.storage.MapData
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -37,15 +37,15 @@ import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import neo.deobf.BooleanSetting;
-import neo.deobf.NumberSetting;
-import neo.deobf.PBot;
-import neo.deobf.PBotPlayer;
-import neo.deobf.PBotWorldClient;
-import neo.deobf.CaptchaManagerModule;
-import neo.deobf.CaptchaPacket;
-import neo.deobf.GifFrameInfo;
-import neo.deobf.ImageUtils;
+import com.botclient.BooleanSetting;
+import com.botclient.NumberSetting;
+import com.botclient.PBot;
+import com.botclient.PBotPlayer;
+import com.botclient.PBotWorldClient;
+import com.botclient.CaptchaManagerModule;
+import com.botclient.CaptchaPacket;
+import com.botclient.GifFrameInfo;
+import com.botclient.ImageUtils;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItemFrame;
@@ -53,7 +53,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
@@ -67,24 +67,24 @@ public class CaptchaDetector {
     }
 
     private static EnumFacing getEAST() {
-        return EnumFacing.EAST;
+        return Direction.EAST;
     }
 
     public static CaptchaPacket getCaptcha(PBot bot) {
-        if (bot.getWorld() == null) {
+        if (bot.world == null) {
             return null;
         }
         int mapItemSlot = bot.getMapSlot();
         if (mapItemSlot != (-1)) {
             Item mapItem = mapItemSlot == (45) ? (bot.player).getHeldItemOffhand().getItem() : ((ItemStack)(CaptchaDetector.getInventory(CaptchaDetector.getPlayer2(bot)).mainInventory).get(mapItemSlot)).getItem();
             ItemMap map = (ItemMap)mapItem;
-            MapData mapData = map.getMapData(mapItem.getDefaultInstance(), (World)bot.getWorld());
+            MapData mapData = map.getMapData(mapItem.getDefaultInstance(), (World)bot.world);
             BufferedImage captchaFrame = CaptchaDetector.mapToImage(CaptchaDetector.getMapData((mapData.colors)), false);
             return new CaptchaPacket(ImageUtils.imageToHash((BufferedImage)captchaFrame), captchaFrame, new ArrayList(), bot);
         }
-        List<Object> frames = (bot.getWorld().loadedEntityList).stream().filter(entity -> (entity instanceof EntityItemFrame && ((entity.getHorizontalFacing().equals((Object)CaptchaDetector.getSOUTH()) && (Entity)CaptchaDetector.getPlayer(bot).getHorizontalFacing().equals((Object)CaptchaDetector.getNORTH2()) || entity.getHorizontalFacing().equals((Object)CaptchaDetector.getWEST()) && (Entity)CaptchaDetector.getPlayer(bot).getHorizontalFacing().equals((Object)CaptchaDetector.getEAST2()) || entity.getHorizontalFacing().equals((Object)CaptchaDetector.getNORTH()) && (Entity)CaptchaDetector.getPlayer(bot).getHorizontalFacing().equals((Object)CaptchaDetector.getSOUTH2()) || entity.getHorizontalFacing().equals((Object)CaptchaDetector.getEAST()) && (Entity)CaptchaDetector.getPlayer(bot).getHorizontalFacing().equals((Object)CaptchaDetector.getWEST2()) ? 1 : 0) != 0) ? 1 : 0) != 0).map(EntityItemFrame.class::cast).collect(Collectors.toList());
+        List<Object> frames = (bot.world.loadedEntityList).stream().filter(entity -> (entity instanceof EntityItemFrame && ((entity.getHorizontalFacing().equals((Object)CaptchaDetector.getSOUTH()) && (Entity)CaptchaDetector.getPlayer(bot).getHorizontalFacing().equals((Object)CaptchaDetector.getNORTH2()) || entity.getHorizontalFacing().equals((Object)CaptchaDetector.getWEST()) && (Entity)CaptchaDetector.getPlayer(bot).getHorizontalFacing().equals((Object)CaptchaDetector.getEAST2()) || entity.getHorizontalFacing().equals((Object)CaptchaDetector.getNORTH()) && (Entity)CaptchaDetector.getPlayer(bot).getHorizontalFacing().equals((Object)CaptchaDetector.getSOUTH2()) || entity.getHorizontalFacing().equals((Object)CaptchaDetector.getEAST()) && (Entity)CaptchaDetector.getPlayer(bot).getHorizontalFacing().equals((Object)CaptchaDetector.getWEST2()) ? 1 : 0) != 0) ? 1 : 0) != 0).map(EntityItemFrame.class::cast).collect(Collectors.toList());
         if (frames.size() == 0) {
-            frames = (bot.getWorld().loadedEntityList).stream().filter(entity -> entity instanceof EntityItemFrame).map(EntityItemFrame.class::cast).collect(Collectors.toList());
+            frames = (bot.world.loadedEntityList).stream().filter(entity -> entity instanceof EntityItemFrame).map(EntityItemFrame.class::cast).collect(Collectors.toList());
         }
         if (frames.size() > 0) {
             boolean rotation = CaptchaDetector.checkRot(frames);
@@ -111,7 +111,7 @@ public class CaptchaDetector {
                     frameX = (double)width - frameX - 1.0;
                 }
                 ItemMap map = (ItemMap)entityItemFrame.getDisplayedItem().getItem();
-                MapData mapData = map.getMapData(entityItemFrame.getDisplayedItem(), (World)bot.getWorld());
+                MapData mapData = map.getMapData(entityItemFrame.getDisplayedItem(), (World)bot.world);
                 BufferedImage captchaFrame = CaptchaDetector.mapToImage(CaptchaDetector.getMapData((mapData.colors)), false);
                 frameList.add(new GifFrameInfo(entityItemFrame.getEntityId(), (int)((double)width - frameX - 1.0), (int)((double)n - frameY - 1.0)));
                 image.createGraphics().drawImage((Image)(entityItemFrame.getRotation() != 0 ? CaptchaDetector.rotateImage(captchaFrame, entityItemFrame.getRotation() * (90)) : captchaFrame), (int)((double)width - frameX - 1.0) * (128), (int)((double)n - frameY - 1.0) * (128), null);
@@ -157,11 +157,11 @@ public class CaptchaDetector {
     }
 
     private static EnumFacing getSOUTH() {
-        return EnumFacing.SOUTH;
+        return Direction.SOUTH;
     }
 
     private static EnumFacing getWEST() {
-        return EnumFacing.WEST;
+        return Direction.WEST;
     }
 
     public static boolean checkRot(List<EntityItemFrame> frames) {
@@ -178,23 +178,23 @@ public class CaptchaDetector {
     }
 
     private static EnumFacing getWEST2() {
-        return EnumFacing.WEST;
+        return Direction.WEST;
     }
 
     private static EnumFacing getEAST2() {
-        return EnumFacing.EAST;
+        return Direction.EAST;
     }
 
     private static EnumFacing getNORTH() {
-        return EnumFacing.NORTH;
+        return Direction.NORTH;
     }
 
     private static EnumFacing getNORTH2() {
-        return EnumFacing.NORTH;
+        return Direction.NORTH;
     }
 
     private static EnumFacing getSOUTH2() {
-        return EnumFacing.SOUTH;
+        return Direction.SOUTH;
     }
 
     public static int[] getMapData(byte[] data) {

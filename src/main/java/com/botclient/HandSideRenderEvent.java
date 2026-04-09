@@ -5,9 +5,9 @@
  *  neo.deobf.Event
  *  net.minecraft.util.EnumHandSide
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.Event;
+import com.botclient.Event;
 import net.minecraft.util.EnumHandSide;
 
 public class HandSideRenderEvent

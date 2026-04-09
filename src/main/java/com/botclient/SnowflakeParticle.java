@@ -5,11 +5,11 @@
  *  net.minecraft.client.gui.Gui
  *  net.minecraft.client.gui.ScaledResolution
  */
-package neo.deobf;
+package com.botclient;
 
 import java.util.Random;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.util.Window;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

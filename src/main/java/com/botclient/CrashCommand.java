@@ -22,30 +22,30 @@
  *  net.minecraft.network.play.client.CPacketCreativeInventoryAction
  *  net.minecraft.network.play.client.CPacketTabComplete
  */
-package neo.deobf;
+package com.botclient;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import neo.deobf.CommandInfo;
-import neo.deobf.Command;
-import neo.deobf.CommandChatListener;
-import neo.deobf.ChatUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
+import com.botclient.CommandInfo;
+import com.botclient.Command;
+import com.botclient.CommandChatListener;
+import com.botclient.ChatUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ClickType;
+import net.minecraft.registry.Registries;Items;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketClickWindow;
-import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
-import net.minecraft.network.play.client.CPacketTabComplete;
+import net.minecraft.network.packet.c2s.play.CPacketClickWindow;
+import net.minecraft.network.packet.c2s.play.CPacketCreativeInventoryAction;
+import net.minecraft.network.packet.c2s.play.CPacketTabComplete;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
@@ -85,7 +85,7 @@ extends Command {
                         bookObj2 = new ItemStack((Items.WRITABLE_BOOK));
                         list = new NBTTagList();
                         tag = new NBTTagCompound();
-                        author = Minecraft.getMinecraft().getSession().getUsername();
+                        author = MinecraftClient.getInstance().getSession().getUsername();
                         for (i = 0; i < (50); ++i) {
                             tString = new NBTTagString("wveb54yn4y6y6hy6hb54yb5436by5346y3b4yb343yb453by45b34y5by34yb543yb54y5 h3y4h97,i567yb64t5vr2c43rc434v432tvt4tvybn4n6n57u6u57m6m6678mi68,867,79o,o97o,978iun7yb65453v4tyv34t4t3c2cc423rc334tcvtvt43tv45tvt5t5v43tv5345tv43tv5355vt5t3tv5t533v5t45tv43vt4355t54fwveb54yn4y6y6hy6hb54yb5436by5346y3b4yb343yb453by45b34y5by34yb543yb54y5 h3y4h97,i567yb64t5vr2c43rc434v432tvt4tvybn4n6n57u6u57m6m6678mi68,867,79o,o97o,978iun7yb65453v4tyv34t4t3c2cc423rc334tcvtvt43tv45tvt5t5v43tv5345tv43tv5355vt5t3tv5t533v5t45tv43vt4355t54fwveb54yn4y6y6hy6hb54yb5436by5346y3b4yb343yb453by45b34y5by34yb543yb54y5 h3y4h97,i567yb64t5");
                             list.appendTag((NBTBase)tString);
@@ -107,7 +107,7 @@ extends Command {
                         bookObj2 = new ItemStack((Items.WRITABLE_BOOK));
                         list = new NBTTagList();
                         tag = new NBTTagCompound();
-                        author = Minecraft.getMinecraft().getSession().getUsername();
+                        author = MinecraftClient.getInstance().getSession().getUsername();
                         for (i = 0; i < (50); ++i) {
                             tString = new NBTTagString("wveb54yn4y6y6hy6hb54yb5436by5346y3b4yb343yb453by45b34y5by34yb543yb54y5 h3y4h97,i567yb64t5vr2c43rc434v432tvt4tvybn4n6n57u6u57m6m6678mi68,867,79o,o97o,978iun7yb65453v4tyv34t4t3c2cc423rc334tcvtvt43tv45tvt5t5v43tv5345tv43tv5355vt5t3tv5t533v5t45tv43vt4355t54fwveb54yn4y6y6hy6hb54yb5436by5346y3b4yb343yb453by45b34y5by34yb543yb54y5 h3y4h97,i567yb64t5vr2c43rc434v432tvt4tvybn4n6n57u6u57m6m6678mi68,867,79o,o97o,978iun7yb65453v4tyv34t4t3c2cc423rc334tcvtvt43tv45tvt5t5v43tv5345tv43tv5355vt5t3tv5t533v5t45tv43vt4355t54fwveb54yn4y6y6hy6hb54yb5436by5346y3b4yb343yb453by45b34y5by34yb543yb54y5 h3y4h97,i567yb64t5");
                             list.appendTag((NBTBase)tString);

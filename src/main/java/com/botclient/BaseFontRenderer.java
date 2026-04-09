@@ -9,7 +9,7 @@
  *  net.minecraft.client.renderer.texture.DynamicTexture
  *  net.minecraft.util.ResourceLocation
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,12 +19,12 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import neo.deobf.DragState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.util.ResourceLocation;
+import com.botclient.DragState;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.texture.DynamicTexture;
+import net.minecraft.util.Identifier;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
@@ -32,7 +32,7 @@ import net.minecraft.util.ResourceLocation;
 public class BaseFontRenderer {
     public DynamicTexture tex;
     public boolean fractionalMetrics;
-    protected final Tessellator tessellator = Tessellator.getInstance();
+    protected final Tessellator tessellator = BufferRenderer.getAvailableRenderer();
     public boolean antiAlias;
     private final int imageSize = 512;
     public final BufferBuilder bufferbuilder = this.tessellator.getBuffer();
@@ -117,7 +117,7 @@ public class BaseFontRenderer {
 
     public static Font readFontFromFile(String fontName, float size) {
         try {
-            Font font = Font.createFont(0, Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("neoware/fonts/" + fontName)).getInputStream());
+            Font font = Font.createFont(0, MinecraftClient.getInstance().getResourceManager().getResource(new ResourceLocation("neoware/fonts/" + fontName)).getInputStream());
             return font.deriveFont(size);
         }
         catch (Exception e) {

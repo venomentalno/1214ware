@@ -4,12 +4,11 @@
 *.o
 *.obj
 *.out
-*.dll
-*.so
-*.a
+build/
+target/
 
 # Dependencies
-target/
+.gradle/
 
 # Logs and temp files
 *.log
@@ -23,18 +22,22 @@ target/
 # Editors
 .vscode/
 .idea/
-*.swp
-*.swo
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# Gradle
-.gradle/
 
 # System files
 .DS_Store
 Thumbs.db
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# MyPy cache
+.mypy_cache/
+
+# Pytest cache
+.pytest_cache/
+
+# Distribution artifacts
+dist/
 ```

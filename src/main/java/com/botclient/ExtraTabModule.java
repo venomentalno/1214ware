@@ -5,10 +5,10 @@
  *  neo.deobf.ModuleCategory
  *  neo.deobf.Module
  */
-package neo.deobf;
+package com.botclient;
 
-import neo.deobf.ModuleCategory;
-import neo.deobf.Module;
+import com.botclient.ModuleCategory;
+import com.botclient.Module;
 
 public class ExtraTabModule
 extends Module {

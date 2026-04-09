@@ -13,16 +13,16 @@
  *  net.minecraft.util.ChatAllowedCharacters
  *  org.lwjgl.opengl.GL11
  */
-package neo.deobf;
+package com.botclient;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.vertex.DefaultVertexFormats;
+import net.minecraft.client.render.vertex.VertexFormat;
 import net.minecraft.util.ChatAllowedCharacters;
 import org.lwjgl.opengl.GL11;
 
@@ -169,7 +169,7 @@ extends Gui {
                 if (var5 != 0) {
                     var4.substring(0, var2);
                 }
-                var9 = (Minecraft.getMinecraft().fontRenderer).drawStringWithShadow((this.text).replaceAll("(?s).", "*"), (float)var7, (float)var8, var1);
+                var9 = (MinecraftClient.getInstance().fontRenderer).drawStringWithShadow((this.text).replaceAll("(?s).", "*"), (float)var7, (float)var8, var1);
             }
             int var10 = (this.cursorPosition) < (this.text).length() || (this.text).length() >= this.getMaxStringLength() ? 1 : 0;
             int var11 = var9;
@@ -180,13 +180,13 @@ extends Gui {
                 --var9;
             }
             if (var4.length() > 0 && var5 != 0 && var2 < var4.length()) {
-                (Minecraft.getMinecraft().fontRenderer).drawStringWithShadow(var4.substring(var2), (float)var9, (float)var8, var1);
+                (MinecraftClient.getInstance().fontRenderer).drawStringWithShadow(var4.substring(var2), (float)var9, (float)var8, var1);
             }
             if (var6 != 0) {
                 if (var10 != 0) {
                     Gui.drawRect((int)var11, (int)(var8 - (1)), (int)(var11 + (1)), (int)(var8 + (1) + (GuiPasswordField.getFontRenderer9(this).FONT_HEIGHT)), (int)(-3092272));
                 } else {
-                    (Minecraft.getMinecraft().fontRenderer).drawStringWithShadow("_", (float)var11, (float)var8, var1);
+                    (MinecraftClient.getInstance().fontRenderer).drawStringWithShadow("_", (float)var11, (float)var8, var1);
                 }
             }
             if (var3 != var2) {
@@ -350,20 +350,20 @@ extends Gui {
             par2 = par4;
             par4 = var5;
         }
-        Tessellator var6 = Tessellator.getInstance();
+        Tessellator var6 = BufferRenderer.getAvailableRenderer();
         BufferBuilder var7 = var6.getBuffer();
-        GL11.glColor4f((float)0.0f, (float)0.0f, (float)255.0f, (float)255.0f);
-        GL11.glDisable((int)(3553));
-        GL11.glEnable((int)(3058));
-        GL11.glLogicOp((int)(5387));
+        RenderSystem.glColor4f((float)0.0f, (float)0.0f, (float)255.0f, (float)255.0f);
+        RenderSystem.glDisable((int)(3553));
+        RenderSystem.glEnable((int)(3058));
+        RenderSystem.glLogicOp((int)(5387));
         var7.begin(7, (DefaultVertexFormats.POSITION));
         var7.pos((double)par1, (double)par4, 0.0).endVertex();
         var7.pos((double)par3, (double)par4, 0.0).endVertex();
         var7.pos((double)par3, (double)par2, 0.0).endVertex();
         var7.pos((double)par1, (double)par2, 0.0).endVertex();
         var6.draw();
-        GL11.glDisable((int)(3058));
-        GL11.glEnable((int)(3553));
+        RenderSystem.glDisable((int)(3058));
+        RenderSystem.glEnable((int)(3553));
     }
 
     public int getCursorPosition() {

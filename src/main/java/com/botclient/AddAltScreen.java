@@ -15,24 +15,24 @@
  *  net.minecraft.util.text.TextFormatting
  *  org.lwjgl.input.Keyboard
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.io.IOException;
 import java.util.List;
-import neo.deobf.AddAltThread;
-import neo.deobf.NeoButton;
-import neo.deobf.AltManagerScreen;
-import neo.deobf.GuiPasswordField;
-import neo.deobf.DrawUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.util.text.TextFormatting;
+import com.botclient.AddAltThread;
+import com.botclient.NeoButton;
+import com.botclient.AltManagerScreen;
+import com.botclient.GuiPasswordField;
+import com.botclient.DrawUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.text.TextFormat;
 import org.lwjgl.input.Keyboard;
 
 /*
@@ -53,7 +53,7 @@ extends GuiScreen {
         this.gradientColor2 = Color.WHITE;
         this.gradientColor3 = Color.WHITE;
         this.gradientColor4 = Color.WHITE;
-        this.status = TextFormatting.GRAY + "Idle...";
+        this.status = TextFormat.GRAY + "Idle...";
         this.manager = manager;
     }
 
@@ -69,14 +69,14 @@ extends GuiScreen {
         DrawUtils.drawRect((float)0.0f, (float)0.0f, (float)(AddAltScreen.getMc5(this).displayWidth), (float)(AddAltScreen.getMc2(this).displayHeight), (Color)new Color(17, 17, 17));
         (this.username).drawTextBox();
         (this.password).drawTextBox();
-        (Minecraft.getMinecraft().fontRenderer).drawCenteredString("Add Account", (double)((float)(this.width) / 2.0f), 15.0, -1);
+        (MinecraftClient.getInstance().fontRenderer).drawCenteredString("Add Account", (double)((float)(this.width) / 2.0f), 15.0, -1);
         if ((this.username).getText().isEmpty() && !(this.username).isFocused()) {
-            (Minecraft.getMinecraft().fontRenderer).drawStringWithShadow("Username / E-Mail", (float)((this.width) / (2) - (96)), 66.0f, -7829368);
+            (MinecraftClient.getInstance().fontRenderer).drawStringWithShadow("Username / E-Mail", (float)((this.width) / (2) - (96)), 66.0f, -7829368);
         }
         if ((this.password).getText().isEmpty() && !(this.password).isFocused()) {
-            (Minecraft.getMinecraft().fontRenderer).drawStringWithShadow("Password", (float)((this.width) / (2) - (96)), 106.0f, -7829368);
+            (MinecraftClient.getInstance().fontRenderer).drawStringWithShadow("Password", (float)((this.width) / (2) - (96)), 106.0f, -7829368);
         }
-        (Minecraft.getMinecraft().fontRenderer).drawCenteredString((this.status), (double)((float)(this.width) / 2.0f), 30.0, -1);
+        (MinecraftClient.getInstance().fontRenderer).drawCenteredString((this.status), (double)((float)(this.width) / 2.0f), 30.0, -1);
         super.drawScreen(i, j, f);
     }
 

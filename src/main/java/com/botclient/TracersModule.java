@@ -21,26 +21,26 @@
  *  net.minecraft.util.math.Vec3d
  *  org.lwjgl.opengl.GL11
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
 import java.util.List;
-import neo.deobf.Render3DEvent;
-import neo.deobf.EventTarget;
-import neo.deobf.Setting;
-import neo.deobf.ModuleCategory;
-import neo.deobf.BooleanSetting;
-import neo.deobf.ColorSetting;
-import neo.deobf.Module;
-import neo.deobf.DrawUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.settings.GameSettings;
+import com.botclient.Render3DEvent;
+import com.botclient.EventTarget;
+import com.botclient.Setting;
+import com.botclient.ModuleCategory;
+import com.botclient.BooleanSetting;
+import com.botclient.ColorSetting;
+import com.botclient.Module;
+import com.botclient.DrawUtils;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.entity.RenderManager;
+import net.minecraft.client.option.GameOptions;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
@@ -86,28 +86,28 @@ extends Module {
             double d3 = (entity.lastTickPosZ) + ((entity.posZ) - (entity.lastTickPosZ)) * (double)event.getPartialTicks();
             (mc).getRenderManager();
             double z = d3 - (RenderManager.renderPosZ);
-            GlStateManager.blendFunc((int)(770), (int)(771));
-            GL11.glEnable((int)(3042));
-            GL11.glEnable((int)(2848));
-            GlStateManager.glLineWidth((float)1.0f);
-            GL11.glDisable((int)(3553));
-            GL11.glDisable((int)(2929));
-            GlStateManager.depthMask(false);
+            RenderSystem.blendFunc((int)(770), (int)(771));
+            RenderSystem.glEnable((int)(3042));
+            RenderSystem.glEnable((int)(2848));
+            RenderSystem.glLineWidth((float)1.0f);
+            RenderSystem.glDisable((int)(3553));
+            RenderSystem.glDisable((int)(2929));
+            RenderSystem.depthMask(false);
             DrawUtils.glColor((Color)new Color(((color).color)));
-            GlStateManager.glBegin((int)(3));
+            RenderSystem.glBegin((int)(3));
             Vec3d vec3d = new Vec3d(0.0, 0.0, 1.0);
             Vec3d vec3d2 = vec3d.rotatePitch((float)(-Math.toRadians((TracersModule.getPlayer2().rotationPitch))));
             Vec3d vec = vec3d2.rotateYaw((float)(-Math.toRadians((TracersModule.getPlayer3().rotationYaw))));
             float f = (float)(vec.x);
-            GlStateManager.glVertex3f((float)f, (float)((float)((double)(Minecraft.player).getEyeHeight() + (vec.y))), (float)((float)(vec.z)));
-            GlStateManager.glVertex3f((float)((float)x), (float)((float)(y + 1.1000000000000001)), (float)((float)z));
-            GlStateManager.glEnd();
-            GL11.glEnable((int)(3553));
-            GL11.glDisable((int)(2848));
-            GL11.glEnable((int)(2929));
-            GlStateManager.depthMask(true);
-            GL11.glEnable((int)(3042));
-            GlStateManager.resetColor();
+            RenderSystem.glVertex3f((float)f, (float)((float)((double)(Minecraft.player).getEyeHeight() + (vec.y))), (float)((float)(vec.z)));
+            RenderSystem.glVertex3f((float)((float)x), (float)((float)(y + 1.1000000000000001)), (float)((float)z));
+            RenderSystem.glEnd();
+            RenderSystem.glEnable((int)(3553));
+            RenderSystem.glDisable((int)(2848));
+            RenderSystem.glEnable((int)(2929));
+            RenderSystem.depthMask(true);
+            RenderSystem.glEnable((int)(3042));
+            RenderSystem.resetColor();
         }
     }
 

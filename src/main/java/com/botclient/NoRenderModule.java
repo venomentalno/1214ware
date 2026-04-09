@@ -16,22 +16,22 @@
  *  net.minecraft.init.MobEffects
  *  net.minecraft.potion.Potion
  */
-package neo.deobf;
+package com.botclient;
 
 import java.util.List;
-import neo.deobf.UpdateEvent;
-import neo.deobf.EventTarget;
-import neo.deobf.Setting;
-import neo.deobf.ModuleCategory;
-import neo.deobf.BooleanSetting;
-import neo.deobf.Module;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.multiplayer.WorldClient;
+import com.botclient.UpdateEvent;
+import com.botclient.EventTarget;
+import com.botclient.Setting;
+import com.botclient.ModuleCategory;
+import com.botclient.BooleanSetting;
+import com.botclient.Module;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.Potion;
+import net.minecraft.registry.Registries;MobEffects;
+import net.minecraft.entity.effect.StatusEffect;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

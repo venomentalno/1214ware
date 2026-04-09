@@ -5,11 +5,11 @@
  *  neo.deobf.MinecraftContext
  *  net.minecraft.util.math.MathHelper
  */
-package neo.deobf;
+package com.botclient;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import neo.deobf.MinecraftContext;
+import com.botclient.MinecraftContext;
 import net.minecraft.util.math.MathHelper;
 
 public class MathUtils

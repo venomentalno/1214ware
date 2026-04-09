@@ -17,23 +17,23 @@
  *  net.minecraft.client.multiplayer.WorldClient
  *  net.minecraft.network.play.server.SPacketTimeUpdate
  */
-package neo.deobf;
+package com.botclient;
 
 import java.awt.Color;
-import neo.deobf.UpdateEvent;
-import neo.deobf.EventTarget;
-import neo.deobf.Setting;
-import neo.deobf.ModuleCategory;
-import neo.deobf.BooleanSetting;
-import neo.deobf.ColorSetting;
-import neo.deobf.ModeSetting;
-import neo.deobf.NumberSetting;
-import neo.deobf.Module;
-import neo.deobf.MinecraftContext;
-import neo.deobf.PacketReceiveEvent;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.network.play.server.SPacketTimeUpdate;
+import com.botclient.UpdateEvent;
+import com.botclient.EventTarget;
+import com.botclient.Setting;
+import com.botclient.ModuleCategory;
+import com.botclient.BooleanSetting;
+import com.botclient.ColorSetting;
+import com.botclient.ModeSetting;
+import com.botclient.NumberSetting;
+import com.botclient.Module;
+import com.botclient.MinecraftContext;
+import com.botclient.PacketReceiveEvent;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.network.packet.s2c.play.SPacketTimeUpdate;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

@@ -46,47 +46,47 @@
  *  net.minecraft.world.GameType
  *  net.minecraft.world.World
  */
-package neo.deobf;
+package com.botclient;
 
 import io.netty.buffer.Unpooled;
-import neo.deobf.PBot;
-import neo.deobf.PBotPlayer;
-import neo.deobf.PBotMinecraft;
-import neo.deobf.PBotNetHandlerPlayClient;
-import neo.deobf.PBotWorldClient;
+import com.botclient.PBot;
+import com.botclient.PBotPlayer;
+import com.botclient.PBotMinecraft;
+import com.botclient.PBotNetHandlerPlayClient;
+import com.botclient.PBotWorldClient;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCommandBlock;
 import net.minecraft.block.BlockStructure;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Container;
+import net.minecraft.registry.Registries;Blocks;
+import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.SwordItem;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.client.CPacketClickWindow;
-import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
-import net.minecraft.network.play.client.CPacketCustomPayload;
-import net.minecraft.network.play.client.CPacketEnchantItem;
-import net.minecraft.network.play.client.CPacketHeldItemChange;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
-import net.minecraft.network.play.client.CPacketUseEntity;
+import net.minecraft.network.packet.c2s.play.CPacketClickWindow;
+import net.minecraft.network.packet.c2s.play.CPacketCreativeInventoryAction;
+import net.minecraft.network.packet.c2s.play.CPacketCustomPayload;
+import net.minecraft.network.packet.c2s.play.CPacketEnchantItem;
+import net.minecraft.network.packet.c2s.play.CPacketHeldItemChange;
+import net.minecraft.network.packet.c2s.play.CPacketPlayerDigging;
+import net.minecraft.network.packet.c2s.play.CPacketPlayerTryUseItem;
+import net.minecraft.network.packet.c2s.play.CPacketPlayerTryUseItemOnBlock;
+import net.minecraft.network.packet.c2s.play.CPacketUseEntity;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameType;
 import net.minecraft.world.World;
@@ -193,8 +193,8 @@ public class PBotPlayerController {
         float f1 = (float)((vec.y) - (double)pos.getY());
         float f2 = (float)((vec.z) - (double)pos.getZ());
         int flag = 0;
-        if (!(this.pbot).getWorld().getWorldBorder().contains(pos)) {
-            return (EnumActionResult.FAIL);
+        if (!(this.pbot).world.getWorldBorder().contains(pos)) {
+            return (ActionResult.FAIL);
         }
         if ((this.currentGameType) != (GameType.SPECTATOR)) {
             ItemBlock itemblock;
@@ -203,20 +203,20 @@ public class PBotPlayerController {
                 flag = 1;
             }
             if (flag == 0 && itemstack.getItem() instanceof ItemBlock && !(itemblock = (ItemBlock)itemstack.getItem()).canPlaceBlockOnSide(worldIn, pos, direction, (EntityPlayer)player, itemstack)) {
-                return (EnumActionResult.FAIL);
+                return (ActionResult.FAIL);
             }
         }
         (this.connection).sendPacket((Packet)new CPacketPlayerTryUseItemOnBlock(pos, direction, hand, f, f1, f2));
         if (flag == 0 && (this.currentGameType) != (GameType.SPECTATOR)) {
             Block block;
             if (itemstack.isEmpty()) {
-                return (EnumActionResult.PASS);
+                return (ActionResult.PASS);
             }
             if (player.getCooldownTracker().hasCooldown(itemstack.getItem())) {
-                return (EnumActionResult.PASS);
+                return (ActionResult.PASS);
             }
             if (itemstack.getItem() instanceof ItemBlock && !player.canUseCommandBlock() && ((block = ((ItemBlock)itemstack.getItem()).getBlock()) instanceof BlockCommandBlock || block instanceof BlockStructure)) {
-                return (EnumActionResult.FAIL);
+                return (ActionResult.FAIL);
             }
             if ((this.currentGameType).isCreative()) {
                 int i = itemstack.getMetadata();
@@ -228,7 +228,7 @@ public class PBotPlayerController {
             }
             return itemstack.onItemUse((EntityPlayer)player, worldIn, pos, hand, direction, f, f1, f2);
         }
-        return (EnumActionResult.SUCCESS);
+        return (ActionResult.SUCCESS);
     }
 
     private static PBot getPbot6(PBotPlayerController instance) {
@@ -237,7 +237,7 @@ public class PBotPlayerController {
 
     public void onStoppedUsingItem(EntityPlayer playerIn) {
         this.callGetCurrentItem();
-        (this.connection).sendPacket((Packet)new CPacketPlayerDigging((CPacketPlayerDigging.Action.RELEASE_USE_ITEM), (BlockPos.ORIGIN), (EnumFacing.DOWN)));
+        (this.connection).sendPacket((Packet)new CPacketPlayerDigging((CPacketPlayerDigging.Action.RELEASE_USE_ITEM), (BlockPos.ORIGIN), (Direction.DOWN)));
         playerIn.stopActiveHand();
     }
 
@@ -271,13 +271,13 @@ public class PBotPlayerController {
 
     public EnumActionResult processRightClick(EntityPlayer player, World worldIn, EnumHand hand) {
         if ((this.currentGameType) == (GameType.SPECTATOR)) {
-            return (EnumActionResult.PASS);
+            return (ActionResult.PASS);
         }
         this.callGetCurrentItem();
         (this.connection).sendPacket((Packet)new CPacketPlayerTryUseItem(hand));
         ItemStack itemstack = player.getHeldItem(hand);
         if (player.getCooldownTracker().hasCooldown(itemstack.getItem())) {
-            return (EnumActionResult.PASS);
+            return (ActionResult.PASS);
         }
         int i = itemstack.getCount();
         ActionResult actionresult = itemstack.useItemRightClick(worldIn, player, hand);
@@ -320,11 +320,11 @@ public class PBotPlayerController {
 
     public EnumActionResult interactWithEntity(EntityPlayer player, Entity target, EnumHand hand) {
         if (target == null) {
-            return (EnumActionResult.FAIL);
+            return (ActionResult.FAIL);
         }
         this.callGetCurrentItem();
         (this.connection).sendPacket((Packet)new CPacketUseEntity(target, hand));
-        return (this.currentGameType) == (GameType.SPECTATOR) ? (EnumActionResult.PASS) : player.interactOn(target, hand);
+        return (this.currentGameType) == (GameType.SPECTATOR) ? (ActionResult.PASS) : player.interactOn(target, hand);
     }
 
     private static PBot getPbot14(PBotPlayerController instance) {
@@ -416,7 +416,7 @@ public class PBotPlayerController {
                 if (itemstack.isEmpty()) {
                     return false;
                 }
-                if (!itemstack.canDestroy((this.pbot).getWorld().getBlockState(pos).getBlock())) {
+                if (!itemstack.canDestroy((this.pbot).world.getBlockState(pos).getBlock())) {
                     return false;
                 }
             }
@@ -424,7 +424,7 @@ public class PBotPlayerController {
         if ((this.currentGameType).isCreative() && !(PBotPlayerController.getPbot31(this).player).getHeldItemMainhand().isEmpty() && (PBotPlayerController.getPbot30(this).player).getHeldItemMainhand().getItem() instanceof ItemSword) {
             return false;
         }
-        PBotWorldClient world = (this.pbot).getWorld();
+        PBotWorldClient world = (this.pbot).world;
         IBlockState iblockstate = world.getBlockState(pos);
         Block block = iblockstate.getBlock();
         if ((block instanceof BlockCommandBlock || block instanceof BlockStructure) && !(PBotPlayerController.getPbot18(this).player).canUseCommandBlock()) {
@@ -443,7 +443,7 @@ public class PBotPlayerController {
         if (!(this.currentGameType).isCreative() && !(itemstack1 = (PBotPlayerController.getPbot24(this).player).getHeldItemMainhand()).isEmpty()) {
             itemstack1.onBlockDestroyed((World)world, iblockstate, pos, (EntityPlayer)(PBotPlayerController.getPbot(this).player));
             if (itemstack1.isEmpty()) {
-                (PBotPlayerController.getPbot2(this).player).setHeldItem((EnumHand.MAIN_HAND), (ItemStack.EMPTY));
+                (PBotPlayerController.getPbot2(this).player).setHeldItem((Hand.MAIN_HAND), (ItemStack.EMPTY));
             }
         }
         return flag;
@@ -472,7 +472,7 @@ public class PBotPlayerController {
     }
 
     public void clickBlockCreative(PBotPlayerController playerController, BlockPos pos, EnumFacing facing) {
-        if (!(this.pbot).getWorld().extinguishFire((EntityPlayer)(PBotPlayerController.getPbot3(this).player), pos, facing)) {
+        if (!(this.pbot).world.extinguishFire((EntityPlayer)(PBotPlayerController.getPbot3(this).player), pos, facing)) {
             playerController.onPlayerDestroyBlock(pos);
         }
     }
@@ -507,12 +507,12 @@ public class PBotPlayerController {
                 if (itemstack.isEmpty()) {
                     return false;
                 }
-                if (!itemstack.canDestroy((this.pbot).getWorld().getBlockState(loc).getBlock())) {
+                if (!itemstack.canDestroy((this.pbot).world.getBlockState(loc).getBlock())) {
                     return false;
                 }
             }
         }
-        if (!(this.pbot).getWorld().getWorldBorder().contains(loc)) {
+        if (!(this.pbot).world.getWorldBorder().contains(loc)) {
             return false;
         }
         if ((this.currentGameType).isCreative()) {
@@ -524,11 +524,11 @@ public class PBotPlayerController {
             if ((this.isHittingBlock)) {
                 (this.connection).sendPacket((Packet)new CPacketPlayerDigging((CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK), (this.currentBlock), face));
             }
-            IBlockState iblockstate = (this.pbot).getWorld().getBlockState(loc);
+            IBlockState iblockstate = (this.pbot).world.getBlockState(loc);
             (this.connection).sendPacket((Packet)new CPacketPlayerDigging((CPacketPlayerDigging.Action.START_DESTROY_BLOCK), loc, face));
             int n = flag = iblockstate.getMaterial() != (Material.AIR) ? 1 : 0;
             if (flag != 0 && (this.curBlockDamageMP) == 0.0f) {
-                iblockstate.getBlock().onBlockClicked((World)(this.pbot).getWorld(), loc, (EntityPlayer)(PBotPlayerController.getPbot26(this).player));
+                iblockstate.getBlock().onBlockClicked((World)(this.pbot).world, loc, (EntityPlayer)(PBotPlayerController.getPbot26(this).player));
             }
             if (flag != 0 && iblockstate.getPlayerRelativeBlockHardness((EntityPlayer)(PBotPlayerController.getPbot6(this).player), (PBotPlayerController.getPlayer9(PBotPlayerController.getPbot38(this)).world), loc) >= 1.0f) {
                 this.onPlayerDestroyBlock(loc);
@@ -538,7 +538,7 @@ public class PBotPlayerController {
                 this.currentItemHittingBlock = PBotPlayerController.getPlayer26(PBotPlayerController.getPbot19(this)).getHeldItemMainhand();
                 this.curBlockDamageMP = 0.0f;
                 this.stepSoundTickCounter = 0.0f;
-                (this.pbot).getWorld().sendBlockBreakProgress((PBotPlayerController.getPbot11(this).player).getEntityId(), (this.currentBlock), (int)((this.curBlockDamageMP) * 10.0f) - (1));
+                (this.pbot).world.sendBlockBreakProgress((PBotPlayerController.getPbot11(this).player).getEntityId(), (this.currentBlock), (int)((this.curBlockDamageMP) * 10.0f) - (1));
             }
         }
         return true;
@@ -562,10 +562,10 @@ private static PBot getPbot34(PBotPlayerController instance) {
 
     public void resetBlockRemoving() {
         if ((this.isHittingBlock)) {
-            (this.connection).sendPacket((Packet)new CPacketPlayerDigging((CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK), (this.currentBlock), (EnumFacing.DOWN)));
+            (this.connection).sendPacket((Packet)new CPacketPlayerDigging((CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK), (this.currentBlock), (Direction.DOWN)));
             this.isHittingBlock = false;
             this.curBlockDamageMP = 0.0f;
-            (this.pbot).getWorld().sendBlockBreakProgress((PBotPlayerController.getPbot14(this).player).getEntityId(), (this.currentBlock), -1);
+            (this.pbot).world.sendBlockBreakProgress((PBotPlayerController.getPbot14(this).player).getEntityId(), (this.currentBlock), -1);
             (PBotPlayerController.getPbot10(this).player).resetCooldown();
         }
     }
@@ -580,12 +580,12 @@ private static PBot getPbot34(PBotPlayerController instance) {
 
     public EnumActionResult interactWithEntity(EntityPlayer player, Entity target, RayTraceResult ray, EnumHand hand) {
         if (target == null) {
-            return (EnumActionResult.FAIL);
+            return (ActionResult.FAIL);
         }
         this.callGetCurrentItem();
         Vec3d vec3d = new Vec3d((PBotPlayerController.getHitVec2(ray).x) - (target.posX), (PBotPlayerController.getHitVec3(ray).y) - (target.posY), (PBotPlayerController.getHitVec(ray).z) - (target.posZ));
         (this.connection).sendPacket((Packet)new CPacketUseEntity(target, hand, vec3d));
-        return (this.currentGameType) == (GameType.SPECTATOR) ? (EnumActionResult.PASS) : target.applyPlayerInteraction(player, vec3d, hand);
+        return (this.currentGameType) == (GameType.SPECTATOR) ? (ActionResult.PASS) : target.applyPlayerInteraction(player, vec3d, hand);
     }
 
     public boolean onPlayerDamageBlock(BlockPos posBlock, EnumFacing directionFacing) {
@@ -595,14 +595,14 @@ private static PBot getPbot34(PBotPlayerController instance) {
             cQ.blockHitDelay = PBotPlayerController.getBlockHitDelay2(cQ) - (1);
             return true;
         }
-        if ((this.currentGameType).isCreative() && (this.pbot).getWorld().getWorldBorder().contains(posBlock)) {
+        if ((this.currentGameType).isCreative() && (this.pbot).world.getWorldBorder().contains(posBlock)) {
             this.blockHitDelay = 5;
             (this.connection).sendPacket((Packet)new CPacketPlayerDigging((CPacketPlayerDigging.Action.START_DESTROY_BLOCK), posBlock, directionFacing));
             this.clickBlockCreative(this, posBlock, directionFacing);
             return true;
         }
         if (this.isHittingPosition(posBlock)) {
-            IBlockState iblockstate = (this.pbot).getWorld().getBlockState(posBlock);
+            IBlockState iblockstate = (this.pbot).world.getBlockState(posBlock);
             Block block = iblockstate.getBlock();
             if (iblockstate.getMaterial() == (Material.AIR)) {
                 this.isHittingBlock = false;
@@ -623,7 +623,7 @@ private static PBot getPbot34(PBotPlayerController instance) {
                 this.stepSoundTickCounter = 0.0f;
                 this.blockHitDelay = 5;
             }
-            (this.pbot).getWorld().sendBlockBreakProgress((PBotPlayerController.getPbot20(this).player).getEntityId(), (this.currentBlock), (int)((this.curBlockDamageMP) * 10.0f) - (1));
+            (this.pbot).world.sendBlockBreakProgress((PBotPlayerController.getPbot20(this).player).getEntityId(), (this.currentBlock), (int)((this.curBlockDamageMP) * 10.0f) - (1));
             return true;
         }
         return this.clickBlock(posBlock, directionFacing);
