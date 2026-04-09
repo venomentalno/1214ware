@@ -41,7 +41,7 @@ implements MinecraftContext {
         float percent = (float)(p) / 12.0f * 100.0f;
         RenderSystem.resetColor();
         ScaledResolution scaledresolution = // ScaledResolution replaced with Window calculation
-        Window window = mc);
+        Window window = mc.getWindow();
         DrawUtils.drawRect((float)0.0f, (float)0.0f, (float)scaledresolution.getScaledWidth(), (float)scaledresolution.getScaledHeight(), (Color)new Color(30, 30, 30));
         (FontRegistry.mnstb_16).drawCenteredStringWithOutline("NeoWare запускается... ", (float)((sr).getScaledWidth() / (2)), (float)(sr).getScaledHeight() / 2.5f, -1);
         Object[] objectArray = new Object[1];
