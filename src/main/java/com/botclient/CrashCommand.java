@@ -34,7 +34,7 @@ import com.botclient.ChatUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.registry.Registries;Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
