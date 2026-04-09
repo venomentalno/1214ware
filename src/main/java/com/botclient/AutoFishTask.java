@@ -22,7 +22,7 @@ import com.botclient.BlockUtils;
 import com.botclient.MillisTimer;
 import com.botclient.ThreadUtils;
 import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.registry.Registries;Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.item.Item;
 import net.minecraft.item.FishingRodItem;
 
