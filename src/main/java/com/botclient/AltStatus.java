@@ -1,6 +1,6 @@
 package com.botclient;
 
-import net.minecraft.text.TextFormat;
+import net.minecraft.text.Formatting;
 
 public enum AltStatus {
     Working(TextFormat.GREEN + "Working"),

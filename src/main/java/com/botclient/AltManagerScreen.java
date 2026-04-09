@@ -75,7 +75,7 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.util.Identifier;
 import net.minecraft.client.session.Session;
 import net.minecraft.util.StringUtils;
-import net.minecraft.text.TextFormat;
+import net.minecraft.text.Formatting;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 import net.minecraft.client.render.RenderSystem;

@@ -14,7 +14,7 @@
  */
 package com.botclient;
 
-import javax.vecmath.Vector2f;
+import org.joml.Vector2f;
 import com.botclient.PBot;
 import com.botclient.PBotPlayer;
 import com.botclient.BotKeyState;

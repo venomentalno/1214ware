@@ -53,7 +53,7 @@
  *  net.minecraft.network.play.client.CPacketClientSettings
  *  net.minecraft.network.play.client.CPacketClientStatus
  *  net.minecraft.network.play.client.CPacketClientStatus$State
- *  net.minecraft.network.play.client.CPacketCloseWindow
+ *  net.minecraft.network.play.client.CloseHandledScreenC2SPacket
  *  net.minecraft.network.play.client.CPacketEntityAction
  *  net.minecraft.network.play.client.CPacketEntityAction$Action
  *  net.minecraft.network.play.client.CPacketInput
@@ -62,8 +62,8 @@
  *  net.minecraft.network.play.client.PlayerMoveC2SPacket$PositionRotation
  *  net.minecraft.network.play.client.PlayerMoveC2SPacket$Rotation
  *  net.minecraft.network.play.client.PlayerMoveC2SPacketAbilities
- *  net.minecraft.network.play.client.PlayerMoveC2SPacketDigging
- *  net.minecraft.network.play.client.PlayerMoveC2SPacketDigging$Action
+ *  net.minecraft.network.play.client.PlayerActionC2SPacket
+ *  net.minecraft.network.play.client.PlayerActionC2SPacket$Action
  *  net.minecraft.network.play.client.CPacketRecipeInfo
  *  net.minecraft.network.play.client.CPacketVehicleMove
  *  net.minecraft.potion.Potion
@@ -116,8 +116,8 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.EnumPlayerModelParts;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.entity.player.PlayerCapabilities;
+import net.minecraft.entity.player.PlayerInventory;
+// Removed: PlayerCapabilities replaced
 import net.minecraft.registry.Registries;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -132,9 +132,9 @@ import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.inventory.ContainerHopper;
 import net.minecraft.inventory.ContainerHorseInventory;
 import net.minecraft.inventory.ContainerMerchant;
-import net.minecraft.inventory.ContainerRepair;
+import net.minecraft.screen.AnvilScreenHandler;
 import net.minecraft.inventory.ContainerShulkerBox;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemElytra;
@@ -147,12 +147,12 @@ import net.minecraft.network.packet.c2s.play.CPacketAnimation;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.c2s.play.CPacketClientSettings;
 import net.minecraft.network.packet.c2s.play.CPacketClientStatus;
-import net.minecraft.network.packet.c2s.play.CPacketCloseWindow;
+import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.network.packet.c2s.play.CPacketEntityAction;
 import net.minecraft.network.packet.c2s.play.CPacketInput;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacketAbilities;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacketDigging;
+import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.CPacketRecipeInfo;
 import net.minecraft.network.packet.c2s.play.CPacketVehicleMove;
 import net.minecraft.entity.effect.StatusEffect;
@@ -177,7 +177,7 @@ import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.text.Text;
 import net.minecraft.world.GameType;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
 
@@ -573,7 +573,7 @@ extends PlayerEntity {
     }
 
     public void closeScreen() {
-        (this.connection).sendPacket((Packet)new CPacketCloseWindow((PBotPlayer.getOpenContainer(this).windowId)));
+        (this.connection).sendPacket((Packet)new CloseHandledScreenC2SPacket((PBotPlayer.getOpenContainer(this).windowId)));
         this.closeScreenAndDropStack();
     }
 
@@ -591,8 +591,8 @@ extends PlayerEntity {
 
     @Nullable
     public EntityItem dropItem(boolean dropAll) {
-        PlayerMoveC2SPacketDigging.Action cpacketplayerdigging$action = dropAll ? (PlayerMoveC2SPacketDigging.Action.DROP_ALL_ITEMS) : (PlayerMoveC2SPacketDigging.Action.DROP_ITEM);
-        (this.connection).sendPacket((Packet)new PlayerMoveC2SPacketDigging(cpacketplayerdigging$action, (BlockPos.ORIGIN), (Direction.DOWN)));
+        PlayerActionC2SPacket.Action cpacketplayerdigging$action = dropAll ? (PlayerActionC2SPacket.Action.DROP_ALL_ITEMS) : (PlayerActionC2SPacket.Action.DROP_ITEM);
+        (this.connection).sendPacket((Packet)new PlayerActionC2SPacket(cpacketplayerdigging$action, (BlockPos.ORIGIN), (Direction.DOWN)));
         return null;
     }
 

@@ -80,15 +80,15 @@ import com.botclient.OutboundPacketEntry;
 import com.botclient.BotDebugModule;
 import com.botclient.ChatUtils;
 import com.botclient.ProxyInfo;
-import net.minecraft.network.EnumConnectionState;
+// Removed: EnumConnectionState not in 1.21.4
 import net.minecraft.network.listener.PacketListener;
-import net.minecraft.network.NettyCompressionDecoder;
-import net.minecraft.network.NettyCompressionEncoder;
+// Internal - handled by Fabric
+// Internal - handled by Fabric
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.ThreadQuickExitException;
-import net.minecraft.util.ITickable;
+// Removed
+// Removed: ITickable not in 1.21.4
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.MutableText;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

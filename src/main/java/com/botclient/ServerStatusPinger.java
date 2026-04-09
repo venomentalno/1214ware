@@ -20,10 +20,10 @@ import com.botclient.PBot;
 import com.botclient.PBotNetworkManager;
 import com.botclient.StatusPingHandler;
 import com.botclient.ProxyInfo;
-import net.minecraft.network.EnumConnectionState;
+// Removed: EnumConnectionState not in 1.21.4
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.handshake.client.C00Handshake;
+import net.minecraft.network.packet.c2s.handshake.HandshakeC2SPacket;
 import net.minecraft.network.status.client.CPacketServerQuery;
 
 public class ServerStatusPinger {

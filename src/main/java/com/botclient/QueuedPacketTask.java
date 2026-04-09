@@ -17,7 +17,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.util.concurrent.GenericFutureListener;
 import com.botclient.PBotNetworkManager;
-import net.minecraft.network.EnumConnectionState;
+// Removed: EnumConnectionState not in 1.21.4
 import net.minecraft.network.packet.Packet;
 
 /*

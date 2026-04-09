@@ -39,7 +39,7 @@ import com.botclient.NotificationsModule;
 import com.botclient.ConfigManager;
 import com.botclient.EventBus;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.TextFormat;
+import net.minecraft.text.Formatting;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

@@ -14,7 +14,7 @@ import com.botclient.Event;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.BlockView;
 
 class BlockRenderEvent
 implements Event {

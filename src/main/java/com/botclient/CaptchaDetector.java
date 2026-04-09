@@ -49,12 +49,12 @@ import com.botclient.ImageUtils;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemMap;
+import net.minecraft.item.FilledMapItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
 

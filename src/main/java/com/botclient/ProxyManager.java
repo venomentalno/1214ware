@@ -30,7 +30,7 @@ import com.botclient.BackendApi;
 import com.botclient.ProxyType;
 import com.botclient.ProxyInfo;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.TextFormat;
+import net.minecraft.text.Formatting;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
