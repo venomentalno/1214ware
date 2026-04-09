@@ -531,8 +531,7 @@ extends Screen {
         } else {
             this.dragging = false;
         }
-        ScaledResolution sr = // ScaledResolution replaced with Window calculation
-        Window window = MinecraftClient.getInstance());
+        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
         if ((ClickGuiScreen.getSnow().value) && !(this.effectList).isEmpty()) {
             (this.effectList).forEach(snow -> snow.update(sr));
         }
