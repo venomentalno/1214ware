@@ -1,156 +1,72 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  com.mojang.authlib.Agent
- *  com.mojang.authlib.exceptions.AuthenticationException
- *  com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService
- *  com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication
- *  com.mojang.realmsclient.gui.ChatFormatting
- *  neo.deobf.AltStatus
- *  neo.deobf.AltAccount
- *  neo.deobf.AltManager
- *  net.minecraft.client.Minecraft
- *  net.minecraft.util.Session
- *  net.minecraft.util.text.Formatting
- */
 package com.botclient;
 
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import java.net.Proxy;
-import com.botclient.AltStatus;
-import com.botclient.AltAccount;
-import com.botclient.AltManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.session.Session;
 import net.minecraft.text.Formatting;
+import net.minecraft.text.Text;
 
-/*
- * Illegal identifiers - consider using --renameillegalidents true
- */
-public class AltLoginThread
-extends Thread {
-    public final Minecraft mc = MinecraftClient.getInstance();
+public class AltLoginThread extends Thread {
+    public final MinecraftClient mc = MinecraftClient.getInstance();
     public final AltAccount alt;
     public String status;
 
-    private static AltAccount getAlt(AltLoginThread instance) {
-        return instance.alt;
-    }
-
-    private static void setStatus(AltLoginThread bc, String string) {
-        bc.status = string;
-    }
-
-    private static Formatting getGREEN() {
-        return TextFormat.GREEN;
-    }
-
-    private static Minecraft getMc(AltLoginThread instance) {
-        return instance.mc;
+    public AltLoginThread(AltAccount alt) {
+        this.alt = alt;
+        this.status = Formatting.GRAY + "Waiting...";
     }
 
     public void setStatus(String status) {
         this.status = status;
     }
 
-    private static AltAccount getAlt2(AltLoginThread instance) {
-        return instance.alt;
-    }
-
-    public AltLoginThread(AltAccount alt) {
-        this.alt = alt;
-        this.status = "§7Waiting...";
-    }
-
-    private static Formatting getGREEN2() {
-        return TextFormat.GREEN;
-    }
-
-    private static AltAccount getAlt3(AltLoginThread instance) {
-        return instance.alt;
-    }
-private static AltAccount getAlt4(AltLoginThread instance) {
-        return instance.alt;
-    }
-
-    private static ChatFormatting getRED() {
-        return ChatFormatting.RED;
+    public String getStatus() {
+        return this.status;
     }
 
     public Session login(String name, String password) {
-        YggdrasilUserAuthentication authentication;
-        YggdrasilAuthenticationService service = new YggdrasilAuthenticationService((Proxy.NO_PROXY), "");
-        YggdrasilUserAuthentication auth = authentication = new YggdrasilUserAuthentication(service, (Agent.MINECRAFT));
+        YggdrasilAuthenticationService service = new YggdrasilAuthenticationService(Proxy.NO_PROXY, "");
+        YggdrasilUserAuthentication auth = (YggdrasilUserAuthentication) service.createUserAuthentication(Agent.MINECRAFT);
         auth.setUsername(name);
         auth.setPassword(password);
         try {
             auth.logIn();
-            return new Session(auth.getSelectedProfile().getName(), auth.getSelectedProfile().getId().toString(), auth.getAuthenticatedToken(), "mojang");
-        }
-        catch (AuthenticationException var8) {
-            var8.printStackTrace();
+            return new Session(
+                auth.getSelectedProfile().getName(),
+                auth.getSelectedProfile().getId().toString(),
+                auth.getAuthenticatedToken(),
+                Session.AccountType.MOJANG
+            );
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     @Override
     public void run() {
-        if ((this.alt).getPassword().equals("")) {
-            AltLoginThread.getMc(this).new Session(AltLoginThread.getAlt2(this).getUsername(), "", "", "mojang") = new Session(AltLoginThread.getAlt2(this).getUsername(), "", "", "mojang");
-            this.status = AltLoginThread.getGREEN() + "Logged in - " + AltLoginThread.getWHITE2() + AltLoginThread.getAlt3(this).getUsername() + AltLoginThread.getBOLD2() + AltLoginThread.getRED() + " (Not License)";
+        if (this.alt.getPassword().isEmpty()) {
+            // Offline mode session
+            this.mc.setSession(new Session(this.alt.getUsername(), "", "", Session.AccountType.LEGACY.name()));
+            this.status = Formatting.GREEN + "Logged in - " + Formatting.WHITE + this.alt.getUsername() + Formatting.BOLD + Formatting.RED + " (Not License)";
         } else {
             this.status = "Logging in...";
-            Session auth = this.login((this.alt).getUsername(), (this.alt).getPassword());
+            Session auth = this.login(this.alt.getUsername(), this.alt.getPassword());
             if (auth == null) {
-                this.status = "Connect failed!";
-                if ((this.alt).getStatus().equals((Object)(AltStatus.Unchecked))) {
-                    (this.alt).setStatus((AltStatus.NotWorking));
+                this.status = Formatting.RED + "Connect failed!";
+                if (this.alt.getStatus().equals(AltStatus.Unchecked)) {
+                    this.alt.setStatus(AltStatus.NotWorking);
                 }
             } else {
-                AltManager.lastAlt = new AltAccount(AltLoginThread.getAlt4(this).getUsername(), AltLoginThread.getAlt(this).getPassword());
-                this.status = AltLoginThread.getGREEN2() + "Logged in - " + AltLoginThread.getWHITE() + auth.getUsername() + AltLoginThread.getBOLD() + AltLoginThread.getRED2() + " (License)";
-                (this.alt).setMask(auth.getUsername());
-                AltLoginThread.getMc2(this).auth = auth;
+                AltManager.lastAlt = new AltAccount(this.alt.getUsername(), this.alt.getPassword());
+                this.mc.setSession(auth);
+                this.status = Formatting.GREEN + "Logged in - " + Formatting.WHITE + auth.getUsername() + Formatting.BOLD + Formatting.RED + " (License)";
+                this.alt.setMask(auth.getUsername());
             }
         }
     }
-
-    private static ChatFormatting getBOLD() {
-        return ChatFormatting.BOLD;
-    }
-
-    private static String getStatus(AltLoginThread instance) {
-        return instance.status;
-    }
-
-    private static ChatFormatting getRED2() {
-        return ChatFormatting.RED;
-    }
-
-    public String getStatus() {
-        return (this.status);
-    }
-
-    private static ChatFormatting getBOLD2() {
-        return ChatFormatting.BOLD;
-    }
-
-    private static Minecraft getMc2(AltLoginThread instance) {
-        return instance.mc;
-    }
-
-    private static ChatFormatting getWHITE() {
-        return ChatFormatting.WHITE;
-    }
-
-    private static ChatFormatting getWHITE2() {
-        return ChatFormatting.WHITE;
-    }
-
 }
-
