@@ -68,7 +68,7 @@ extends Module {
         (notifies).forEach(notify -> notify.updateAnimation());
         (notifies).removeIf(NotificationEntry::updateAnimation);
         NotificationsModule.render(// ScaledResolution replaced with Window calculation
-        Window window = MinecraftClient.getInstance()));
+        Window window = MinecraftClient.getInstance().getWindow();
     }
 
 public static void notify(String title, String text, NotificationType type, int second) {
