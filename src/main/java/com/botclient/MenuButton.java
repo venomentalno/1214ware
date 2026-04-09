@@ -3,7 +3,7 @@
  * 
  * Could not load the following classes:
  *  neo.deobf.AnimationUtils
- *  neo.deobf.FontRendererEx
+ *  neo.deobf.TextRendererEx
  *  neo.deobf.FontRegistry
  *  neo.deobf.RoundedUtils
  */
@@ -11,7 +11,7 @@ package com.botclient;
 
 import java.awt.Color;
 import com.botclient.AnimationUtils;
-import com.botclient.FontRendererEx;
+import com.botclient.TextRendererEx;
 import com.botclient.FontRegistry;
 import com.botclient.RoundedUtils;
 

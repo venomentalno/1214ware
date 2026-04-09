@@ -7,7 +7,7 @@
  *  neo.deobf.PBotPlayer
  *  neo.deobf.PathScanner
  *  neo.deobf.AbstractPathScanner
- *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.entity.player.PlayerEntity
  *  net.minecraft.world.World
  */
 package com.botclient;
@@ -36,7 +36,7 @@ public class PathSearchTask {
 
     public boolean onUpdate(PBotPlayer player) {
         if ((this.scanner) != null && player != null) {
-            return (this.scanner).onUpdate((EntityPlayer)player);
+            return (this.scanner).onUpdate((PlayerEntity)player);
         }
         return false;
     }

@@ -17,7 +17,7 @@
  *  neo.deobf.ConfigManager
  *  neo.deobf.EventBus
  *  net.minecraft.client.Minecraft
- *  net.minecraft.util.text.TextFormatting
+ *  net.minecraft.util.text.Formatting
  */
 package com.botclient;
 

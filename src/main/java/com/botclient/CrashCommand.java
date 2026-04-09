@@ -7,7 +7,7 @@
  *  neo.deobf.CommandChatListener
  *  neo.deobf.ChatUtils
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityPlayerSP
+ *  net.minecraft.client.entity.PlayerEntitySP
  *  net.minecraft.client.network.NetHandlerPlayClient
  *  net.minecraft.init.Items
  *  net.minecraft.inventory.ClickType
@@ -19,7 +19,7 @@
  *  net.minecraft.nbt.NBTTagString
  *  net.minecraft.network.Packet
  *  net.minecraft.network.play.client.CPacketClickWindow
- *  net.minecraft.network.play.client.CPacketCreativeInventoryAction
+ *  net.minecraft.network.play.client.CreativeInventoryActionC2SPacket
  *  net.minecraft.network.play.client.CPacketTabComplete
  */
 package com.botclient;
@@ -42,9 +42,9 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.CPacketClickWindow;
-import net.minecraft.network.packet.c2s.play.CPacketCreativeInventoryAction;
+import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.CPacketTabComplete;
 
 /*
@@ -96,7 +96,7 @@ extends Command {
                         bookObj2.setTagInfo("pages", (NBTBase)list);
                         bookObj2.setTagCompound(tag);
                         for (i = 0; i < (400); ++i) {
-                            Objects.requireNonNull((mc).getConnection()).sendPacket((Packet)new CPacketCreativeInventoryAction(36, bookObj2));
+                            Objects.requireNonNull((mc).getConnection()).sendPacket((Packet)new CreativeInventoryActionC2SPacket(36, bookObj2));
                             Thread.sleep(12L);
                         }
                     }
@@ -159,7 +159,7 @@ extends Command {
         ChatUtils.defaultMsg((String)(" " + (CommandChatListener.PREFIX) + "crash completion - РљСЂР°С€РµСЂ РёР· LiquidBounce. Р”Р»СЏ РІРµСЂСЃРёР№ 1.18 Рё РІС‹С€Рµ"));
     }
 
-    private static EntityPlayerSP getPlayer5() {
+    private static PlayerEntitySP getPlayer5() {
         return Minecraft.player;
     }
 

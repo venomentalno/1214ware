@@ -8,7 +8,7 @@
  *  neo.deobf.BlockUtils
  *  neo.deobf.PlaceholderFormatter
  *  net.minecraft.inventory.ClickType
- *  net.minecraft.util.EnumFacing
+ *  net.minecraft.util.Direction
  *  net.minecraft.util.math.BlockPos
  */
 package com.botclient;
@@ -79,8 +79,8 @@ public class BotRenderUtils {
         return PlaceholderFormatter.format((String)message);
     }
 
-    public EnumFacing getEnumFacing(String name) {
-        return EnumFacing.byName((String)name);
+    public Direction getDirection(String name) {
+        return Direction.byName((String)name);
     }
 
     public Color getColor(BufferedImage img, int x, int y) {

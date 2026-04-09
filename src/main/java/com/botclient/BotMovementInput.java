@@ -16,7 +16,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.MovementInput;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.client.util.InputUtil;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
@@ -78,38 +78,38 @@ extends MovementInput {
         this.sneak = false;
         this.moveStrafe = 0.0f;
         this.moveForward = 0.0f;
-        if ((BotMovementInput.getGameSettings3(this).keyBindForward) || !((MinecraftClient.getInstance().currentScreen) instanceof GuiChat) && (Keyboard.isKeyDown((int)(72)) || Keyboard.isKeyDown((int)(200)))) {
+        if ((BotMovementInput.getGameSettings3(this).keyBindForward) || !((MinecraftClient.getInstance().currentScreen) instanceof GuiChat) && (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(72)) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(200)))) {
             BotMovementInput cI = this;
             cI.moveForward = BotMovementInput.getMoveForward3(cI) + 1.0f;
             this.forwardKeyDown = true;
         } else {
             this.forwardKeyDown = false;
         }
-        if ((BotMovementInput.getGameSettings2(this).keyBindBack) || !((MinecraftClient.getInstance().currentScreen) instanceof GuiChat) && (Keyboard.isKeyDown((int)(76)) || Keyboard.isKeyDown((int)(208)))) {
+        if ((BotMovementInput.getGameSettings2(this).keyBindBack) || !((MinecraftClient.getInstance().currentScreen) instanceof GuiChat) && (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(76)) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(208)))) {
             BotMovementInput cI = this;
             cI.moveForward = BotMovementInput.getMoveForward2(cI) - 1.0f;
             this.backKeyDown = true;
         } else {
             this.backKeyDown = false;
         }
-        if ((BotMovementInput.qvEzgvubjS(this).keyBindLeft) || !((MinecraftClient.getInstance().currentScreen) instanceof GuiChat) && (Keyboard.isKeyDown((int)(75)) || Keyboard.isKeyDown((int)(203)))) {
+        if ((BotMovementInput.qvEzgvubjS(this).keyBindLeft) || !((MinecraftClient.getInstance().currentScreen) instanceof GuiChat) && (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(75)) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(203)))) {
             BotMovementInput cI = this;
             cI.moveStrafe = BotMovementInput.getMoveStrafe3(cI) + 1.0f;
             this.leftKeyDown = true;
         } else {
             this.leftKeyDown = false;
         }
-        if ((BotMovementInput.getGameSettings5(this).keyBindRight) || !((MinecraftClient.getInstance().currentScreen) instanceof GuiChat) && (Keyboard.isKeyDown((int)(77)) || Keyboard.isKeyDown((int)(205)))) {
+        if ((BotMovementInput.getGameSettings5(this).keyBindRight) || !((MinecraftClient.getInstance().currentScreen) instanceof GuiChat) && (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(77)) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(205)))) {
             BotMovementInput cI = this;
             cI.moveStrafe = BotMovementInput.getMoveStrafe2(cI) - 1.0f;
             this.rightKeyDown = true;
         } else {
             this.rightKeyDown = false;
         }
-        if ((BotMovementInput.getGameSettings(this).keyBindJump) || !((MinecraftClient.getInstance().currentScreen) instanceof GuiChat) && Keyboard.isKeyDown((int)(79))) {
+        if ((BotMovementInput.getGameSettings(this).keyBindJump) || !((MinecraftClient.getInstance().currentScreen) instanceof GuiChat) && InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(79))) {
             this.jump = true;
         }
-        if ((BotMovementInput.getGameSettings4(this).keyBindSneak) || !((MinecraftClient.getInstance().currentScreen) instanceof GuiChat) && Keyboard.isKeyDown((int)(81))) {
+        if ((BotMovementInput.getGameSettings4(this).keyBindSneak) || !((MinecraftClient.getInstance().currentScreen) instanceof GuiChat) && InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), (int)(81))) {
             this.sneak = true;
             this.moveStrafe = (float)((double)BotMovementInput.getMoveStrafe(this) * 0.29999999999999999);
             this.moveForward = (float)((double)BotMovementInput.getMoveForward(this) * 0.29999999999999999);

@@ -8,7 +8,7 @@
  *  neo.deobf.ChatUtils
  *  neo.deobf.ThreadUtils
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityPlayerSP
+ *  net.minecraft.client.entity.PlayerEntitySP
  *  net.minecraft.client.multiplayer.ServerData
  *  net.minecraft.client.network.NetHandlerPlayClient
  *  net.minecraft.network.Packet
@@ -27,7 +27,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.CPacketTabComplete;
 import org.apache.commons.lang3.StringUtils;
 
@@ -42,15 +42,15 @@ extends Command {
     public final char[] alphabet;
     public static StringBuilder plugins;
 
-    private static EntityPlayerSP getPlayer2() {
+    private static PlayerEntitySP getPlayer2() {
         return Minecraft.player;
     }
 
-    private static EntityPlayerSP getPlayer3() {
+    private static PlayerEntitySP getPlayer3() {
         return Minecraft.player;
     }
 
-    private static EntityPlayerSP getPlayer4() {
+    private static PlayerEntitySP getPlayer4() {
         return Minecraft.player;
     }
 
@@ -105,7 +105,7 @@ extends Command {
         }).start();
     }
 
-    private static EntityPlayerSP getPlayer7() {
+    private static PlayerEntitySP getPlayer7() {
         return Minecraft.player;
     }
 
@@ -158,11 +158,11 @@ extends Command {
         this.alphabet = cArray;
     }
 
-    private static EntityPlayerSP getPlayer10() {
+    private static PlayerEntitySP getPlayer10() {
         return Minecraft.player;
     }
 
-    private static EntityPlayerSP getPlayer11() {
+    private static PlayerEntitySP getPlayer11() {
         return Minecraft.player;
     }
 
@@ -170,11 +170,11 @@ extends Command {
         ChatUtils.formatMsg((String)((CommandChatListener.PREFIX) + "plugins - Получить список плагинов сервера."));
     }
 
-    private static EntityPlayerSP getPlayer13() {
+    private static PlayerEntitySP getPlayer13() {
         return Minecraft.player;
     }
 
-    private static EntityPlayerSP getPlayer14() {
+    private static PlayerEntitySP getPlayer14() {
         return Minecraft.player;
     }
 

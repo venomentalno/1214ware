@@ -12,14 +12,14 @@
  *  neo.deobf.BooleanSetting
  *  neo.deobf.Module
  *  neo.deobf.PBot
- *  neo.deobf.FontRendererEx
+ *  neo.deobf.TextRendererEx
  *  neo.deobf.FontRegistry
  *  neo.deobf.TickRateTracker
  *  neo.deobf.ColorUtils
  *  neo.deobf.DrawUtils
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityPlayerSP
- *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.entity.PlayerEntitySP
+ *  net.minecraft.client.gui.TextRenderer
  *  net.minecraft.client.gui.ScaledResolution
  *  net.minecraft.client.multiplayer.ServerData
  *  net.minecraft.util.ResourceLocation
@@ -39,7 +39,7 @@ import com.botclient.ActionRecorderModule;
 import com.botclient.BooleanSetting;
 import com.botclient.Module;
 import com.botclient.PBot;
-import com.botclient.FontRendererEx;
+import com.botclient.TextRendererEx;
 import com.botclient.FontRegistry;
 import com.botclient.TickRateTracker;
 import com.botclient.ColorUtils;
@@ -91,7 +91,7 @@ extends Module {
                 (MinecraftClient.getInstance().fontRenderer).drawString("§f§lThreads: §d§l" + Thread.activeCount(), 10, 210, -1);
             }
             if ((HudModule.getLagDetector(this).value) && !(mc).isSingleplayer() && TickRateTracker.getLagPackets() > 1500L) {
-                DrawUtils.drawImage((ResourceLocation)new ResourceLocation("neoware/images/lost_connection.png"), (float)(scaledresolution.getScaledWidth() / (2) - (64)), (float)(scaledresolution.getScaledHeight() / (2) - (200)), (float)128.0f, (float)128.0f, (Color)this.getColor());
+                DrawUtils.drawImage((ResourceLocation)new Identifier("neoware/images/lost_connection.png"), (float)(scaledresolution.getScaledWidth() / (2) - (64)), (float)(scaledresolution.getScaledHeight() / (2) - (200)), (float)128.0f, (float)128.0f, (Color)this.getColor());
                 (FontRegistry.mnstb_15).drawCenteredString("§l  Потеряно соединение с сервером", (float)(scaledresolution.getScaledWidth() / (2)), (float)(scaledresolution.getScaledHeight() / (2) - (65)), this.getColor().getRGB());
             }
         }

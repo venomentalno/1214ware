@@ -3,7 +3,7 @@
  * 
  * Could not load the following classes:
  *  neo.deobf.MinecraftContext
- *  neo.deobf.FontRendererEx
+ *  neo.deobf.TextRendererEx
  *  neo.deobf.FontRegistry
  *  neo.deobf.DrawUtils
  *  neo.deobf.RoundedUtils
@@ -16,13 +16,13 @@ package com.botclient;
 
 import java.awt.Color;
 import com.botclient.MinecraftContext;
-import com.botclient.FontRendererEx;
+import com.botclient.TextRendererEx;
 import com.botclient.FontRegistry;
 import com.botclient.DrawUtils;
 import com.botclient.RoundedUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import net.minecraft.client.shader.Framebuffer;
 
 /*
@@ -40,7 +40,8 @@ implements MinecraftContext {
     private static void drawProgress() {
         float percent = (float)(p) / 12.0f * 100.0f;
         RenderSystem.resetColor();
-        ScaledResolution scaledresolution = new ScaledResolution((mc));
+        ScaledResolution scaledresolution = // ScaledResolution replaced with Window calculation
+        Window window = (mc));
         DrawUtils.drawRect((float)0.0f, (float)0.0f, (float)scaledresolution.getScaledWidth(), (float)scaledresolution.getScaledHeight(), (Color)new Color(30, 30, 30));
         (FontRegistry.mnstb_16).drawCenteredStringWithOutline("NeoWare запускается... ", (float)((sr).getScaledWidth() / (2)), (float)(sr).getScaledHeight() / 2.5f, -1);
         Object[] objectArray = new Object[1];

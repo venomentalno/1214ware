@@ -3,7 +3,7 @@
  * 
  * Could not load the following classes:
  *  neo.deobf.CancellableEvent
- *  net.minecraft.util.EnumFacing
+ *  net.minecraft.util.Direction
  *  net.minecraft.util.math.BlockPos
  */
 package com.botclient;
@@ -14,14 +14,14 @@ import net.minecraft.util.math.BlockPos;
 
 public class BlockClickEvent
 extends CancellableEvent {
-    public EnumFacing face;
+    public Direction face;
     public BlockPos pos;
 
     public BlockPos getPos() {
         return (this.pos);
     }
 
-    public BlockClickEvent(BlockPos pos, EnumFacing face) {
+    public BlockClickEvent(BlockPos pos, Direction face) {
         this.pos = pos;
         this.face = face;
     }
@@ -34,19 +34,19 @@ extends CancellableEvent {
         return instance.pos;
     }
 
-    private static EnumFacing getFace(BlockClickEvent instance) {
+    private static Direction getFace(BlockClickEvent instance) {
         return instance.face;
     }
 
-    public void setFace(EnumFacing face) {
+    public void setFace(Direction face) {
         this.face = face;
     }
 
-    private static void setFace(BlockClickEvent w, EnumFacing enumFacing) {
+    private static void setFace(BlockClickEvent w, Direction enumFacing) {
         w.face = enumFacing;
     }
 
-    public EnumFacing getFace() {
+    public Direction getFace() {
         return (this.face);
     }
 

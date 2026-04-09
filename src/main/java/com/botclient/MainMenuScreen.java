@@ -6,7 +6,7 @@
  *  neo.deobf.Client
  *  neo.deobf.AltManagerScreen
  *  neo.deobf.ClickGuiScreen
- *  neo.deobf.FontRendererEx
+ *  neo.deobf.TextRendererEx
  *  neo.deobf.FontRegistry
  *  neo.deobf.ShaderProgram
  *  neo.deobf.RoundedUtils
@@ -30,7 +30,7 @@ import com.botclient.MenuButton;
 import com.botclient.Client;
 import com.botclient.AltManagerScreen;
 import com.botclient.ClickGuiScreen;
-import com.botclient.FontRendererEx;
+import com.botclient.TextRendererEx;
 import com.botclient.FontRegistry;
 import com.botclient.ShaderProgram;
 import com.botclient.RoundedUtils;
@@ -40,16 +40,16 @@ import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.GuiWorldSelection;
 import net.minecraft.client.util.Window;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import net.minecraft.client.option.GameOptions;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.render.RenderSystem;
 import org.lwjgl.opengl.GL20;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
 public class MainMenuScreen
-extends GuiScreen {
+extends Screen {
     public static final long time = System.currentTimeMillis();
     public static ShaderProgram backgroundShader = new ShaderProgram("/assets/minecraft/neoware/shaders/background.fsh");
     public ArrayList<MenuButton> buttons;
@@ -70,7 +70,8 @@ extends GuiScreen {
     }
 
     public void initGui() {
-        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
+        ScaledResolution sr = // ScaledResolution replaced with Window calculation
+        Window window = MinecraftClient.getInstance());
         this.buttons = new ArrayList();
         (this.buttons).add(new MenuButton(1, sr.getScaledWidth() / (2), sr.getScaledHeight() / (2) - (45), 100, 16, "Одиночная игра"));
         (this.buttons).add(new MenuButton(2, sr.getScaledWidth() / (2), sr.getScaledHeight() / (2) - (45) + (20), 100, 16, "Сетевая игра"));
@@ -81,7 +82,8 @@ extends GuiScreen {
     }
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
+        ScaledResolution sr = // ScaledResolution replaced with Window calculation
+        Window window = MinecraftClient.getInstance());
         this.backgroundShader.useShader(sr.getScaledWidth(), sr.getScaledHeight(), (float)mouseX, (float)mouseY, (float)(System.currentTimeMillis() - this.time) / 1500.0f);
         RenderSystem.glBegin((int)(7));
         RenderSystem.glVertex2f((float)-1.00000024f, (float)-1.0f);

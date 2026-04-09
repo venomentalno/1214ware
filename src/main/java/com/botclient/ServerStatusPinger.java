@@ -22,7 +22,7 @@ import com.botclient.StatusPingHandler;
 import com.botclient.ProxyInfo;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.listener.PacketListener;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.status.client.CPacketServerQuery;
 

@@ -41,7 +41,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import net.minecraft.client.render.OpenGlHelper;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.entity.RenderManager;
@@ -54,7 +54,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Timer;
 import net.minecraft.util.math.Box;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.render.RenderSystem;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
@@ -85,7 +85,7 @@ implements MinecraftContext {
         RenderSystem.shadeModel((int)(7425));
         Tessellator tessellator = BufferRenderer.getAvailableRenderer();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
-        bufferbuilder.begin(7, (DefaultVertexFormats.POSITION_COLOR));
+        bufferbuilder.begin(7, (VertexFormats.POSITION_COLOR));
         bufferbuilder.pos(x1, y1, 0.0).color(f1, f2, f3, f).endVertex();
         bufferbuilder.pos(x1, y2, 0.0).color(f1, f2, f3, f).endVertex();
         bufferbuilder.pos(x2, y2, 0.0).color(f5, f6, f7, f4).endVertex();
@@ -118,7 +118,7 @@ implements MinecraftContext {
         DrawUtils.color(f1, f2, f3, f);
         Tessellator tessellator = BufferRenderer.getAvailableRenderer();
         BufferBuilder worldrenderer = tessellator.getBuffer();
-        worldrenderer.begin(7, (DefaultVertexFormats.POSITION));
+        worldrenderer.begin(7, (VertexFormats.POSITION));
         worldrenderer.pos((double)x, (double)height, 0.0).endVertex();
         worldrenderer.pos((double)width, (double)height, 0.0).endVertex();
         worldrenderer.pos((double)width, (double)y, 0.0).endVertex();
@@ -129,7 +129,8 @@ implements MinecraftContext {
     }
 
     public static void scissorRect(float x, float y, float width, double height) {
-        ScaledResolution sr = new ScaledResolution((mc));
+        ScaledResolution sr = // ScaledResolution replaced with Window calculation
+        Window window = (mc));
         int factor = sr.getScaleFactor();
         RenderSystem.glScissor((int)((int)(x * (float)factor)), (int)((int)(((double)sr.getScaledHeight() - height) * (double)factor)), (int)((int)((width - x) * (float)factor)), (int)((int)((height - (double)y) * (double)factor)));
     }
@@ -166,7 +167,7 @@ implements MinecraftContext {
         RenderSystem.shadeModel((int)(7425));
         Tessellator tessellator = BufferRenderer.getAvailableRenderer();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
-        bufferbuilder.begin(7, (DefaultVertexFormats.POSITION_COLOR));
+        bufferbuilder.begin(7, (VertexFormats.POSITION_COLOR));
         bufferbuilder.pos(x1, y1, 0.0).color(f1, f2, f3, f).endVertex();
         bufferbuilder.pos(x1, y2, 0.0).color(f5, f6, f7, f4).endVertex();
         bufferbuilder.pos(x2, y2, 0.0).color(f5, f6, f7, f4).endVertex();
@@ -284,7 +285,7 @@ implements MinecraftContext {
     public static void drawColorBox(AxisAlignedBB axisalignedbb, float red, float green, float blue, float alpha) {
         Tessellator ts = BufferRenderer.getAvailableRenderer();
         BufferBuilder buffer = ts.getBuffer();
-        buffer.begin(7, (DefaultVertexFormats.POSITION_TEX));
+        buffer.begin(7, (VertexFormats.POSITION_TEXTURE));
         buffer.pos((axisalignedbb.minX), (axisalignedbb.minY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.minX), (axisalignedbb.maxY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.minY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
@@ -294,7 +295,7 @@ implements MinecraftContext {
         buffer.pos((axisalignedbb.minX), (axisalignedbb.minY), (axisalignedbb.maxZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.minX), (axisalignedbb.maxY), (axisalignedbb.maxZ)).color(red, green, blue, alpha).endVertex();
         ts.draw();
-        buffer.begin(7, (DefaultVertexFormats.POSITION_TEX));
+        buffer.begin(7, (VertexFormats.POSITION_TEXTURE));
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.maxY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.minY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.minX), (axisalignedbb.maxY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
@@ -304,7 +305,7 @@ implements MinecraftContext {
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.maxY), (axisalignedbb.maxZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.minY), (axisalignedbb.maxZ)).color(red, green, blue, alpha).endVertex();
         ts.draw();
-        buffer.begin(7, (DefaultVertexFormats.POSITION_TEX));
+        buffer.begin(7, (VertexFormats.POSITION_TEXTURE));
         buffer.pos((axisalignedbb.minX), (axisalignedbb.maxY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.maxY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.maxY), (axisalignedbb.maxZ)).color(red, green, blue, alpha).endVertex();
@@ -314,7 +315,7 @@ implements MinecraftContext {
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.maxY), (axisalignedbb.maxZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.maxY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         ts.draw();
-        buffer.begin(7, (DefaultVertexFormats.POSITION_TEX));
+        buffer.begin(7, (VertexFormats.POSITION_TEXTURE));
         buffer.pos((axisalignedbb.minX), (axisalignedbb.minY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.minY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.minY), (axisalignedbb.maxZ)).color(red, green, blue, alpha).endVertex();
@@ -324,7 +325,7 @@ implements MinecraftContext {
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.minY), (axisalignedbb.maxZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.minY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         ts.draw();
-        buffer.begin(7, (DefaultVertexFormats.POSITION_TEX));
+        buffer.begin(7, (VertexFormats.POSITION_TEXTURE));
         buffer.pos((axisalignedbb.minX), (axisalignedbb.minY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.minX), (axisalignedbb.maxY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.minX), (axisalignedbb.minY), (axisalignedbb.maxZ)).color(red, green, blue, alpha).endVertex();
@@ -334,7 +335,7 @@ implements MinecraftContext {
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.minY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.maxX), (axisalignedbb.maxY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
         ts.draw();
-        buffer.begin(7, (DefaultVertexFormats.POSITION_TEX));
+        buffer.begin(7, (VertexFormats.POSITION_TEXTURE));
         buffer.pos((axisalignedbb.minX), (axisalignedbb.maxY), (axisalignedbb.maxZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.minX), (axisalignedbb.minY), (axisalignedbb.maxZ)).color(red, green, blue, alpha).endVertex();
         buffer.pos((axisalignedbb.minX), (axisalignedbb.maxY), (axisalignedbb.minZ)).color(red, green, blue, alpha).endVertex();
@@ -484,21 +485,21 @@ implements MinecraftContext {
     public static void drawSelectionBoundingBox(AxisAlignedBB boundingBox) {
         Tessellator tessellator = BufferRenderer.getAvailableRenderer();
         BufferBuilder builder = tessellator.getBuffer();
-        builder.begin(3, (DefaultVertexFormats.POSITION));
+        builder.begin(3, (VertexFormats.POSITION));
         builder.pos((boundingBox.minX), (boundingBox.minY), (boundingBox.minZ)).endVertex();
         builder.pos((boundingBox.maxX), (boundingBox.minY), (boundingBox.minZ)).endVertex();
         builder.pos((boundingBox.maxX), (boundingBox.minY), (boundingBox.maxZ)).endVertex();
         builder.pos((boundingBox.minX), (boundingBox.minY), (boundingBox.maxZ)).endVertex();
         builder.pos((boundingBox.minX), (boundingBox.minY), (boundingBox.minZ)).endVertex();
         tessellator.draw();
-        builder.begin(3, (DefaultVertexFormats.POSITION));
+        builder.begin(3, (VertexFormats.POSITION));
         builder.pos((boundingBox.minX), (boundingBox.maxY), (boundingBox.minZ)).endVertex();
         builder.pos((boundingBox.maxX), (boundingBox.maxY), (boundingBox.minZ)).endVertex();
         builder.pos((boundingBox.maxX), (boundingBox.maxY), (boundingBox.maxZ)).endVertex();
         builder.pos((boundingBox.minX), (boundingBox.maxY), (boundingBox.maxZ)).endVertex();
         builder.pos((boundingBox.minX), (boundingBox.maxY), (boundingBox.minZ)).endVertex();
         tessellator.draw();
-        builder.begin(1, (DefaultVertexFormats.POSITION));
+        builder.begin(1, (VertexFormats.POSITION));
         builder.pos((boundingBox.minX), (boundingBox.minY), (boundingBox.minZ)).endVertex();
         builder.pos((boundingBox.minX), (boundingBox.maxY), (boundingBox.minZ)).endVertex();
         builder.pos((boundingBox.maxX), (boundingBox.minY), (boundingBox.minZ)).endVertex();
@@ -526,7 +527,7 @@ implements MinecraftContext {
         RenderSystem.shadeModel((int)(7425));
         Tessellator tessellator = BufferRenderer.getAvailableRenderer();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
-        bufferbuilder.begin(7, (DefaultVertexFormats.POSITION_COLOR));
+        bufferbuilder.begin(7, (VertexFormats.POSITION_COLOR));
         bufferbuilder.pos(e2, e, 0.0).color(f1, f2, f3, f).endVertex();
         bufferbuilder.pos(d, e, 0.0).color(f1, f2, f3, f).endVertex();
         bufferbuilder.pos(d, g, 0.0).color(f5, f6, f7, f4).endVertex();

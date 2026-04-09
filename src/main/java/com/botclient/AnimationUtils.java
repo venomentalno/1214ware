@@ -10,7 +10,7 @@ package com.botclient;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.render.RenderSystem;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

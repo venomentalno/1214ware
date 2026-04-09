@@ -3,7 +3,7 @@
  * 
  * Could not load the following classes:
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.TextRenderer
  *  net.minecraft.client.gui.Gui
  *  net.minecraft.client.gui.GuiScreen
  *  net.minecraft.client.renderer.BufferBuilder
@@ -23,8 +23,8 @@ import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.vertex.DefaultVertexFormats;
 import net.minecraft.client.render.vertex.VertexFormat;
-import net.minecraft.util.ChatAllowedCharacters;
-import org.lwjgl.opengl.GL11;
+// ChatAllowedCharacters removed in 1.21.4
+import net.minecraft.client.render.RenderSystem;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
@@ -32,7 +32,7 @@ import org.lwjgl.opengl.GL11;
 public class GuiPasswordField
 extends Gui {
     public int enabledColor;
-    public final FontRenderer fontRenderer;
+    public final TextRenderer fontRenderer;
     public boolean enableBackgroundDrawing;
     public String text;
     private final int disabledColor = 0x707070;
@@ -119,7 +119,7 @@ extends Gui {
         return instance.width;
     }
 
-    public GuiPasswordField(FontRenderer par1FontRenderer, int par2, int par3, int par4, int par5) {
+    public GuiPasswordField(TextRenderer par1TextRenderer, int par2, int par3, int par4, int par5) {
         this.disabledColor = 7368816;
         this.text = "";
         this.maxStringLength = 50;
@@ -131,7 +131,7 @@ extends Gui {
         this.selectionEnd = 0;
         this.enabledColor = 14737632;
         this.field_73823_s = 1;
-        this.fontRenderer = par1FontRenderer;
+        this.fontRenderer = par1TextRenderer;
         this.xPos = par2;
         this.yPos = par3;
         this.width = par4;
@@ -184,14 +184,14 @@ extends Gui {
             }
             if (var6 != 0) {
                 if (var10 != 0) {
-                    Gui.drawRect((int)var11, (int)(var8 - (1)), (int)(var11 + (1)), (int)(var8 + (1) + (GuiPasswordField.getFontRenderer9(this).FONT_HEIGHT)), (int)(-3092272));
+                    Gui.drawRect((int)var11, (int)(var8 - (1)), (int)(var11 + (1)), (int)(var8 + (1) + (GuiPasswordField.getTextRenderer9(this).FONT_HEIGHT)), (int)(-3092272));
                 } else {
                     (MinecraftClient.getInstance().fontRenderer).drawStringWithShadow("_", (float)var11, (float)var8, var1);
                 }
             }
             if (var3 != var2) {
                 int var12 = var7 + (this.fontRenderer).getStringWidth(var4.substring(0, var3));
-                this.drawCursorVertical(var11, var8 - (1), var12 - (1), var8 + (1) + (GuiPasswordField.getFontRenderer11(this).FONT_HEIGHT));
+                this.drawCursorVertical(var11, var8 - (1), var12 - (1), var8 + (1) + (GuiPasswordField.getTextRenderer11(this).FONT_HEIGHT));
             }
         }
     }
@@ -263,7 +263,7 @@ extends Gui {
         return instance.enableBackgroundDrawing;
     }
 
-    private static FontRenderer getFontRenderer4(GuiPasswordField instance) {
+    private static TextRenderer getTextRenderer4(GuiPasswordField instance) {
         return instance.fontRenderer;
     }
 
@@ -297,7 +297,7 @@ extends Gui {
         }
     }
 
-    private static FontRenderer getFontRenderer9(GuiPasswordField instance) {
+    private static TextRenderer getTextRenderer9(GuiPasswordField instance) {
         return instance.fontRenderer;
     }
 
@@ -356,7 +356,7 @@ extends Gui {
         RenderSystem.glDisable((int)(3553));
         RenderSystem.glEnable((int)(3058));
         RenderSystem.glLogicOp((int)(5387));
-        var7.begin(7, (DefaultVertexFormats.POSITION));
+        var7.begin(7, (VertexFormats.POSITION));
         var7.pos((double)par1, (double)par4, 0.0).endVertex();
         var7.pos((double)par3, (double)par4, 0.0).endVertex();
         var7.pos((double)par3, (double)par2, 0.0).endVertex();
@@ -468,7 +468,7 @@ extends Gui {
         return false;
     }
 
-    private static FontRenderer getFontRenderer11(GuiPasswordField instance) {
+    private static TextRenderer getTextRenderer11(GuiPasswordField instance) {
         return instance.fontRenderer;
     }
 
@@ -490,7 +490,7 @@ extends Gui {
             int var5 = var4.length() + (this.field_73816_n);
             if (par1 == (this.field_73816_n)) {
                 GuiPasswordField bq = this;
-                bq.field_73816_n = GuiPasswordField.getField_73816_n16(bq) - GuiPasswordField.getFontRenderer4(this).trimStringToWidth(GuiPasswordField.getText2(this), var3, true).length();
+                bq.field_73816_n = GuiPasswordField.getField_73816_n16(bq) - GuiPasswordField.getTextRenderer4(this).trimStringToWidth(GuiPasswordField.getText2(this), var3, true).length();
             }
             if (par1 > var5) {
                 GuiPasswordField bq = this;

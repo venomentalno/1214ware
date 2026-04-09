@@ -21,7 +21,7 @@
  *  neo.deobf.EventBus
  *  neo.deobf.ChatMessageEvent
  *  net.minecraft.client.Minecraft
- *  net.minecraft.util.text.TextFormatting
+ *  net.minecraft.util.text.Formatting
  */
 package com.botclient;
 

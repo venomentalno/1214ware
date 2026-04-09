@@ -11,7 +11,7 @@
  *  neo.deobf.AltAccount
  *  neo.deobf.AltManager
  *  neo.deobf.AddAltScreen
- *  net.minecraft.util.text.TextFormatting
+ *  net.minecraft.util.text.Formatting
  */
 package com.botclient;
 

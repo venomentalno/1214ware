@@ -20,7 +20,7 @@ import com.botclient.Module;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
-import org.lwjgl.input.Mouse;
+import org.lwjgl.glfw.GLFW;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
@@ -39,13 +39,13 @@ extends Module {
 
     @EventTarget
     public void onEventUpdate(UpdateEvent e) {
-        int kek = Mouse.getDWheel();
+        int kek = GLFW.glfwGetScrollCallback;
         if (GameSettings.isKeyDown((KeyBinding)(BinocularModule.getGameSettings().ofKeyBindZoom))) {
             if (kek >= (1)) {
-                zoom = (float)((double)(zoom) + (Mouse.isButtonDown((int)(2)) ? 8.0 : 0.80000000000000004));
+                zoom = (float)((double)(zoom) + (GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), (int)(2)) ? 8.0 : 0.80000000000000004));
             }
-            if (Mouse.getDWheel() > kek) {
-                zoom = (float)((double)(zoom) - (Mouse.isButtonDown((int)(2)) ? 8.0 : 0.80000000000000004));
+            if (GLFW.glfwGetScrollCallback > kek) {
+                zoom = (float)((double)(zoom) - (GLFW.glfwGetMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), (int)(2)) ? 8.0 : 0.80000000000000004));
             }
             if ((zoom) < 2.0f) {
                 zoom = 2.0f;

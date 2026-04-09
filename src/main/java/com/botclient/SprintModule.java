@@ -8,7 +8,7 @@
  *  neo.deobf.Module
  *  neo.deobf.MovementUtils
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityPlayerSP
+ *  net.minecraft.client.entity.PlayerEntitySP
  */
 package com.botclient;
 

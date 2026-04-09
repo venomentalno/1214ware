@@ -9,7 +9,7 @@
  *  neo.deobf.DiscordRpc
  *  neo.deobf.ThreadUtils
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityPlayerSP
+ *  net.minecraft.client.entity.PlayerEntitySP
  *  net.minecraft.client.gui.GuiScreen
  *  org.apache.commons.codec.digest.DigestUtils
  *  org.json.JSONObject

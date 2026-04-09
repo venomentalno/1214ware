@@ -14,7 +14,7 @@
  *  neo.deobf.MinecraftContext
  *  neo.deobf.PacketReceiveEvent
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.multiplayer.WorldClient
+ *  net.minecraft.client.multiplayer.ClientWorld
  *  net.minecraft.network.play.server.SPacketTimeUpdate
  */
 package com.botclient;

@@ -9,7 +9,7 @@
  *  neo.deobf.NotificationType
  *  neo.deobf.NotificationEntry
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.entity.EntityPlayerSP
+ *  net.minecraft.client.entity.PlayerEntitySP
  *  net.minecraft.client.gui.GuiChat
  *  net.minecraft.client.gui.GuiScreen
  *  net.minecraft.client.gui.ScaledResolution
@@ -67,7 +67,8 @@ extends Module {
     public void onUpdate(Render2DEvent event) {
         (notifies).forEach(notify -> notify.updateAnimation());
         (notifies).removeIf(NotificationEntry::updateAnimation);
-        NotificationsModule.render(new ScaledResolution(MinecraftClient.getInstance()));
+        NotificationsModule.render(// ScaledResolution replaced with Window calculation
+        Window window = MinecraftClient.getInstance()));
     }
 
 public static void notify(String title, String text, NotificationType type, int second) {

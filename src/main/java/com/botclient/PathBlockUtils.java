@@ -6,7 +6,7 @@
  *  neo.deobf.PathBlockType
  *  neo.deobf.BlockUtils
  *  net.minecraft.block.Block
- *  net.minecraft.block.state.IBlockState
+ *  net.minecraft.block.state.BlockState
  *  net.minecraft.util.math.BlockPos
  *  net.minecraft.world.IBlockAccess
  *  net.minecraft.world.World
@@ -106,7 +106,7 @@ public class PathBlockUtils {
     }
 
     public static boolean isTopSolid(BlockPos pos, World world) {
-        IBlockState state = BlockUtils.getBlockStateByPos((World)world, (BlockPos)pos);
+        BlockState state = BlockUtils.getBlockStateByPos((World)world, (BlockPos)pos);
         if (state == null) {
             return false;
         }
@@ -114,7 +114,7 @@ public class PathBlockUtils {
     }
 
     public static boolean isTopSolid(Vector3i pos, World world) {
-        IBlockState state = BlockUtils.getBlockStateByPos((World)world, (BlockPos)BlockUtils.vec3i_toBlockPos((Vector3i)pos));
+        BlockState state = BlockUtils.getBlockStateByPos((World)world, (BlockPos)BlockUtils.vec3i_toBlockPos((Vector3i)pos));
         if (state == null) {
             return false;
         }

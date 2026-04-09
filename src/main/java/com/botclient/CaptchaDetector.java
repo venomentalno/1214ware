@@ -6,7 +6,7 @@
  *  neo.deobf.NumberSetting
  *  neo.deobf.PBot
  *  neo.deobf.PBotPlayer
- *  neo.deobf.PBotWorldClient
+ *  neo.deobf.PBotClientWorld
  *  neo.deobf.CaptchaManagerModule
  *  neo.deobf.CaptchaPacket
  *  neo.deobf.GifFrameInfo
@@ -18,7 +18,7 @@
  *  net.minecraft.item.Item
  *  net.minecraft.item.ItemMap
  *  net.minecraft.item.ItemStack
- *  net.minecraft.util.EnumFacing
+ *  net.minecraft.util.Direction
  *  net.minecraft.util.NonNullList
  *  net.minecraft.world.World
  *  net.minecraft.world.storage.MapData
@@ -41,7 +41,7 @@ import com.botclient.BooleanSetting;
 import com.botclient.NumberSetting;
 import com.botclient.PBot;
 import com.botclient.PBotPlayer;
-import com.botclient.PBotWorldClient;
+import com.botclient.PBotClientWorld;
 import com.botclient.CaptchaManagerModule;
 import com.botclient.CaptchaPacket;
 import com.botclient.GifFrameInfo;
@@ -66,7 +66,7 @@ public class CaptchaDetector {
         return instance.inventory;
     }
 
-    private static EnumFacing getEAST() {
+    private static Direction getEAST() {
         return Direction.EAST;
     }
 
@@ -156,11 +156,11 @@ public class CaptchaDetector {
         return frame;
     }
 
-    private static EnumFacing getSOUTH() {
+    private static Direction getSOUTH() {
         return Direction.SOUTH;
     }
 
-    private static EnumFacing getWEST() {
+    private static Direction getWEST() {
         return Direction.WEST;
     }
 
@@ -177,23 +177,23 @@ public class CaptchaDetector {
         return true;
     }
 
-    private static EnumFacing getWEST2() {
+    private static Direction getWEST2() {
         return Direction.WEST;
     }
 
-    private static EnumFacing getEAST2() {
+    private static Direction getEAST2() {
         return Direction.EAST;
     }
 
-    private static EnumFacing getNORTH() {
+    private static Direction getNORTH() {
         return Direction.NORTH;
     }
 
-    private static EnumFacing getNORTH2() {
+    private static Direction getNORTH2() {
         return Direction.NORTH;
     }
 
-    private static EnumFacing getSOUTH2() {
+    private static Direction getSOUTH2() {
         return Direction.SOUTH;
     }
 

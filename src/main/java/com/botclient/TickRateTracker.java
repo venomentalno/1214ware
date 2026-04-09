@@ -5,7 +5,7 @@
  *  neo.deobf.EventTarget
  *  neo.deobf.EventBus
  *  neo.deobf.PacketReceiveEvent
- *  net.minecraft.network.play.server.SPacketChat
+ *  net.minecraft.network.play.server.ChatMessageS2CPacket
  *  net.minecraft.network.play.server.SPacketSetExperience
  *  net.minecraft.network.play.server.SPacketTimeUpdate
  *  net.minecraft.network.play.server.SPacketUpdateBossInfo
@@ -18,7 +18,7 @@ import java.util.Arrays;
 import com.botclient.EventTarget;
 import com.botclient.EventBus;
 import com.botclient.PacketReceiveEvent;
-import net.minecraft.network.packet.s2c.play.SPacketChat;
+import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.SPacketSetExperience;
 import net.minecraft.network.packet.s2c.play.SPacketTimeUpdate;
 import net.minecraft.network.packet.s2c.play.SPacketUpdateBossInfo;
@@ -35,7 +35,7 @@ public class TickRateTracker {
 
     @EventTarget
     public void onReceivePacket(PacketReceiveEvent event) {
-        if (event.getPacket() instanceof SPacketTimeUpdate || event.getPacket() instanceof SPacketChat || event.getPacket() instanceof SPacketSetExperience || event.getPacket() instanceof SPacketUpdateBossInfo) {
+        if (event.getPacket() instanceof SPacketTimeUpdate || event.getPacket() instanceof ChatMessageS2CPacket || event.getPacket() instanceof SPacketSetExperience || event.getPacket() instanceof SPacketUpdateBossInfo) {
             millis = new Timestamp(System.currentTimeMillis()).getTime();
             TickRateTracker.onTimeUpdate();
         }

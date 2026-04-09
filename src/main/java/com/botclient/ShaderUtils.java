@@ -24,11 +24,11 @@ import com.botclient.MinecraftContext;
 import com.botclient.DrawUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import net.minecraft.client.render.OpenGlHelper;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.util.Identifier;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.render.RenderSystem;
 import org.lwjgl.opengl.GL20;
 
 /*
@@ -121,7 +121,8 @@ public class ShaderUtils {
     }
 
     public static void drawQuads() {
-        ScaledResolution sr = new ScaledResolution((MinecraftContext.mc));
+        ScaledResolution sr = // ScaledResolution replaced with Window calculation
+        Window window = (MinecraftContext.mc));
         float width = (float)sr.getScaledWidth_double();
         float height = (float)sr.getScaledHeight_double();
         RenderSystem.glBegin((int)(7));
@@ -202,11 +203,11 @@ public void unload() {
                     fragmentShaderID = this.createShader(new ByteArrayInputStream(this.roundedRectGradient.getBytes()), 35632);
                     break;
                 default:
-                    fragmentShaderID = this.createShader(MinecraftContext.mc.getResourceManager().getResource(new ResourceLocation(fragmentShaderLoc)).getInputStream(), 35632);
+                    fragmentShaderID = this.createShader(MinecraftContext.mc.getResourceManager().getResource(new Identifier(fragmentShaderLoc)).getInputStream(), 35632);
                     break;
             }
             GL20.glAttachShader(program, fragmentShaderID);
-            int vertexShaderID = this.createShader(MinecraftContext.mc.getResourceManager().getResource(new ResourceLocation(vertexShaderLoc)).getInputStream(), 35633);
+            int vertexShaderID = this.createShader(MinecraftContext.mc.getResourceManager().getResource(new Identifier(vertexShaderLoc)).getInputStream(), 35633);
             GL20.glAttachShader(program, vertexShaderID);
         }
         catch (IOException e) {

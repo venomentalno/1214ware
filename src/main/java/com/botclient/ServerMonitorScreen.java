@@ -8,13 +8,13 @@
  *  neo.deobf.ServerParser
  *  neo.deobf.ClickGuiScreen
  *  neo.deobf.PBot
- *  neo.deobf.FontRendererEx
+ *  neo.deobf.TextRendererEx
  *  neo.deobf.FontRegistry
  *  neo.deobf.ShaderProgram
  *  neo.deobf.DrawUtils
  *  neo.deobf.RoundedUtils
  *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.ButtonWidget
  *  net.minecraft.client.gui.GuiScreen
  *  net.minecraft.client.gui.ScaledResolution
  *  net.minecraft.client.multiplayer.ServerData
@@ -37,7 +37,7 @@ import com.botclient.MainMenuScreen;
 import com.botclient.ServerParser;
 import com.botclient.ClickGuiScreen;
 import com.botclient.PBot;
-import com.botclient.FontRendererEx;
+import com.botclient.TextRendererEx;
 import com.botclient.FontRegistry;
 import com.botclient.ShaderProgram;
 import com.botclient.DrawUtils;
@@ -48,17 +48,17 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.ServerPinger;
-import net.minecraft.client.render.GlStateManager;
+import net.minecraft.client.render.RenderSystem;
 import net.minecraft.util.Identifier;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.render.RenderSystem;
 import org.lwjgl.opengl.GL20;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
  */
 public class ServerMonitorScreen
-extends GuiScreen {
+extends Screen {
     public final GuiScreen parentScreen;
 
     public void onGuiClosed() {
@@ -66,7 +66,7 @@ extends GuiScreen {
         (ServerParser.serverPinger).clearPendingNetworks();
     }
 
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(ButtonWidget button) throws IOException {
         if ((button.id) == 0) {
             (this.mc).displayGuiScreen((this.parentScreen));
         } else if ((button.id) == (1)) {
@@ -81,7 +81,8 @@ extends GuiScreen {
     }
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        ScaledResolution sr = new ScaledResolution(MinecraftClient.getInstance());
+        ScaledResolution sr = // ScaledResolution replaced with Window calculation
+        Window window = MinecraftClient.getInstance());
         (MainMenuScreen.backgroundShader).useShader(sr.getScaledWidth(), sr.getScaledHeight(), (float)mouseX, (float)mouseY, (float)(System.currentTimeMillis() - (MainMenuScreen.time)) / 1500.0f);
         RenderSystem.glBegin((int)(7));
         RenderSystem.glVertex2f((float)-1.00000048f, (float)-1.0f);
@@ -111,7 +112,7 @@ extends GuiScreen {
             if ((serverData.iconRender) != null) {
                 DrawUtils.renderImage((BufferedImage)(serverData.iconRender), (int)((int)(elementX + 5.0f)), (int)((int)(elementY + 12.0f)), (int)(20), (int)(20));
             } else {
-                DrawUtils.drawImage((ResourceLocation)new ResourceLocation("textures/misc/unknown_server.png"), (float)((int)(elementX + 5.0f)), (float)((int)(elementY + 12.0f)), (float)20.0f, (float)20.0f, (Color)new Color(255, 255, 255));
+                DrawUtils.drawImage((ResourceLocation)new Identifier("textures/misc/unknown_server.png"), (float)((int)(elementX + 5.0f)), (float)((int)(elementY + 12.0f)), (float)20.0f, (float)20.0f, (Color)new Color(255, 255, 255));
             }
             if ((offsetX += 110) > (330)) {
                 offsetX = 0;

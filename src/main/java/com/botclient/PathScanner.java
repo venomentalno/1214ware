@@ -6,7 +6,7 @@
  *  neo.deobf.AbstractPathScanner
  *  neo.deobf.PathBlockUtils
  *  neo.deobf.PathNode
- *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.entity.player.PlayerEntity
  *  net.minecraft.world.World
  */
 package com.botclient;
@@ -274,7 +274,7 @@ extends AbstractPathScanner {
         return instance.pos;
     }
 
-    public boolean onUpdate(EntityPlayer player) {
+    public boolean onUpdate(PlayerEntity player) {
         return false;
     }
 

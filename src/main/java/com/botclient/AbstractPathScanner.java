@@ -4,7 +4,7 @@
  * Could not load the following classes:
  *  javax.vecmath.Vector3i
  *  neo.deobf.PathNode
- *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.entity.player.PlayerEntity
  */
 package com.botclient;
 
@@ -40,7 +40,7 @@ public abstract class AbstractPathScanner {
         return instance.pos;
     }
 
-    public abstract boolean onUpdate(EntityPlayer var1);
+    public abstract boolean onUpdate(PlayerEntity var1);
 
     public abstract boolean isRunning();
 
