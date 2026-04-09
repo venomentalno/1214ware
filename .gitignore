@@ -1,12 +1,36 @@
 ```
-# Dependencies
+# Gradle
 .gradle/
-node_modules/
-
-# Build artifacts
 build/
-dist/
-target/
+.libs/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Dependencies
+node_modules/
+vendor/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
 
 # Python
 __pycache__/
@@ -14,37 +38,28 @@ __pycache__/
 *.pyo
 *.pyd
 .Python
-env/
-venv/
-.venv/
-.ENV
-.env
-.env.*
-.env.local
+*.so
+*.egg-info/
+.eggs/
 
-# Compiled files
+# Compiled
 *.class
 *.o
 *.obj
-*.so
 *.a
+*.lib
 *.dll
+*.so
+*.dylib
 *.exe
 *.out
 
-# Logs
-*.log
-
-# Temp files
-*.tmp
-*.swp
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Editors
-.vscode/
-.idea/
+# Archives
+*.zip
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.gz
+*.rar
+*.7z
 ```

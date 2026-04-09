@@ -15,7 +15,6 @@ repositories {
     maven { url 'https://jitpack.io' }
     maven { url 'https://maven.terraformersmc.com/' }
     maven { url 'https://maven.shedaniel.me/' }
-    maven { url 'https://maven.florianmichael.de/' }
 }
 
 dependencies {
@@ -26,8 +25,8 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     
     // ViaVersion for protocol support (updated for 1.21.4)
-    // Using ViaFabricPlus which bundles all Via libraries
-    modImplementation "de.florianmichael:ViaFabricPlus:2.3.0"
+    // Using ViaFabricPlus which bundles all Via libraries via JitPack
+    modImplementation "com.github.ViaVersion:ViaFabricPlus:4.2.2"
     
     // External libraries
     implementation 'org.json:json:20231013'
