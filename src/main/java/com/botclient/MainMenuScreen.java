@@ -71,7 +71,7 @@ extends Screen {
 
     public void initGui() {
         ScaledResolution sr = // ScaledResolution replaced with Window calculation
-        Window window = MinecraftClient.getInstance());
+        Window window = MinecraftClient.getInstance().getWindow();
         this.buttons = new ArrayList();
         (this.buttons).add(new MenuButton(1, sr.getScaledWidth() / (2), sr.getScaledHeight() / (2) - (45), 100, 16, "Одиночная игра"));
         (this.buttons).add(new MenuButton(2, sr.getScaledWidth() / (2), sr.getScaledHeight() / (2) - (45) + (20), 100, 16, "Сетевая игра"));
@@ -83,7 +83,7 @@ extends Screen {
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         ScaledResolution sr = // ScaledResolution replaced with Window calculation
-        Window window = MinecraftClient.getInstance());
+        Window window = MinecraftClient.getInstance().getWindow();
         this.backgroundShader.useShader(sr.getScaledWidth(), sr.getScaledHeight(), (float)mouseX, (float)mouseY, (float)(System.currentTimeMillis() - this.time) / 1500.0f);
         RenderSystem.glBegin((int)(7));
         RenderSystem.glVertex2f((float)-1.00000024f, (float)-1.0f);
