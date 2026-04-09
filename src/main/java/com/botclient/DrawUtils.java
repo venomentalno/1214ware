@@ -129,10 +129,11 @@ implements MinecraftContext {
     }
 
     public static void scissorRect(float x, float y, float width, double height) {
-        ScaledResolution sr = // ScaledResolution replaced with Window calculation
-        Window window = (mc));
-        int factor = sr.getScaleFactor();
-        RenderSystem.glScissor((int)((int)(x * (float)factor)), (int)((int)(((double)sr.getScaledHeight() - height) * (double)factor)), (int)((int)((width - x) * (float)factor)), (int)((int)((height - (double)y) * (double)factor)));
+        Window window = MinecraftClient.getInstance().getWindow();
+        int scaledWidth = window.getScaledWidth();
+        int scaledHeight = window.getScaledHeight();
+        int factor = window.getScaleFactor();
+        RenderSystem.glScissor((int)((int)(x * (float)factor)), (int)((int)(((double)scaledHeight - height) * (double)factor)), (int)((int)((width - x) * (float)factor)), (int)((int)((height - (double)y) * (double)factor)));
     }
 
     public static Framebuffer createFrameBuffer(Framebuffer framebuffer) {
