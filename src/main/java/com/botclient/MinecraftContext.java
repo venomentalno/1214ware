@@ -15,7 +15,7 @@ public interface MinecraftContext {
     public static final Minecraft mc = MinecraftClient.getInstance();
     public static final Random random = new Random();
     public static final ScaledResolution sr = // ScaledResolution replaced with Window calculation
-        Window window = mc);
+        Window window = mc.getWindow();
 }
 
 
