@@ -27,7 +27,7 @@ import com.botclient.AltAccount;
 import com.botclient.AltManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.session.Session;
-import net.minecraft.text.TextFormat;
+import net.minecraft.text.Formatting;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

@@ -14,20 +14,20 @@ import com.botclient.Event;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.BlockView;
 
-class BlockRenderEvent
+public class BlockRenderEvent
 implements Event {
     public final BlockState state;
     public final BufferBuilder bufferBuilder;
     public final BlockPos pos;
-    public final IBlockAccess access;
+    public final BlockView access;
 
     public BlockPos getPos() {
         return (this.pos);
     }
 
-    private static IBlockAccess getAccess(BlockRenderEvent instance) {
+    private static BlockView getAccess(BlockRenderEvent instance) {
         return instance.access;
     }
 
@@ -47,7 +47,7 @@ implements Event {
         return (this.bufferBuilder);
     }
 
-    public BlockRenderEvent(BlockState state, BlockPos pos, IBlockAccess access, BufferBuilder bufferBuilder) {
+    public BlockRenderEvent(BlockState state, BlockPos pos, BlockView access, BufferBuilder bufferBuilder) {
         this.state = state;
         this.pos = pos;
         this.access = access;
@@ -58,7 +58,7 @@ implements Event {
         return instance.state;
     }
 
-    public IBlockAccess getAccess() {
+    public BlockView getAccess() {
         return (this.access);
     }
 }

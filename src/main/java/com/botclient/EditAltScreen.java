@@ -31,7 +31,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.Window;
-import net.minecraft.text.TextFormat;
+import net.minecraft.text.Formatting;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true

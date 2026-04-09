@@ -25,7 +25,7 @@ import com.botclient.PBotNetHandlerPlayClient;
 import com.botclient.PBotNetworkManager;
 import com.botclient.BotDebugModule;
 import com.botclient.ChatUtils;
-import net.minecraft.network.EnumConnectionState;
+// Removed: EnumConnectionState not in 1.21.4
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.login.INetHandlerLoginClient;
 import net.minecraft.network.login.server.DisconnectS2CPacket;

@@ -39,7 +39,8 @@ import com.botclient.NotificationsModule;
 import com.botclient.ConfigManager;
 import com.botclient.EventBus;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.TextFormat;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
@@ -166,7 +167,7 @@ public void load(JsonObject object) {
             exception.printStackTrace();
         }
         if (Arrays.stream((noDebugModules)).noneMatch((this.moduleName)::equals) && !(this.moduleCategory).equals((Object)(ModuleCategory.Themes))) {
-            NotificationsModule.notify((String)"Module Debug", (String)((this.moduleName) + " was " + (TextFormat.RED) + "disabled!"), (NotificationType)(NotificationType.SUCCESS), (int)(4));
+            NotificationsModule.notify((String)"Module Debug", (String)((this.moduleName) + " was " + (Formatting.RED) + "disabled!"), (NotificationType)(NotificationType.SUCCESS), (int)(4));
         }
         EventBus.unregister((Object)this);
     }
@@ -225,7 +226,7 @@ public void load(JsonObject object) {
             exception.printStackTrace();
         }
         if (Arrays.stream((noDebugModules)).noneMatch((this.moduleName)::equals) && !(this.moduleCategory).equals((Object)(ModuleCategory.Themes))) {
-            NotificationsModule.notify((String)"Module Debug", (String)((this.moduleName) + " was " + (TextFormat.GREEN) + "enabled!"), (NotificationType)(NotificationType.SUCCESS), (int)(4));
+            NotificationsModule.notify((String)"Module Debug", (String)((this.moduleName) + " was " + (Formatting.GREEN) + "enabled!"), (NotificationType)(NotificationType.SUCCESS), (int)(4));
         }
         EventBus.register((Object)this);
     }

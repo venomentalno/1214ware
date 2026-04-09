@@ -98,7 +98,7 @@
  *  net.minecraft.network.play.client.CPacketClientStatus$State
  *  net.minecraft.network.play.client.CPacketConfirmTeleport
  *  net.minecraft.network.play.client.CPacketConfirmTransaction
- *  net.minecraft.network.play.client.CPacketCustomPayload
+ *  net.minecraft.network.play.client.CustomPayloadC2SPacket
  *  net.minecraft.network.play.client.CPacketKeepAlive
  *  net.minecraft.network.play.client.PlayerMoveC2SPacket$PositionRotation
  *  net.minecraft.network.play.client.CPacketResourcePackStatus
@@ -302,8 +302,8 @@ import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.entity.player.PlayerCapabilities;
+import net.minecraft.entity.player.PlayerInventory;
+// Removed: PlayerCapabilities replaced
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityDragonFireball;
 import net.minecraft.entity.projectile.EntityEgg;
@@ -322,18 +322,18 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.item.ItemMap;
+import net.minecraft.item.FilledMapItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.packet.c2s.play.CPacketClientStatus;
 import net.minecraft.network.packet.c2s.play.CPacketConfirmTeleport;
 import net.minecraft.network.packet.c2s.play.CPacketConfirmTransaction;
-import net.minecraft.network.packet.c2s.play.CPacketCustomPayload;
+import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.network.packet.c2s.play.CPacketKeepAlive;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.c2s.play.CPacketResourcePackStatus;
@@ -444,8 +444,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.text.MessageType;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.text.TextFormat;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Formatting;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.GameType;
 import net.minecraft.world.IInteractionObject;
@@ -1087,7 +1087,7 @@ private static PBot getPbot11(PBotNetHandlerPlayClient instance) {
         (PBotNetHandlerPlayClient.getPbot190(this).player).setReducedDebug(packetIn.isReducedDebugInfo());
         (PBotNetHandlerPlayClient.getMc63(PBotNetHandlerPlayClient.getPbot115(this)).playerController).setGameType(packetIn.getGameType());
         (PBotNetHandlerPlayClient.getPbot211(this).player).sendSettingsToServer();
-        (this.netManager).sendPacket((Packet)new CPacketCustomPayload("MC|Brand", new PacketBuffer(Unpooled.buffer()).writeString(ClientBrandRetriever.getClientModName())));
+        (this.netManager).sendPacket((Packet)new CustomPayloadC2SPacket("MC|Brand", new PacketBuffer(Unpooled.buffer()).writeString(ClientBrandRetriever.getClientModName())));
         Object[] objectArray = new Object[2];
         objectArray[0] = (this.pbot);
         objectArray[1] = packetIn;

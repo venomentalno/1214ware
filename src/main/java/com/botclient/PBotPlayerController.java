@@ -28,13 +28,13 @@
  *  net.minecraft.network.PacketBuffer
  *  net.minecraft.network.play.client.CPacketClickWindow
  *  net.minecraft.network.play.client.CreativeInventoryActionC2SPacket
- *  net.minecraft.network.play.client.CPacketCustomPayload
+ *  net.minecraft.network.play.client.CustomPayloadC2SPacket
  *  net.minecraft.network.play.client.CPacketEnchantItem
- *  net.minecraft.network.play.client.CPacketHeldItemChange
- *  net.minecraft.network.play.client.PlayerMoveC2SPacketDigging
- *  net.minecraft.network.play.client.PlayerMoveC2SPacketDigging$Action
+ *  net.minecraft.network.play.client.SelectedSlotChangeC2SPacket
+ *  net.minecraft.network.play.client.PlayerActionC2SPacket
+ *  net.minecraft.network.play.client.PlayerActionC2SPacket$Action
  *  net.minecraft.network.play.client.PlayerMoveC2SPacketTryUseItem
- *  net.minecraft.network.play.client.PlayerMoveC2SPacketTryUseItemOnBlock
+ *  net.minecraft.network.play.client.PlayerInteractBlockC2SPacket
  *  net.minecraft.network.play.client.PlayerInteractEntityC2SPacket
  *  net.minecraft.util.ActionResult
  *  net.minecraft.util.EnumActionResult
@@ -62,8 +62,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.entity.player.PlayerCapabilities;
+import net.minecraft.entity.player.PlayerInventory;
+// Removed: PlayerCapabilities replaced
 import net.minecraft.registry.Registries;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.screen.ScreenHandler;
@@ -71,15 +71,15 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.CPacketClickWindow;
 import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
-import net.minecraft.network.packet.c2s.play.CPacketCustomPayload;
+import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.network.packet.c2s.play.CPacketEnchantItem;
-import net.minecraft.network.packet.c2s.play.CPacketHeldItemChange;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacketDigging;
+import net.minecraft.network.packet.c2s.play.SelectedSlotChangeC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacketTryUseItem;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacketTryUseItemOnBlock;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResult;
@@ -154,7 +154,7 @@ public class PBotPlayerController {
     }
 
     public void pickItem(int index) {
-        (this.connection).sendPacket((Packet)new CPacketCustomPayload("MC|PickItem", new PacketBuffer(Unpooled.buffer()).writeVarInt(index)));
+        (this.connection).sendPacket((Packet)new CustomPayloadC2SPacket("MC|PickItem", new PacketBuffer(Unpooled.buffer()).writeVarInt(index)));
     }
 
     public void attackEntity(PlayerEntity playerIn, Entity targetEntity) {
@@ -182,7 +182,7 @@ public class PBotPlayerController {
         int i = (PBotPlayerController.getInventory(PBotPlayerController.getPlayer21(PBotPlayerController.getPbot39(this))).currentItem);
         if (i != (this.currentPlayerItem)) {
             this.currentPlayerItem = i;
-            (this.connection).sendPacket((Packet)new CPacketHeldItemChange((this.currentPlayerItem)));
+            (this.connection).sendPacket((Packet)new SelectedSlotChangeC2SPacket((this.currentPlayerItem)));
         }
     }
 
@@ -206,7 +206,7 @@ public class PBotPlayerController {
                 return (ActionResult.FAIL);
             }
         }
-        (this.connection).sendPacket((Packet)new PlayerMoveC2SPacketTryUseItemOnBlock(pos, direction, hand, f, f1, f2));
+        (this.connection).sendPacket((Packet)new PlayerInteractBlockC2SPacket(pos, direction, hand, f, f1, f2));
         if (flag == 0 && (this.currentGameType) != (GameType.SPECTATOR)) {
             Block block;
             if (itemstack.isEmpty()) {
@@ -237,7 +237,7 @@ public class PBotPlayerController {
 
     public void onStoppedUsingItem(PlayerEntity playerIn) {
         this.callGetCurrentItem();
-        (this.connection).sendPacket((Packet)new PlayerMoveC2SPacketDigging((PlayerMoveC2SPacketDigging.Action.RELEASE_USE_ITEM), (BlockPos.ORIGIN), (Direction.DOWN)));
+        (this.connection).sendPacket((Packet)new PlayerActionC2SPacket((PlayerActionC2SPacket.Action.RELEASE_USE_ITEM), (BlockPos.ORIGIN), (Direction.DOWN)));
         playerIn.stopActiveHand();
     }
 
@@ -516,16 +516,16 @@ public class PBotPlayerController {
             return false;
         }
         if ((this.currentGameType).isCreative()) {
-            (this.connection).sendPacket((Packet)new PlayerMoveC2SPacketDigging((PlayerMoveC2SPacketDigging.Action.START_DESTROY_BLOCK), loc, face));
+            (this.connection).sendPacket((Packet)new PlayerActionC2SPacket((PlayerActionC2SPacket.Action.START_DESTROY_BLOCK), loc, face));
             this.clickBlockCreative(this, loc, face);
             this.blockHitDelay = 5;
         } else if (!(this.isHittingBlock) || !this.isHittingPosition(loc)) {
             int flag;
             if ((this.isHittingBlock)) {
-                (this.connection).sendPacket((Packet)new PlayerMoveC2SPacketDigging((PlayerMoveC2SPacketDigging.Action.ABORT_DESTROY_BLOCK), (this.currentBlock), face));
+                (this.connection).sendPacket((Packet)new PlayerActionC2SPacket((PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK), (this.currentBlock), face));
             }
             BlockState iblockstate = (this.pbot).world.getBlockState(loc);
-            (this.connection).sendPacket((Packet)new PlayerMoveC2SPacketDigging((PlayerMoveC2SPacketDigging.Action.START_DESTROY_BLOCK), loc, face));
+            (this.connection).sendPacket((Packet)new PlayerActionC2SPacket((PlayerActionC2SPacket.Action.START_DESTROY_BLOCK), loc, face));
             int n = flag = iblockstate.getMaterial() != (Material.AIR) ? 1 : 0;
             if (flag != 0 && (this.curBlockDamageMP) == 0.0f) {
                 iblockstate.getBlock().onBlockClicked((World)(this.pbot).world, loc, (PlayerEntity)(PBotPlayerController.getPbot26(this).player));
@@ -562,7 +562,7 @@ private static PBot getPbot34(PBotPlayerController instance) {
 
     public void resetBlockRemoving() {
         if ((this.isHittingBlock)) {
-            (this.connection).sendPacket((Packet)new PlayerMoveC2SPacketDigging((PlayerMoveC2SPacketDigging.Action.ABORT_DESTROY_BLOCK), (this.currentBlock), (Direction.DOWN)));
+            (this.connection).sendPacket((Packet)new PlayerActionC2SPacket((PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK), (this.currentBlock), (Direction.DOWN)));
             this.isHittingBlock = false;
             this.curBlockDamageMP = 0.0f;
             (this.pbot).world.sendBlockBreakProgress((PBotPlayerController.getPbot14(this).player).getEntityId(), (this.currentBlock), -1);
@@ -597,7 +597,7 @@ private static PBot getPbot34(PBotPlayerController instance) {
         }
         if ((this.currentGameType).isCreative() && (this.pbot).world.getWorldBorder().contains(posBlock)) {
             this.blockHitDelay = 5;
-            (this.connection).sendPacket((Packet)new PlayerMoveC2SPacketDigging((PlayerMoveC2SPacketDigging.Action.START_DESTROY_BLOCK), posBlock, directionFacing));
+            (this.connection).sendPacket((Packet)new PlayerActionC2SPacket((PlayerActionC2SPacket.Action.START_DESTROY_BLOCK), posBlock, directionFacing));
             this.clickBlockCreative(this, posBlock, directionFacing);
             return true;
         }
@@ -617,7 +617,7 @@ private static PBot getPbot34(PBotPlayerController instance) {
             cQ2.stepSoundTickCounter = PBotPlayerController.getStepSoundTickCounter(cQ2) + 1.0f;
             if ((this.curBlockDamageMP) >= 1.0f) {
                 this.isHittingBlock = false;
-                (this.connection).sendPacket((Packet)new PlayerMoveC2SPacketDigging((PlayerMoveC2SPacketDigging.Action.STOP_DESTROY_BLOCK), posBlock, directionFacing));
+                (this.connection).sendPacket((Packet)new PlayerActionC2SPacket((PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK), posBlock, directionFacing));
                 this.onPlayerDestroyBlock(posBlock);
                 this.curBlockDamageMP = 0.0f;
                 this.stepSoundTickCounter = 0.0f;

@@ -15,9 +15,9 @@ package com.botclient;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
+import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import com.botclient.PBotNetworkManager;
-import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.packet.Packet;
 
 /*
@@ -26,12 +26,12 @@ import net.minecraft.network.packet.Packet;
 class QueuedPacketTask
 implements Runnable {
     public final Packet val$inPacket;
-    public final EnumConnectionState val$enumconnectionstate1;
-    public final GenericFutureListener[] val$futureListeners;
+    public final Integer val$enumconnectionstate1;
+    public final GenericFutureListener<? extends Future<? super Void>>[] val$futureListeners;
     public final PBotNetworkManager this$0;
-    public final EnumConnectionState val$enumconnectionstate;
+    public final Integer val$enumconnectionstate;
 
-    QueuedPacketTask(PBotNetworkManager this$0, EnumConnectionState enumConnectionState, EnumConnectionState enumConnectionState2, Packet packet, GenericFutureListener[] genericFutureListenerArray) {
+    QueuedPacketTask(PBotNetworkManager this$0, Integer enumConnectionState, Integer enumConnectionState2, Packet packet, GenericFutureListener<? extends Future<? super Void>>[] genericFutureListenerArray) {
         this.this$0 = this$0;
         this.val$enumconnectionstate = enumConnectionState;
         this.val$enumconnectionstate1 = enumConnectionState2;

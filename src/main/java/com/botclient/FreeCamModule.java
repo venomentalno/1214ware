@@ -46,8 +46,8 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.entity.player.PlayerCapabilities;
+import net.minecraft.entity.player.PlayerInventory;
+// Removed: PlayerCapabilities replaced
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;

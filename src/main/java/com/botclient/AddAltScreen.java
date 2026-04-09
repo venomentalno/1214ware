@@ -32,7 +32,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.text.TextFormat;
+import net.minecraft.util.Formatting;
 import net.minecraft.client.util.InputUtil;
 
 /*
@@ -53,7 +53,7 @@ extends Screen {
         this.gradientColor2 = Color.WHITE;
         this.gradientColor3 = Color.WHITE;
         this.gradientColor4 = Color.WHITE;
-        this.status = TextFormat.GRAY + "Idle...";
+        this.status = Formatting.GRAY + "Idle...";
         this.manager = manager;
     }
 

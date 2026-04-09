@@ -22,7 +22,7 @@ package com.botclient;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.vecmath.Vector2f;
+import org.joml.Vector2f;
 import javax.vecmath.Vector3i;
 import com.botclient.BooleanSetting;
 import com.botclient.PBot;

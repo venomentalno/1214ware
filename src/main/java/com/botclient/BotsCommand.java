@@ -50,7 +50,7 @@
  *  net.minecraft.inventory.Container
  *  net.minecraft.item.ItemStack
  *  net.minecraft.network.Packet
- *  net.minecraft.network.play.client.PlayerMoveC2SPacketTryUseItemOnBlock
+ *  net.minecraft.network.play.client.PlayerInteractBlockC2SPacket
  *  net.minecraft.network.play.client.PlayerInteractEntityC2SPacket
  *  net.minecraft.util.Direction
  *  net.minecraft.util.Hand
@@ -65,7 +65,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.time.LocalTime;
 import javax.script.ScriptEngine;
-import javax.vecmath.Vector2f;
+import org.joml.Vector2f;
 import javax.vecmath.Vector3i;
 import com.botclient.CommandInfo;
 import com.botclient.Command;
@@ -112,12 +112,12 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacketTryUseItemOnBlock;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.text.TextFormat;
+import net.minecraft.text.Formatting;
 
 /*
  * Illegal identifiers - consider using --renameillegalidents true
@@ -487,7 +487,7 @@ extends Command {
                                         Vector2f vector2f = BlockUtils.getBlockAngles((double)block.getX(), (double)block.getY(), (double)block.getZ(), (double)((BotsCommand.getPlayer9(bot).posX) + 0.5), (double)(BotsCommand.getPlayer2(bot).posY), (double)(BotsCommand.getPlayer19(bot).posZ));
                                         BotsCommand.getPlayer8(bot).rotationYaw = BlockUtils.normalizeYaw((float)BotsCommand.getY(vector2f));
                                         BotsCommand.getPlayer20(bot).rotationPitch = BlockUtils.normalizePitch((float)BotsCommand.getX(vector2f));
-                                        bot.sendPacket((Packet)new PlayerMoveC2SPacketTryUseItemOnBlock(new BlockPos(block.getX(), block.getY(), block.getZ()), (Direction.SOUTH), (Hand.MAIN_HAND), (float)block.getX(), (float)block.getY(), (float)block.getZ()));
+                                        bot.sendPacket((Packet)new PlayerInteractBlockC2SPacket(new BlockPos(block.getX(), block.getY(), block.getZ()), (Direction.SOUTH), (Hand.MAIN_HAND), (float)block.getX(), (float)block.getY(), (float)block.getZ()));
                                     }
                                     catch (Exception exception) {
                                         exception.printStackTrace();

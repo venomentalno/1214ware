@@ -1,35 +1,54 @@
 ```
-# Compiled and build artifacts
+# Compiled files
 *.class
 *.o
 *.obj
+*.exe
+*.dll
+*.so
+*.a
 *.out
+
+# Build artifacts
 build/
+dist/
 target/
 
 # Dependencies
-.gradle/
 lib/
+libs/
+jars/
+*.jar
+*.war
+*.ear
 
-# Logs and temp files
-*.log
-*.tmp
-*.swp
-
-# Editors
-.vscode/
+# IDE files
 .idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Temp files
+*.tmp
+*.temp
 
 # Environment
 .env
 .env.local
 *.env.*
 
-# Coverage reports
+# Coverage
 coverage/
 htmlcov/
-*.coverage
+.coverage
 
-# Package manager
-node_modules/
+# System files
+.DS_Store
+Thumbs.db
 ```
