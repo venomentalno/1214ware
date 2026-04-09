@@ -15,7 +15,7 @@ repositories {
     maven { url 'https://jitpack.io' }
     maven { url 'https://maven.terraformersmc.com/' }
     maven { url 'https://maven.shedaniel.me/' }
-    maven { url 'https://maven.florianmichael.de/' }
+    flatDir { dir 'libs' }
 }
 
 dependencies {
@@ -25,10 +25,9 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     
-    // ViaVersion for protocol support
-    modImplementation "com.github.ViaVersion:ViaFabric:3.0.0"
-    modImplementation "com.github.ViaVersion:ViaBackwards:4.9.1"
-    modImplementation "com.github.ViaVersion:ViaRewind:2.2.0"
+    // ViaVersion for protocol support (updated for 1.21.4)
+    // Using local ViaFabricPlus jar from libs folder
+    modImplementation files('libs/ViaFabricPlus-4.0.4.jar')
     
     // External libraries
     implementation 'org.json:json:20231013'
